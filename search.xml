@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[博客书写规范]]></title>
+    <url>%2F2019%2F03%2F26%2Fhello-world%2F</url>
+    <content type="text"><![CDATA[md文件注意事项标签和分类设置当要为某一篇文章添加标签，只需在myBlog/source/_post目录下的具体文章的tags中添加标签即可，如： 123456---title: 基于Hexo和Github搭建博客date: 2019-03-26tags: [npm, hexo, github]categories: 搭建博客--- 设置具体文章的categories 当要为某一篇文章添加分类，只需在myBlog/source/_post目录下的具体文章的categories中添加分类即可，如： 123456---title: 基于Hexo和Github搭建博客date: 2016-11-09tags: [npm, hexo, github]categories: 搭建博客--- 图片设置图片素材按官方教程说法，可统一放置在source/images目录中，并以 ![](/images/image.jpg) 方式引用 或者在 _config.yml 打开 post_asset_folder 功能，将当前文章所用的图片放置到source目录下的文章同名资源目录下，以 ![](image.jpg) 方式引用 另外一些文章中提到建议使用第三方的专业图床来存放这些静态图片素材 🧐 hexo s –debug热更新]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[js原型的深刻理解]]></title>
+    <url>%2F2019%2F03%2F26%2Fjs%E9%AB%98%E7%BA%A7%E5%8E%9F%E5%9E%8B%2F</url>
+    <content type="text"><![CDATA[原型]]></content>
+      <categories>
+        <category>javaScript高级</category>
+      </categories>
+      <tags>
+        <tag>npm</tag>
+        <tag>hexo</tag>
+        <tag>github</tag>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[按钮的动态获取(购物车启示)]]></title>
+    <url>%2F2019%2F03%2F26%2Fvue%E6%8C%89%E9%92%AE%E5%8A%A8%E6%80%81%E8%AF%BB%E5%8F%96%2F</url>
+    <content type="text"><![CDATA[按钮的动态获取当多个相同按钮进行动态的渲染时，我们无法动态获取它。 解决方案： 按钮触发事件，打印event会获取当前按钮信息值 123456789101112131415161718192021222324252627altKey: falsebubbles: truebutton: 0buttons: 0cancelBubble: falsecancelable: trueclientX: 238clientY: 637composed: truectrlKey: falsecurrentTarget: nulldefaultPrevented: falsedetail: 1eventPhase: 0fromElement: nullisTrusted: truelayerX: 238layerY: 16metaKey: falsemovementX: 0movementY: 0offsetX: 81offsetY: 15pageX: 238pageY: 637path: (13) [span.item-blue-btn, div.item-... ... 里面的path[0]就是我们当前的按钮元素 在项目购物车中当我们点击按钮，会触发vuex中的事件，此时我们可以利用vuex存储我们的事件元素 1state.ball.el=event.path[0]; 这样我们就可以在其他组件通过vuex拿到该按钮，动态的获取它的值。如例 1var carbtn=this.$store.state.ball.el.getBoundingClientRect();]]></content>
+      <categories>
+        <category>vue</category>
+      </categories>
+      <tags>
+        <tag>npm</tag>
+        <tag>github</tag>
+        <tag>vue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[js算法（1）]]></title>
+    <url>%2F2019%2F03%2F26%2F%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95%EF%BC%881%EF%BC%89%2F</url>
+    <content type="text"><![CDATA[判断一个单词是否回文123function checkStr(str)&#123; return str==str.split('').reverse().jion('');&#125; split() 方法用于把一个字符串分割成字符串数组。 提示： 空字符串 (“”) 用作 逗号，那么 stringObject 中的每个字符之间都会被分割。 注意： split() 方法不改变原始字符串。 reverse将数组倒排 join()方法用于把数组中的所有元素转换一个字符串。元素是通过指定的分隔符进行分隔的。如若没有指定那么默认逗号分隔。 去掉数组重复的值123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869//indexof就是查找数组中有无符合条件的数，有返回该数的索引位置，没有就返回-1；Array.prototype.method1()=function()&#123; //设置预存数组 var newArr=[]; //遍历调用者 for(var i=0;i&lt;this.length;i++)&#123; if(newArr.indexOf(this[i])==-1)&#123; newArr.push(this[i]); &#125; return newArr; &#125;&#125;//对象存值检查法Array.prototype.method2=function()&#123; var newArr=[]; var newObj=&#123;&#125;; for(var i=0;i&lt;this.length;i++)&#123; if(!newObj[this[i]])&#123; newObj[this[i]]=true; newArr.push(this[i]); &#125; &#125; return newArr;&#125;//索引返回值法（当返回值不是一个索引位置时代表重复）Array.prototype.methods=function()&#123; var newArr=[this[0]]; for(var i=1;i&lt;this.length;i++)&#123; if(this.indexOf(this[i])==i)&#123; newArr.push(this[i]); &#125; &#125; return newArr;&#125;Array.prototype.method31=function()&#123; var newArr=[]; for(var i=0;i&lt;this.length;i++)&#123; if(this.indexOf(this[i])==i)&#123; newArr.push(this[i]); &#125; &#125; return newArr;&#125;//排序比邻法Array.prototype.method4=function()&#123; var newArr=[this[0]]; this.sort(); for(var i=1;i&lt;this.length;i++)&#123; if(this[i]!=newArr[newArr.length-1])&#123; newArr.push(this[i]); &#125; &#125; return newArr;&#125;Array.prototype.method5=function()&#123; var newArr=[this[0]]; this.sort(); for(var i=1;i&lt;this.length;i++)&#123; if(this[i]!=this[i-1])&#123; newArr.push(this[i]); &#125; &#125; return newArr;&#125; 找出字符串中重复出现最多的值12345678910111213141516171819202122function method6(str)&#123; var newObj=&#123;&#125;; //遍历的意思就是说将数组值做为键存入对象】 //碰到重复的就把对应键的值加1 for(var i=0;i&lt;str.length;i++)&#123; if(!newObj[str.charAt(i)])&#123; newObj[str.charAt(i)]=1; &#125;else&#123; newObj[str.charAt(i)]+=1; &#125; &#125; //这时我们得到了新对象,我们应该遍历找到重复的值 var newValue=1; var newKey=''; for(var key in newObj)&#123; if(newObj[key]&gt;newValue)&#123; newValue=newObj[key]; newKey=key; &#125; &#125; return newKey;&#125; 12345678910111213141516171819String.prototype.method8=function()&#123; var newObj=&#123;&#125;; for(var i=0;i&lt;this.length;i++)&#123; if(!newObj[this.charAt(i)])&#123; newObj[this.charAt(i)]=1; &#125;else&#123; newObj[this.charAt(i)]+=1; &#125; &#125; //遍历新对象 var setkey=''; var setValue=1; for(var key in newObj)&#123; if(newObj[key]&gt;setValue)&#123; setValue=newObj[key]; setkey=key; &#125; return key;&#125;]]></content>
+      <categories>
+        <category>js</category>
+      </categories>
+      <tags>
+        <tag>npm</tag>
+        <tag>github</tag>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[贝塞尔曲线的使用(购物车启示)]]></title>
+    <url>%2F2019%2F03%2F26%2F%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%E7%9A%84%E4%BD%BF%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[半场动画贝塞尔曲线的应用前言当我们设置好曲线的时候，触发它并没有抛物线。 根据网上正确资料显示： 两层盒子嵌套的实现抛物线，外层盒子往X轴方向移动，内层盒子向Y轴移动 修改DOM所以我们应该修改dom，将盒子修改成内外嵌套的盒子。 123456789101112&lt;transition v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:after-enter="afterEnter" v-bind:css="true" &gt; &lt;div class="addcart-mask" v-show="$store.state.ball.show" ref="balls"&gt; &lt;div ref="inner"&gt; &lt;img class="mask-item" :src="$store.state.ball.src"&gt; &lt;/div&gt; &lt;/div&gt; &lt;/transition&gt; 事件拆分12345678910111213141516171819202122232425beforeEnter(el)&#123; //获取开始位置 var ball=this.$refs.ball.getBoundingClientRect(); //终点位置 var carbtn=this.$store.state.ball.el.getBoundingClientRect(); //计算出要移动的xy轴线坐标 var cx=ball.left-carbtn.left-80; var cy=ball.top-carbtn.top+15; //内外盒子拆分translate this.$refs.inner.style.transform=`translateY($&#123;-cy&#125;px)`; this.$refs.balls.style.transform=`translateX($&#123;-cx&#125;px)`; &#125;, enter(el,done)&#123; el.offsetWidth;//固定用法 //盒子进行位置还原 this.$refs.balls.style.transform=`translate(0,0)`; this.$refs.inner.style.transform=`translate(0,0)`; //添加贝塞尔曲线过渡，这里注意父级归0处理 this.$refs.balls.style.transition='.4s all cubic-bezier(0,0,0,0)'; this.$refs.inner.style.transition='.4s all cubic-bezier(.17,.67,.45,1.02)'; done();//调用下一个函数，提前运行。 &#125;, afterEnter(el)&#123; this.$store.commit('xiugai'); &#125;]]></content>
+      <categories>
+        <category>vue</category>
+      </categories>
+      <tags>
+        <tag>npm</tag>
+        <tag>github</tag>
+        <tag>vue</tag>
+      </tags>
+  </entry>
+</search>
