@@ -304,6 +304,386 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/28/es6的mudule/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="叶春锁">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="纵宇博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/28/es6的mudule/" itemprop="url">Mudule</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-28T22:58:05+08:00">
+                2019-03-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/es6/" itemprop="url" rel="index">
+                    <span itemprop="name">es6</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/28/es6的mudule/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/28/es6的mudule/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/03/28/es6的mudule/" class="leancloud_visitors" data-flag-title="Mudule">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h2><p>ES6 模块不是对象，而是通过<code>export</code>命令显式指定输出的代码，再通过<code>import</code>命令输入。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ES6模块</span></span><br><span class="line"><span class="keyword">import</span> &#123; stat, exists, readFile &#125; <span class="keyword">from</span> <span class="string">'fs'</span>;</span><br></pre></td></tr></table></figure>
+<p>上面代码的实质是从<code>fs</code>模块加载 3 个方法，其他方法不加载。这种加载称为“编译时加载”或者静态加载，即 ES6 可以在编译时就完成模块加载，效率要比 CommonJS 模块的加载方式高。当然，这也导致了没法引用 ES6 模块本身，因为它不是对象。</p>
+<h2 id="严格模式"><a href="#严格模式" class="headerlink" title="严格模式"></a>严格模式</h2><p>ES6 的模块自动采用严格模式，不管你有没有在模块头部加上<code>&quot;use strict&quot;;</code>。</p>
+<p>严格模式主要有以下限制。</p>
+<ul>
+<li>变量必须声明后再使用</li>
+<li>函数的参数不能有同名属性，否则报错</li>
+<li>不能使用<code>with</code>语句</li>
+<li>不能对只读属性赋值，否则报错</li>
+<li>不能使用前缀 0 表示八进制数，否则报错</li>
+<li>不能删除不可删除的属性，否则报错</li>
+<li>不能删除变量<code>delete prop</code>，会报错，只能删除属性<code>delete global[prop]</code></li>
+<li><code>eval</code>不会在它的外层作用域引入变量</li>
+<li><code>eval</code>和<code>arguments</code>不能被重新赋值</li>
+<li><code>arguments</code>不会自动反映函数参数的变化</li>
+<li>不能使用<code>arguments.callee</code></li>
+<li>不能使用<code>arguments.caller</code></li>
+<li>禁止<code>this</code>指向全局对象</li>
+<li>不能使用<code>fn.caller</code>和<code>fn.arguments</code>获取函数调用的堆栈</li>
+<li>增加了保留字（比如<code>protected</code>、<code>static</code>和<code>interface</code>）</li>
+</ul>
+<p>上面这些限制，模块都必须遵守。由于严格模式是 ES5 引入的，不属于 ES6，所以请参阅相关 ES5 书籍，本书不再详细介绍了。</p>
+<p>其中，尤其需要注意<code>this</code>的限制。ES6 模块之中，顶层的<code>this</code>指向<code>undefined</code>，即不应该在顶层代码使用<code>this</code>。</p>
+<h2 id="export命令"><a href="#export命令" class="headerlink" title="export命令"></a>export命令</h2><p>模块功能主要有两个命令构成：export和import。</p>
+<p>export用于规定模块的对外接口，import命令用于输入其他模块提供的功能。</p>
+<p>一个模块就是一个独立的文件。该文件内部的所有变量，外部无法获取。如果你希望外部能够读取模块内部的某个变量，就必须使用<code>export</code>关键字输出该变量。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// profile.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">var</span> firstName = <span class="string">'Michael'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">var</span> lastName = <span class="string">'Jackson'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">var</span> year = <span class="number">1958</span>;</span><br></pre></td></tr></table></figure>
+<p>上面代码是<code>profile.js</code>文件，保存了用户信息。ES6 将其视为一个模块，里面用<code>export</code>命令对外部输出了三个变量。</p>
+<p><code>export</code>的写法，除了像上面这样，还有另外一种。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// profile.js</span></span><br><span class="line"><span class="keyword">var</span> firstName = <span class="string">'Michael'</span>;</span><br><span class="line"><span class="keyword">var</span> lastName = <span class="string">'Jackson'</span>;</span><br><span class="line"><span class="keyword">var</span> year = <span class="number">1958</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123;firstName, lastName, year&#125;;</span><br></pre></td></tr></table></figure>
+<p>推荐使用这一种语法。</p>
+<p>它除了输出变量，还可以输出函数或类</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">multiply</span>(<span class="params">x, y</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x * y;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>通常情况下，<code>export</code>输出的变量就是本来的名字，但是可以使用<code>as</code>关键字重命名。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">v1</span>(<span class="params"></span>) </span>&#123; ... &#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">v2</span>(<span class="params"></span>) </span>&#123; ... &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">  v1 <span class="keyword">as</span> streamV1,</span><br><span class="line">  v2 <span class="keyword">as</span> streamV2,</span><br><span class="line">  v2 <span class="keyword">as</span> streamLatestVersion</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>上面代码使用<code>as</code>关键字，重命名了函数<code>v1</code>和<code>v2</code>的对外接口。重命名后，<code>v2</code>可以用不同的名字输出两次。</p>
+<p><strong>注意：export命令规定是对外的接口，必须与模块内部的变量建立一一对应关系。</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 报错</span></span><br><span class="line"><span class="keyword">export</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 报错</span></span><br><span class="line"><span class="keyword">var</span> m = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">export</span> m;</span><br></pre></td></tr></table></figure>
+<p>报错的原因就是1是一个值，它不是一个接口。正确的是这样</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 写法一</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">var</span> m = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 写法二</span></span><br><span class="line"><span class="keyword">var</span> m = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">export</span> &#123;m&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 写法三</span></span><br><span class="line"><span class="keyword">var</span> n = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">export</span> &#123;n <span class="keyword">as</span> m&#125;;</span><br></pre></td></tr></table></figure>
+<p>上面三种写法都是正确的，规定了对外的接口<code>m</code>。其他脚本可以通过这个接口，取到值<code>1</code>。它们的实质是，在接口名与模块内部变量之间，建立了一一对应的关系。</p>
+<p>同样的，<code>function</code>和<code>class</code>的输出，也必须遵守这样的写法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 报错</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"><span class="keyword">export</span> f;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正确</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正确</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"><span class="keyword">export</span> &#123;f&#125;;</span><br></pre></td></tr></table></figure>
+<p>另外，<code>export</code>语句输出的接口，与其对应的值是动态绑定关系，即通过该接口，可以取到模块内部实时的值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">var</span> foo = <span class="string">'bar'</span>;</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> foo = <span class="string">'baz'</span>, <span class="number">500</span>);</span><br></pre></td></tr></table></figure>
+<p>上面代码输出变量<code>foo</code>，值为<code>bar</code>，500 毫秒之后变成<code>baz</code>。</p>
+<p><strong>简单理解就是：对象暴露，整体赋值暴露，</strong></p>
+<p><strong>小重点就是，接口中的变量值动态发生改变，引用该值的文件也会跟随变化。</strong></p>
+<p>最后，<code>export</code>命令可以出现在模块的任何位置，只要处于模块顶层就可以。如果处于块级作用域内，就会报错，下一节的<code>import</code>命令也是如此。这是因为处于条件代码块之中，就没法做静态优化了，违背了 ES6 模块的设计初衷。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">export</span> <span class="keyword">default</span> <span class="string">'bar'</span> <span class="comment">// SyntaxError</span></span><br><span class="line">&#125;</span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
+<p>上面代码中，<code>export</code>语句放在函数之中，结果报错。</p>
+<p>注释：这里的顶层就是外层，理解为最外层的意思。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/28/js等号/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="叶春锁">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="纵宇博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/28/js等号/" itemprop="url">js等号</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-28T14:33:47+08:00">
+                2019-03-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/28/js等号/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/28/js等号/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/03/28/js等号/" class="leancloud_visitors" data-flag-title="js等号">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="jsvascript的等号，-和-和-的区别"><a href="#jsvascript的等号，-和-和-的区别" class="headerlink" title="jsvascript的等号，=和==和===的区别"></a>jsvascript的等号，=和==和===的区别</h3><p>一个等号 = 是赋值；</p>
+<p>两个等号 == 是全等于，数值类型相等，先自动换数据类型再比较；</p>
+<p>三个等号 === 是绝对等于，数值、类型等严格相等；</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/27/深拷贝浅拷贝/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -526,157 +906,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/26/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="叶春锁">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="纵宇博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/26/hello-world/" itemprop="url">博客书写规范</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-26T00:00:00+08:00">
-                2019-03-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/03/26/hello-world/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/26/hello-world/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/03/26/hello-world/" class="leancloud_visitors" data-flag-title="博客书写规范">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="md文件注意事项"><a href="#md文件注意事项" class="headerlink" title="md文件注意事项"></a>md文件注意事项</h3><h4 id="标签和分类设置"><a href="#标签和分类设置" class="headerlink" title="标签和分类设置"></a>标签和分类设置</h4><p>当要为某一篇文章添加标签，只需在<code>myBlog/source/_post</code>目录下的具体文章的tags中添加标签即可，如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 基于Hexo和Github搭建博客</span><br><span class="line">date: 2019-03-26</span><br><span class="line">tags: [npm, hexo, github]</span><br><span class="line">categories: 搭建博客</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-<ul>
-<li>设置具体文章的categories</li>
-</ul>
-<p>当要为某一篇文章添加分类，只需在<code>myBlog/source/_post</code>目录下的具体文章的categories中添加分类即可，如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 基于Hexo和Github搭建博客</span><br><span class="line">date: 2016-11-09</span><br><span class="line">tags: [npm, hexo, github]</span><br><span class="line">categories: 搭建博客</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-<h4 id="图片设置"><a href="#图片设置" class="headerlink" title="图片设置"></a>图片设置</h4><p>图片素材按官方教程说法，可统一放置在source/images目录中，并以 <code>![](/images/image.jpg)</code> 方式引用</p>
-<p>或者在 _config.yml 打开 post_asset_folder 功能，将当前文章所用的图片放置到source目录下的文章同名资源目录下，以 <code>![](image.jpg)</code> 方式引用</p>
-<p>另外一些文章中提到建议使用第三方的专业图床来存放这些静态图片素材 🧐</p>
-<h3 id="hexo-s-–debug"><a href="#hexo-s-–debug" class="headerlink" title="hexo s –debug"></a>hexo s –debug</h3><p>热更新</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/26/js高级原型/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -791,7 +1020,228 @@
       
         
           
-            <h1 id="原型"><a href="#原型" class="headerlink" title="原型"></a>原型</h1>
+            <h1 id="原型"><a href="#原型" class="headerlink" title="原型"></a>原型</h1><p><img src="../images/327copy\u=13235477,959434929&amp;fm=173&amp;app=25&amp;f=JPEG" alt="img"></p>
+<p>每个函数都有一个prototype属性。构造函数中的prototype是一个对象，有construtor和<code>_proto_</code>两个属性。</p>
+<p>其中construtor是指向构造函数的，—proto—是指向原型对象</p>
+<p><img src="../images/1.png" alt></p>
+<p><img src="..\images\u=1757326636,2277028272&amp;fm=173&amp;app=25&amp;f=JPEG" alt="img"></p>
+<p><img src="..\images\u=269707452,3276600750&amp;fm=173&amp;app=25&amp;f=JPEG" alt="img"></p>
+<h4 id="3-1-什么是原型？"><a href="#3-1-什么是原型？" class="headerlink" title="3.1.什么是原型？"></a>3.1.什么是原型？</h4><p>简单来说，所有生成的函数都会一个prototype原型的属性，这个原型属性指向的是原型对象，这个原型对象的作用是共享对象的所有属性和方法，该原型对象有一个属性为constructor(构造函数)，这个属性指向的是创建它的构造函数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 以上面的Car例子为构造函数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 构造函数的prototype属性是一个对象，也就是原型对象</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> Car.prototype); <span class="comment">// object</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 构造函数的原型对象的constructor属性指向的是创建它的构造函数</span></span><br><span class="line"><span class="built_in">console</span>.log(Car.prototype.constructor === Car); <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 原型对象的作用是共享对象的所有属性和方法</span></span><br><span class="line">Car.prototype.seat = <span class="string">'cattlehide'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> car1 = <span class="keyword">new</span> Car(<span class="string">"Mercedes-Benz"</span>, <span class="string">'red'</span>);</span><br><span class="line"><span class="keyword">let</span> car2 = <span class="keyword">new</span> Car(<span class="string">"Mercedes-Benz"</span>, <span class="string">'black'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(car1.seat); <span class="comment">// cattlehide</span></span><br><span class="line"><span class="built_in">console</span>.log(car2.seat); <span class="comment">// cattlehide</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-2-原型规则和示例"><a href="#3-2-原型规则和示例" class="headerlink" title="3.2.原型规则和示例"></a>3.2.原型规则和示例</h4><p>5条原型规则：</p>
+<ul>
+<li>3.2.1.所有的引用类型（数组、对象、函数）都具有对象特性，即可自由扩展属性（null除外）</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;&#125;</span><br><span class="line">obj.a = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> arr = [];</span><br><span class="line">arr.a = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span> (<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">fn.a = <span class="number">100</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>3.2.2.所有的引用类型（数组、对象、函数）都有一个<strong>proto</strong>(隐式原型)属性，属性值是一个普通的对象</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(obj.__proto__);</span><br><span class="line"><span class="built_in">console</span>.log(arr.__proto__);</span><br><span class="line"><span class="built_in">console</span>.log(fn.__proto__);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>3.2.3.所有的函数，都有一个prototype(显式原型)属性，属性值也是一个普通的对象</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(fn.prototype);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>3.2.4.所有的引用类型（数组、对象、函数）<strong>proto</strong>属性值指向它的构造函数的prototype属性值</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(obj.__proto__ === <span class="built_in">Object</span>.prototype); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>3.2.5.当试图得到一个对象的某个属性时，如果这个对象本身没有这个属性，那么会去它的<strong>proto</strong>（即它的构造函数的prototype）中寻找。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Perosn</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Perosn.prototype.age = <span class="number">12</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> peroson = <span class="keyword">new</span> Perosn(<span class="string">'bob'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(peroson.age); <span class="comment">// 12</span></span><br></pre></td></tr></table></figure>
+<h2 id="四、原型链"><a href="#四、原型链" class="headerlink" title="四、原型链"></a>四、原型链</h2><h4 id="4-1-什么是原型链？"><a href="#4-1-什么是原型链？" class="headerlink" title="4.1.什么是原型链？"></a>4.1.什么是原型链？</h4><p>除了Object的prototype的原型是<code>null</code>以外，所有的对象和原型都有自己的原型，对象的原型指向原型对象；在层级多的关系中，多个原型层层相连则构成了原型链。</p>
+<p>在查找一个对象的属性时，倘若在当前对象找不到该属性，则会沿着原型链一直往上查找，知道找到为止，如果到了原型链顶端，还没找到，则返回undefined，这个查询的依据都是由原型链来进行的，这个属性在原型对象成为<code>[[Prototype]]</code>，需要通过<strong>proto</strong>属性来进行访问。这个<strong>proto</strong>是一个指针，指向的是构造它的对象的prototype。</p>
+<p>我们来了解一下原型链查询的顺序</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Perosn</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> person = <span class="keyword">new</span> Person(<span class="string">'bob'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(person.__proto__ === Person.prototype); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(Person.prototype.__proto__ === <span class="built_in">Object</span>.prototype); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.prototype.__proto__); <span class="comment">// null</span></span><br></pre></td></tr></table></figure>
+<p>图例：</p>
+<p><img src="..\images\5C__proto__.png" alt></p>
+<h2 id="五、instanceof原理"><a href="#五、instanceof原理" class="headerlink" title="五、instanceof原理"></a>五、instanceof原理</h2><ul>
+<li>instanceof用于判断引用类型属于哪个构造函数的方法</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> person = <span class="keyword">new</span> Person(<span class="string">'bob'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(person <span class="keyword">instanceof</span> Person); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>原理：person.__<em>proto_</em>_(隐式原型)一层一层往上，能否对应到Person.prototype，按照前面原型链说理解，那么也能找到Object</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(person <span class="keyword">instanceof</span> Person); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(person <span class="keyword">instanceof</span> <span class="built_in">Object</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<h4 id="理解原型、构造函数、实例、原型-prototype-，原型链关系图例："><a href="#理解原型、构造函数、实例、原型-prototype-，原型链关系图例：" class="headerlink" title="理解原型、构造函数、实例、原型(prototype)，原型链关系图例："></a>理解原型、构造函数、实例、原型(prototype)，原型链关系图例：</h4><p><img src="..\images\%5Cconstructor.png" alt="img"></p>
+<h2 id="1-面试题集锦："><a href="#1-面试题集锦：" class="headerlink" title="1.面试题集锦："></a>1.面试题集锦：</h2><h4 id="1-原型的五条规则"><a href="#1-原型的五条规则" class="headerlink" title="1. 原型的五条规则"></a>1. 原型的五条规则</h4><ul>
+<li>所有的引用类型都可以自定义添加属性</li>
+<li>所有的引用类型都有自己的隐式原型（<strong>proto</strong>）</li>
+<li>函数都有自己的显式原型（prototype）</li>
+<li>所有的引用类型的隐式原型都指向对应构造函数的显示原型</li>
+<li>使用引用类型的某个自定义属性时，如果没有这个属性，会去该引用类型的<strong>proto</strong>（也就是对应构造函数的prototype）中去找。（找不到undefind）</li>
+</ul>
+<h2 id="2-自我叙述："><a href="#2-自我叙述：" class="headerlink" title="2.自我叙述："></a>2.自我叙述：</h2><h4 id="1-原型、构造函数、实例"><a href="#1-原型、构造函数、实例" class="headerlink" title="1.原型、构造函数、实例"></a>1.原型、构造函数、实例</h4><p>什么是原型，原型就是一个普通的对象，用于实现对象属性和方法的继承（共享对象的属性和方法）；</p>
+<p>什么是构造函数,我们可以通过new来新建一个对象的函数就成为构造函数。</p>
+<p>什么是实例：通过new和构造函数创建出来的对象就是实例。</p>
+<p><img src="..\images\9b940c4c6f-1553337723527" alt="img"></p>
+<p>2.2.原型链：</p>
+<p><strong>原型链是由原型对象组成</strong>，每个对象都有 <code>__proto__</code> 属性，指向了创建该对象的构造函数的原型，<code>__proto__</code> 将对象连接起来组成了原型链。是一个用来<strong>实现继承和共享属性</strong>的有限的对象链。</p>
+<ul>
+<li><strong>属性查找机制</strong>: 当查找对象的属性时，如果实例对象自身不存在该属性，则沿着原型链往上一级查找，找到时则输出，不存在时，则继续沿着原型链往上一级查找，直至最顶级的原型对象<code>Object.prototype</code>，如还是没找到，则输出<code>undefined</code>；</li>
+<li><strong>属性修改机制</strong>: 只会修改实例对象本身的属性，如果不存在，则进行添加该属性，如果需要修改原型的属性时，则可以用: <code>b.prototype.x = 2</code>；但是这样会造成所有继承于该对象的实例的属性发生改变。</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/26/moban/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="叶春锁">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="纵宇博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/26/moban/" itemprop="url">标题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-26T00:00:00+08:00">
+                2019-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/26/moban/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/26/moban/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/03/26/moban/" class="leancloud_visitors" data-flag-title="标题">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
           
         
       
@@ -962,6 +1412,174 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">state.ball.el=event.path[<span class="number">0</span>];</span><br></pre></td></tr></table></figure>
 <p>这样我们就可以在其他组件通过vuex拿到该按钮，动态的获取它的值。如例</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> carbtn=<span class="keyword">this</span>.$store.state.ball.el.getBoundingClientRect();</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/26/贝塞尔曲线的使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="叶春锁">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="纵宇博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/26/贝塞尔曲线的使用/" itemprop="url">贝塞尔曲线的使用(购物车启示)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-26T00:00:00+08:00">
+                2019-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/26/贝塞尔曲线的使用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/26/贝塞尔曲线的使用/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/03/26/贝塞尔曲线的使用/" class="leancloud_visitors" data-flag-title="贝塞尔曲线的使用(购物车启示)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="半场动画贝塞尔曲线的应用"><a href="#半场动画贝塞尔曲线的应用" class="headerlink" title="半场动画贝塞尔曲线的应用"></a>半场动画贝塞尔曲线的应用</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>当我们设置好曲线的时候，触发它并没有抛物线。</p>
+<p>根据网上正确资料显示：</p>
+<p>两层盒子嵌套的实现抛物线，外层盒子往X轴方向移动，内层盒子向Y轴移动</p>
+<h3 id="修改DOM"><a href="#修改DOM" class="headerlink" title="修改DOM"></a>修改DOM</h3><p>所以我们应该修改dom，将盒子修改成内外嵌套的盒子。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;transition</span><br><span class="line">     v-on:before-enter=<span class="string">"beforeEnter"</span></span><br><span class="line">     v-on:enter=<span class="string">"enter"</span></span><br><span class="line">     v-on:after-enter=<span class="string">"afterEnter"</span></span><br><span class="line">     v-bind:css=<span class="string">"true"</span></span><br><span class="line">   &gt;</span><br><span class="line">     &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"addcart-mask"</span> v-show=<span class="string">"$store.state.ball.show"</span> ref=<span class="string">"balls"</span>&gt;</span><br><span class="line">       &lt;div ref=<span class="string">"inner"</span>&gt;</span><br><span class="line">           &lt;img <span class="class"><span class="keyword">class</span></span>=<span class="string">"mask-item"</span> :src=<span class="string">"$store.state.ball.src"</span>&gt;</span><br><span class="line">       &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">     &lt;/</span>div&gt;</span><br><span class="line">   &lt;<span class="regexp">/transition&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="事件拆分"><a href="#事件拆分" class="headerlink" title="事件拆分"></a>事件拆分</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">beforeEnter(el)&#123;</span><br><span class="line">    <span class="comment">//获取开始位置</span></span><br><span class="line">	<span class="keyword">var</span> ball=<span class="keyword">this</span>.$refs.ball.getBoundingClientRect();</span><br><span class="line">    <span class="comment">//终点位置</span></span><br><span class="line">	<span class="keyword">var</span> carbtn=<span class="keyword">this</span>.$store.state.ball.el.getBoundingClientRect();</span><br><span class="line">    <span class="comment">//计算出要移动的xy轴线坐标</span></span><br><span class="line">	<span class="keyword">var</span> cx=ball.left-carbtn.left<span class="number">-80</span>;</span><br><span class="line">    <span class="keyword">var</span> cy=ball.top-carbtn.top+<span class="number">15</span>;</span><br><span class="line">    <span class="comment">//内外盒子拆分translate</span></span><br><span class="line">    <span class="keyword">this</span>.$refs.inner.style.transform=<span class="string">`translateY(<span class="subst">$&#123;-cy&#125;</span>px)`</span>;</span><br><span class="line">    <span class="keyword">this</span>.$refs.balls.style.transform=<span class="string">`translateX(<span class="subst">$&#123;-cx&#125;</span>px)`</span>;</span><br><span class="line">	&#125;,</span><br><span class="line">	enter(el,done)&#123;</span><br><span class="line">		  el.offsetWidth;<span class="comment">//固定用法</span></span><br><span class="line">      <span class="comment">//盒子进行位置还原</span></span><br><span class="line">      <span class="keyword">this</span>.$refs.balls.style.transform=<span class="string">`translate(0,0)`</span>;</span><br><span class="line">      <span class="keyword">this</span>.$refs.inner.style.transform=<span class="string">`translate(0,0)`</span>;</span><br><span class="line">        <span class="comment">//添加贝塞尔曲线过渡，这里注意父级归0处理</span></span><br><span class="line">      <span class="keyword">this</span>.$refs.balls.style.transition=<span class="string">'.4s all cubic-bezier(0,0,0,0)'</span>;</span><br><span class="line">       <span class="keyword">this</span>.$refs.inner.style.transition=<span class="string">'.4s all cubic-bezier(.17,.67,.45,1.02)'</span>;</span><br><span class="line">	  done();<span class="comment">//调用下一个函数，提前运行。</span></span><br><span class="line">	&#125;,</span><br><span class="line">	afterEnter(el)&#123;</span><br><span class="line">		  <span class="keyword">this</span>.$store.commit(<span class="string">'xiugai'</span>);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 
           
         
@@ -1181,7 +1799,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/26/贝塞尔曲线的使用/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/26/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="叶春锁">
@@ -1200,7 +1818,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/03/26/贝塞尔曲线的使用/" itemprop="url">贝塞尔曲线的使用(购物车启示)</a></h1>
+                <a class="post-title-link" href="/2019/03/26/hello-world/" itemprop="url">博客书写规范</a></h1>
         
 
         <div class="post-meta">
@@ -1223,28 +1841,6 @@
           </span>
 
           
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vue/" itemprop="url" rel="index">
-                    <span itemprop="name">vue</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
 
           
             
@@ -1253,8 +1849,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/03/26/贝塞尔曲线的使用/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/26/贝塞尔曲线的使用/" itemprop="commentCount"></span>
+                <a href="/2019/03/26/hello-world/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/26/hello-world/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1262,7 +1858,7 @@
 
           
           
-             <span id="/2019/03/26/贝塞尔曲线的使用/" class="leancloud_visitors" data-flag-title="贝塞尔曲线的使用(购物车启示)">
+             <span id="/2019/03/26/hello-world/" class="leancloud_visitors" data-flag-title="博客书写规范">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1295,12 +1891,17 @@
       
         
           
-            <h2 id="半场动画贝塞尔曲线的应用"><a href="#半场动画贝塞尔曲线的应用" class="headerlink" title="半场动画贝塞尔曲线的应用"></a>半场动画贝塞尔曲线的应用</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>当我们设置好曲线的时候，触发它并没有抛物线。</p>
-<p>根据网上正确资料显示：</p>
-<p>两层盒子嵌套的实现抛物线，外层盒子往X轴方向移动，内层盒子向Y轴移动</p>
-<h3 id="修改DOM"><a href="#修改DOM" class="headerlink" title="修改DOM"></a>修改DOM</h3><p>所以我们应该修改dom，将盒子修改成内外嵌套的盒子。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;transition</span><br><span class="line">     v-on:before-enter=<span class="string">"beforeEnter"</span></span><br><span class="line">     v-on:enter=<span class="string">"enter"</span></span><br><span class="line">     v-on:after-enter=<span class="string">"afterEnter"</span></span><br><span class="line">     v-bind:css=<span class="string">"true"</span></span><br><span class="line">   &gt;</span><br><span class="line">     &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"addcart-mask"</span> v-show=<span class="string">"$store.state.ball.show"</span> ref=<span class="string">"balls"</span>&gt;</span><br><span class="line">       &lt;div ref=<span class="string">"inner"</span>&gt;</span><br><span class="line">           &lt;img <span class="class"><span class="keyword">class</span></span>=<span class="string">"mask-item"</span> :src=<span class="string">"$store.state.ball.src"</span>&gt;</span><br><span class="line">       &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">     &lt;/</span>div&gt;</span><br><span class="line">   &lt;<span class="regexp">/transition&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="事件拆分"><a href="#事件拆分" class="headerlink" title="事件拆分"></a>事件拆分</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">beforeEnter(el)&#123;</span><br><span class="line">    <span class="comment">//获取开始位置</span></span><br><span class="line">	<span class="keyword">var</span> ball=<span class="keyword">this</span>.$refs.ball.getBoundingClientRect();</span><br><span class="line">    <span class="comment">//终点位置</span></span><br><span class="line">	<span class="keyword">var</span> carbtn=<span class="keyword">this</span>.$store.state.ball.el.getBoundingClientRect();</span><br><span class="line">    <span class="comment">//计算出要移动的xy轴线坐标</span></span><br><span class="line">	<span class="keyword">var</span> cx=ball.left-carbtn.left<span class="number">-80</span>;</span><br><span class="line">    <span class="keyword">var</span> cy=ball.top-carbtn.top+<span class="number">15</span>;</span><br><span class="line">    <span class="comment">//内外盒子拆分translate</span></span><br><span class="line">    <span class="keyword">this</span>.$refs.inner.style.transform=<span class="string">`translateY(<span class="subst">$&#123;-cy&#125;</span>px)`</span>;</span><br><span class="line">    <span class="keyword">this</span>.$refs.balls.style.transform=<span class="string">`translateX(<span class="subst">$&#123;-cx&#125;</span>px)`</span>;</span><br><span class="line">	&#125;,</span><br><span class="line">	enter(el,done)&#123;</span><br><span class="line">		  el.offsetWidth;<span class="comment">//固定用法</span></span><br><span class="line">      <span class="comment">//盒子进行位置还原</span></span><br><span class="line">      <span class="keyword">this</span>.$refs.balls.style.transform=<span class="string">`translate(0,0)`</span>;</span><br><span class="line">      <span class="keyword">this</span>.$refs.inner.style.transform=<span class="string">`translate(0,0)`</span>;</span><br><span class="line">        <span class="comment">//添加贝塞尔曲线过渡，这里注意父级归0处理</span></span><br><span class="line">      <span class="keyword">this</span>.$refs.balls.style.transition=<span class="string">'.4s all cubic-bezier(0,0,0,0)'</span>;</span><br><span class="line">       <span class="keyword">this</span>.$refs.inner.style.transition=<span class="string">'.4s all cubic-bezier(.17,.67,.45,1.02)'</span>;</span><br><span class="line">	  done();<span class="comment">//调用下一个函数，提前运行。</span></span><br><span class="line">	&#125;,</span><br><span class="line">	afterEnter(el)&#123;</span><br><span class="line">		  <span class="keyword">this</span>.$store.commit(<span class="string">'xiugai'</span>);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+            <h3 id="md文件注意事项"><a href="#md文件注意事项" class="headerlink" title="md文件注意事项"></a>md文件注意事项</h3><h4 id="标签和分类设置"><a href="#标签和分类设置" class="headerlink" title="标签和分类设置"></a>标签和分类设置</h4><p>当要为某一篇文章添加标签，只需在<code>myBlog/source/_post</code>目录下的具体文章的tags中添加标签即可，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 基于Hexo和Github搭建博客</span><br><span class="line">date: 2019-03-26</span><br><span class="line">tags: [npm, hexo, github]</span><br><span class="line">categories: 搭建博客</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+<ul>
+<li>设置具体文章的categories</li>
+</ul>
+<p>当要为某一篇文章添加分类，只需在<code>myBlog/source/_post</code>目录下的具体文章的categories中添加分类即可，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 基于Hexo和Github搭建博客</span><br><span class="line">date: 2016-11-09</span><br><span class="line">tags: [npm, hexo, github]</span><br><span class="line">categories: 搭建博客</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+<h4 id="图片设置"><a href="#图片设置" class="headerlink" title="图片设置"></a>图片设置</h4><p>图片素材按官方教程说法，可统一放置在source/images目录中，并以 <code>![](/images/image.jpg)</code> 方式引用</p>
+<p>或者在 _config.yml 打开 post_asset_folder 功能，将当前文章所用的图片放置到source目录下的文章同名资源目录下，以 <code>![](image.jpg)</code> 方式引用</p>
+<p>另外一些文章中提到建议使用第三方的专业图床来存放这些静态图片素材 🧐</p>
+<h3 id="hexo-s-–debug"><a href="#hexo-s-–debug" class="headerlink" title="hexo s –debug"></a>hexo s –debug</h3><p>热更新</p>
 
           
         
@@ -1384,7 +1985,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1395,7 +1996,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1406,7 +2007,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
