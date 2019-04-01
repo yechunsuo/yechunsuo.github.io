@@ -94,7 +94,7 @@
 <meta property="og:image" content="http://yoursite.com/images/5C__proto__.png">
 <meta property="og:image" content="http://yoursite.com/images/Cconstructor.png">
 <meta property="og:image" content="http://yoursite.com/images/9b940c4c6f-1553337723527">
-<meta property="og:updated_time" content="2019-03-29T00:10:09.216Z">
+<meta property="og:updated_time" content="2019-03-31T03:34:28.246Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="js原型的深刻理解">
 <meta name="twitter:description" content="原型 每个函数都有一个prototype属性。构造函数中的prototype是一个对象，有construtor和_proto_两个属性。 其中construtor是指向构造函数的，—proto—是指向原型对象    3.1.什么是原型？简单来说，所有生成的函数都会一个prototype原型的属性，这个原型属性指向的是原型对象，这个原型对象的作用是共享对象的所有属性和方法，该原型对象有一个属性为co">
@@ -423,12 +423,12 @@
       
 
       
-        <h1 id="原型"><a href="#原型" class="headerlink" title="原型"></a>原型</h1><p><img src="/images/327copy\u=13235477,959434929&amp;fm=173&amp;app=25&amp;f=JPEG" alt="img"></p>
+        <h1 id="原型"><a href="#原型" class="headerlink" title="原型"></a>原型</h1><p><img src="/images/327copy/u=13235477,959434929&amp;fm=173&amp;app=25&amp;f=JPEG" alt="img"></p>
 <p>每个函数都有一个prototype属性。构造函数中的prototype是一个对象，有construtor和<code>_proto_</code>两个属性。</p>
 <p>其中construtor是指向构造函数的，—proto—是指向原型对象</p>
 <p><img src="/images/1.png" alt></p>
-<p><img src="/images\u=1757326636,2277028272&amp;fm=173&amp;app=25&amp;f=JPEG" alt="img"></p>
-<p><img src="\images\u=269707452,3276600750&amp;fm=173&amp;app=25&amp;f=JPEG" alt="img"></p>
+<p><img src="/images/u=1757326636,2277028272&amp;fm=173&amp;app=25&amp;f=JPEG" alt="img"></p>
+<p><img src="/images/u=269707452,3276600750&amp;fm=173&amp;app=25&amp;f=JPEG" alt="img"></p>
 <h4 id="3-1-什么是原型？"><a href="#3-1-什么是原型？" class="headerlink" title="3.1.什么是原型？"></a>3.1.什么是原型？</h4><p>简单来说，所有生成的函数都会一个prototype原型的属性，这个原型属性指向的是原型对象，这个原型对象的作用是共享对象的所有属性和方法，该原型对象有一个属性为constructor(构造函数)，这个属性指向的是创建它的构造函数。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 以上面的Car例子为构造函数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 构造函数的prototype属性是一个对象，也就是原型对象</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> Car.prototype); <span class="comment">// object</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 构造函数的原型对象的constructor属性指向的是创建它的构造函数</span></span><br><span class="line"><span class="built_in">console</span>.log(Car.prototype.constructor === Car); <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 原型对象的作用是共享对象的所有属性和方法</span></span><br><span class="line">Car.prototype.seat = <span class="string">'cattlehide'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> car1 = <span class="keyword">new</span> Car(<span class="string">"Mercedes-Benz"</span>, <span class="string">'red'</span>);</span><br><span class="line"><span class="keyword">let</span> car2 = <span class="keyword">new</span> Car(<span class="string">"Mercedes-Benz"</span>, <span class="string">'black'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(car1.seat); <span class="comment">// cattlehide</span></span><br><span class="line"><span class="built_in">console</span>.log(car2.seat); <span class="comment">// cattlehide</span></span><br></pre></td></tr></table></figure>
 <h4 id="3-2-原型规则和示例"><a href="#3-2-原型规则和示例" class="headerlink" title="3.2.原型规则和示例"></a>3.2.原型规则和示例</h4><p>5条原型规则：</p>
@@ -457,14 +457,14 @@
 <p>我们来了解一下原型链查询的顺序</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Perosn</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> person = <span class="keyword">new</span> Person(<span class="string">'bob'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(person.__proto__ === Person.prototype); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(Person.prototype.__proto__ === <span class="built_in">Object</span>.prototype); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.prototype.__proto__); <span class="comment">// null</span></span><br></pre></td></tr></table></figure>
 <p>图例：</p>
-<p><img src="\images\5C__proto__.png" alt></p>
+<p><img src="/images/5C__proto__.png" alt></p>
 <h2 id="五、instanceof原理"><a href="#五、instanceof原理" class="headerlink" title="五、instanceof原理"></a>五、instanceof原理</h2><ul>
 <li>instanceof用于判断引用类型属于哪个构造函数的方法</li>
 </ul>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> person = <span class="keyword">new</span> Person(<span class="string">'bob'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(person <span class="keyword">instanceof</span> Person); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
 <p>原理：person.__<em>proto_</em>_(隐式原型)一层一层往上，能否对应到Person.prototype，按照前面原型链说理解，那么也能找到Object</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(person <span class="keyword">instanceof</span> Person); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(person <span class="keyword">instanceof</span> <span class="built_in">Object</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
-<h4 id="理解原型、构造函数、实例、原型-prototype-，原型链关系图例："><a href="#理解原型、构造函数、实例、原型-prototype-，原型链关系图例：" class="headerlink" title="理解原型、构造函数、实例、原型(prototype)，原型链关系图例："></a>理解原型、构造函数、实例、原型(prototype)，原型链关系图例：</h4><p><img src="\images\Cconstructor.png" alt></p>
+<h4 id="理解原型、构造函数、实例、原型-prototype-，原型链关系图例："><a href="#理解原型、构造函数、实例、原型-prototype-，原型链关系图例：" class="headerlink" title="理解原型、构造函数、实例、原型(prototype)，原型链关系图例："></a>理解原型、构造函数、实例、原型(prototype)，原型链关系图例：</h4><p><img src="/images/Cconstructor.png" alt></p>
 <h2 id="1-面试题集锦："><a href="#1-面试题集锦：" class="headerlink" title="1.面试题集锦："></a>1.面试题集锦：</h2><h4 id="1-原型的五条规则"><a href="#1-原型的五条规则" class="headerlink" title="1. 原型的五条规则"></a>1. 原型的五条规则</h4><ul>
 <li>所有的引用类型都可以自定义添加属性</li>
 <li>所有的引用类型都有自己的隐式原型（<strong>proto</strong>）</li>
@@ -475,7 +475,7 @@
 <h2 id="2-自我叙述："><a href="#2-自我叙述：" class="headerlink" title="2.自我叙述："></a>2.自我叙述：</h2><h4 id="1-原型、构造函数、实例"><a href="#1-原型、构造函数、实例" class="headerlink" title="1.原型、构造函数、实例"></a>1.原型、构造函数、实例</h4><p>什么是原型，原型就是一个普通的对象，用于实现对象属性和方法的继承（共享对象的属性和方法）；</p>
 <p>什么是构造函数,我们可以通过new来新建一个对象的函数就成为构造函数。</p>
 <p>什么是实例：通过new和构造函数创建出来的对象就是实例。</p>
-<p><img src="\images\9b940c4c6f-1553337723527" alt="img"></p>
+<p><img src="/images/9b940c4c6f-1553337723527" alt="img"></p>
 <p>2.2.原型链：</p>
 <p><strong>原型链是由原型对象组成</strong>，每个对象都有 <code>__proto__</code> 属性，指向了创建该对象的构造函数的原型，<code>__proto__</code> 将对象连接起来组成了原型链。是一个用来<strong>实现继承和共享属性</strong>的有限的对象链。</p>
 <ul>
@@ -547,8 +547,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/26/moban/" rel="next" title="标题">
-                <i class="fa fa-chevron-left"></i> 标题
+              <a href="/2019/03/26/基础算法（1）/" rel="next" title="js算法（1）">
+                <i class="fa fa-chevron-left"></i> js算法（1）
               </a>
             
           </div>
@@ -652,7 +652,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -925,7 +925,7 @@
     var isfetched = false;
     var isXml = true;
     // Search DB path;
-    var search_path = "";
+    var search_path = "search.xml";
     if (search_path.length === 0) {
       search_path = "search.xml";
     } else if (/json$/i.test(search_path)) {
