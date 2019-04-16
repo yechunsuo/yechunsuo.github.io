@@ -421,6 +421,8 @@
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.A</span> &#123;</span><br><span class="line">    <span class="attribute">overflow</span>: auto;</span><br><span class="line">    <span class="attribute">zoom</span>: <span class="number">1</span>;<span class="comment">/*在ＩＥ下触发其layout，也要以使用_height:1%来代替zoom*/</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 <p>使用overflow属性来清除浮动有一点需要注意，overflow属性共有三个属性值：hidden,auto,visible。我们可以使用hiddent和auto值来清除浮动，但切记不能使用visible值，如果使用这个值将无法达到清除浮动效果，其他两个值都可以，其区据说在于一个对seo比较友好，另个hidden对seo不是太友好，</p>
 <h2 id="伪元素清除浮动"><a href="#伪元素清除浮动" class="headerlink" title="伪元素清除浮动"></a>伪元素清除浮动</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">.clearfix:before,</span><br><span class="line">  .clearfix:after &#123;</span><br><span class="line">     content:<span class="string">""</span>;</span><br><span class="line">     display:table;</span><br><span class="line">  &#125;</span><br><span class="line">  .clearfix:after &#123;</span><br><span class="line">    clear:both;</span><br><span class="line">    overflow:hidden;</span><br><span class="line">  &#125;</span><br><span class="line"> .clearfix &#123;</span><br><span class="line">    zoom:<span class="number">1</span>; <span class="comment">/* IE &lt; 8 */</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>第二种</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">:before</span>,</span><br><span class="line"> <span class="selector-class">.clearfix</span><span class="selector-pseudo">:after</span> &#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">"."</span>;</span><br><span class="line">    <span class="attribute">display</span>: block;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">visibility</span>: hidden;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="selector-class">.clearfix</span><span class="selector-pseudo">:after</span> &#123;<span class="attribute">clear</span>: both;&#125;</span><br><span class="line"> <span class="selector-class">.clearfix</span> &#123;<span class="attribute">zoom</span>: <span class="number">1</span>;&#125; <span class="comment">/* IE &lt; 8 */</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -489,6 +491,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/16/2019-04-16-DOM级别和DOM事件/" rel="prev" title="DOM级别和DOM事件">
+                DOM级别和DOM事件 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -570,7 +576,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
