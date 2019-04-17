@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="js,freecamecode,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="第一天问题1split翻转字符串先把字符串转化成数组，再借助数组的reverse方法翻转数组顺序，最后把数组转化成字符串。你的结果必须得是一个字符串1234567function reverseString(str) &amp;#123;  // 将字符串转化为数组，将数组进行倒排，  //然后利用jion将数组转换为字符串  str=str.split(&apos;&apos;).reverse().join(&apos;&apos;);">
+<meta name="keywords" content="js,freecamecode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基础算法训练">
+<meta property="og:url" content="http://yoursite.com/2019/04/16/基础算法训练/index.html">
+<meta property="og:site_name" content="纵宇博客">
+<meta property="og:description" content="第一天问题1split翻转字符串先把字符串转化成数组，再借助数组的reverse方法翻转数组顺序，最后把数组转化成字符串。你的结果必须得是一个字符串1234567function reverseString(str) &amp;#123;  // 将字符串转化为数组，将数组进行倒排，  //然后利用jion将数组转换为字符串  str=str.split(&apos;&apos;).reverse().join(&apos;&apos;);">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-16T14:15:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基础算法训练">
+<meta name="twitter:description" content="第一天问题1split翻转字符串先把字符串转化成数组，再借助数组的reverse方法翻转数组顺序，最后把数组转化成字符串。你的结果必须得是一个字符串1234567function reverseString(str) &amp;#123;  // 将字符串转化为数组，将数组进行倒排，  //然后利用jion将数组转换为字符串  str=str.split(&apos;&apos;).reverse().join(&apos;&apos;);">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/16/基础算法训练/">
+
+
+
+
+
+  <title>基础算法训练 | 纵宇博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8c742f80e0f8b863f36c13b20f15b1b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">纵宇博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录学习的技能和遇到的问题</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/16/基础算法训练/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="叶春锁">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="纵宇博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">基础算法训练</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-16T22:15:40+08:00">
+                2019-04-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/freecamecode/" itemprop="url" rel="index">
+                    <span itemprop="name">freecamecode</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/freecamecode/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/16/基础算法训练/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/16/基础算法训练/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/04/16/基础算法训练/" class="leancloud_visitors" data-flag-title="基础算法训练">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="第一天"><a href="#第一天" class="headerlink" title="第一天"></a>第一天</h1><h2 id="问题1split"><a href="#问题1split" class="headerlink" title="问题1split"></a>问题1split</h2><p>翻转字符串<br>先把字符串转化成数组，再借助数组的reverse方法翻转数组顺序，最后把数组转化成字符串。<br>你的结果必须得是一个字符串<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">reverseString</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 将字符串转化为数组，将数组进行倒排，</span></span><br><span class="line">  <span class="comment">//然后利用jion将数组转换为字符串</span></span><br><span class="line">  str=str.split(<span class="string">''</span>).reverse().join(<span class="string">''</span>);</span><br><span class="line">  <span class="keyword">return</span> str;</span><br><span class="line">&#125;</span><br><span class="line">reverseString(<span class="string">"hello"</span>);</span><br></pre></td></tr></table></figure></p>
+<h2 id="问题2map"><a href="#问题2map" class="headerlink" title="问题2map"></a>问题2map</h2><p>map返回一个新数组</p>
+<h2 id="问题3reduce"><a href="#问题3reduce" class="headerlink" title="问题3reduce"></a>问题3reduce</h2><p>数组方法 reduce 用来迭代一个数组，并且把它累积到一个值中。</p>
+<p>使用 reduce 方法时，你要传入一个回调函数，这个回调函数的参数是一个 累加器 （比如例子中的 previousVal) 和当前值 (currentVal）。</p>
+<p>reduce 方法有一个可选的第二参数，它可以被用来设置累加器的初始值。如果没有在这定义初始值，那么初始值将变成数组中的第一项，而 currentVal 将从数组的第二项开始。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arr.reduce(callback[, initialValue])</span><br></pre></td></tr></table></figure>
+<p>举例</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> reducer=<span class="function">(<span class="params">accumulator, currentValue</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> accumulator+currentValue</span><br><span class="line">&#125;</span><br><span class="line">reduce(reducer);</span><br><span class="line"><span class="comment">//reducer函数有四个参数</span></span><br><span class="line"><span class="comment">/*reduce为数组中的每一个元素依次执行callback函数，不包括数组中被删除或从未被赋值的元素，接受四个参数：</span></span><br><span class="line"><span class="comment">accumulator 累计器  必须</span></span><br><span class="line"><span class="comment">currentValue 当前值 必须</span></span><br><span class="line"><span class="comment">currentIndex 当前索引 不必须</span></span><br><span class="line"><span class="comment">array 数组 不必须</span></span><br></pre></td></tr></table></figure>
+<p>案例</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> array = [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>];</span><br><span class="line"><span class="keyword">var</span> singleVal = <span class="number">0</span>;</span><br><span class="line">singleVal = array.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">count,item</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> count+item;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="问题4filter"><a href="#问题4filter" class="headerlink" title="问题4filter"></a>问题4filter</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> newArray = arr.filter(callback(element[, index[, array]])[, thisArg])；</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">callback</span></span><br><span class="line"><span class="comment">用来测试数组的每个元素的函数。返回 true 表示该元素通过测试，保留该元素，false 则不保留。它接受一下三个参数：</span></span><br><span class="line"><span class="comment">element</span></span><br><span class="line"><span class="comment">数组中当前正在处理的元素。</span></span><br><span class="line"><span class="comment">index可选</span></span><br><span class="line"><span class="comment">正在处理的元素在数组中的索引。</span></span><br><span class="line"><span class="comment">array可选</span></span><br><span class="line"><span class="comment">调用了 filter 的数组本身。</span></span><br><span class="line"><span class="comment">thisArg可选</span></span><br><span class="line"><span class="comment">执行 callback 时，用于 this 的值。</span></span><br></pre></td></tr></table></figure>
+<p>筛选排除所有较小的值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isBigEnough</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> element &gt;= <span class="number">10</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> filtered = [<span class="number">12</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">130</span>, <span class="number">44</span>].filter(isBigEnough);</span><br><span class="line"><span class="comment">// filtered is [12, 130, 44]</span></span><br></pre></td></tr></table></figure>
+<p>在数组中搜索</p>
+<p><a href="http://www.runoob.com/jsref/jsref-indexof.html" target="_blank" rel="noopener">indexof</a></p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fruits = [<span class="string">'apple'</span>, <span class="string">'banana'</span>, <span class="string">'grapes'</span>, <span class="string">'mango'</span>, <span class="string">'orange'</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Array filters items based on search criteria (query)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">filterItems</span>(<span class="params">query</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> fruits.filter(<span class="function"><span class="keyword">function</span>(<span class="params">el</span>) </span>&#123;</span><br><span class="line">      <span class="comment">//toLowerCase() 方法用于把字符串转换为小写。</span></span><br><span class="line">      <span class="keyword">return</span> el.toLowerCase().indexOf(query.toLowerCase()) &gt; <span class="number">-1</span>;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(filterItems(<span class="string">'ap'</span>)); <span class="comment">// ['apple', 'grapes']</span></span><br><span class="line"><span class="built_in">console</span>.log(filterItems(<span class="string">'an'</span>)); <span class="comment">// ['banana', 'mango', 'orange']</span></span><br></pre></td></tr></table></figure>
+<p>es6数组索索</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fruits = [<span class="string">'apple'</span>, <span class="string">'banana'</span>, <span class="string">'grapes'</span>, <span class="string">'mango'</span>, <span class="string">'orange'</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Array filters items based on search criteria (query)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> filterItems = <span class="function">(<span class="params">query</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> fruits.filter(<span class="function">(<span class="params">el</span>) =&gt;</span></span><br><span class="line">    el.toLowerCase().indexOf(query.toLowerCase()) &gt; <span class="number">-1</span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(filterItems(<span class="string">'ap'</span>)); <span class="comment">// ['apple', 'grapes']</span></span><br><span class="line"><span class="built_in">console</span>.log(filterItems(<span class="string">'an'</span>)); <span class="comment">// ['banana', 'mango', 'orange']</span></span><br></pre></td></tr></table></figure>
+<h2 id="问题5sort"><a href="#问题5sort" class="headerlink" title="问题5sort"></a>问题5sort</h2><p>使用 <code>sort</code> 方法，你可以很容易的按字母顺序或数字顺序对数组中的元素进行排序。</p>
+<p>与我们之前用的数组方法仅仅返回一个新数组不同， <code>sort</code> 方法将改变原数组，返回被排序后的数组。</p>
+<p><code>sort</code> 可以把比较函数作为参数传入。比较函数有返回值，当 <code>a</code> 小于 <code>b</code>，返回一个负数那么 a 会被排列到 b 之前；当 <code>a</code>大于 <code>b</code> ，返回一个正数，b 会被排列到 a 之前；相等时返回0。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compare</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (a &lt; b ) &#123;           <span class="comment">// 按某种排序标准进行比较, a 小于 b</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (a &gt; b ) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// a must be equal to b</span></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//简写模式</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compare</span>(<span class="params">a,b</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a-b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果没有传入比较函数，它将把值全部转成字符串，并按照字母顺序进行排序。</p>
+<p>下面的例子将展示 <code>sort</code> 的使用，传入的比较函数把元素按照从小到大的顺序进行排列：</p>
+<blockquote>
+<p>数组升序</p>
+<p>var array = [1, 12, 21, 2];<br>array.sort(function(a, b) {<br>  return a - b;<br>});</p>
+<p>数组降序</p>
+<p>var array = [1, 12, 21, 2];<br>array.sort(function(a, b) {<br>  return b-a;<br>});</p>
+</blockquote>
+<p>使用 <code>sort</code> 按照从大到小的顺序排序 <code>array</code> 。</p>
+<h2 id="reverse反转"><a href="#reverse反转" class="headerlink" title="reverse反转"></a>reverse反转</h2><p>你可以使用 <code>reverse</code> 方法来翻转数组。</p>
+<blockquote>
+<p>var myArray = [1, 2, 3];<br>myArray.reverse();</p>
+</blockquote>
+<p><em>结果myArray 变成了 [3, 2, 1]</em></p>
+<p>使用 <code>reverse</code> 来翻转 <code>array</code> 数组。并赋值给 <code>newArray</code>.</p>
+<h2 id="concat链接"><a href="#concat链接" class="headerlink" title="concat链接"></a>concat链接</h2><p><code>concat</code> 方法可以用来把两个数组的内容合并到一个数组中。</p>
+<p><code>concat</code> 方法的参数应该是一个数组。参数中的数组会拼接在原数组的后面，并作为一个新数组返回。</p>
+<p>下面是一个拼接数组的例子，用<code>concat</code> 把 <code>otherArray</code> 拼接在 <code>oldArray</code> 的后面：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">newArray = oldArray.concat(otherArray);</span><br></pre></td></tr></table></figure>
+<p>使用 <code>.concat()</code> 将 <code>concatMe</code> 拼接到 <code>oldArray</code>后面，并且赋值给 <code>newArray</code>。</p>
+<p>案例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var oldArray = [1,2,3];</span><br><span class="line">var newArray = [];</span><br><span class="line"></span><br><span class="line">var concatMe = [4,5,6];</span><br><span class="line"></span><br><span class="line">// 只能在这一行下面写代码</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">newArray = oldArray.concat(concatMe);</span><br></pre></td></tr></table></figure>
+<h2 id="split分割"><a href="#split分割" class="headerlink" title="split分割"></a>split分割</h2><p>你可以使用 <code>split</code> 方法按指定分隔符将字符串分割为数组。</p>
+<p>你要给 <code>split</code> 方法传递一个参数，这个参数将会作为一个分隔符。</p>
+<p>下面的例子展示了 <code>split</code> 方法的使用，按照 <code>s</code>字母进行分割：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var array = string.split(&apos;s&apos;);</span><br><span class="line">//若为‘’默认逗号</span><br></pre></td></tr></table></figure>
+<p>使用 <code>split</code> 方法来把字符串 <code>string</code> 分割为数组 <code>array</code>。</p>
+<p>案例</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> string = <span class="string">"Split me into an array"</span>;</span><br><span class="line"><span class="keyword">var</span> array = [];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 只能在这一行下面写代码</span></span><br><span class="line"></span><br><span class="line">array = string.split(<span class="string">" "</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//["Split", "me", "into", "an", "array"]</span></span><br></pre></td></tr></table></figure>
+<h2 id="jion"><a href="#jion" class="headerlink" title="jion"></a>jion</h2><p>我们还可以使用 <code>join</code> 方法来把数组转换成字符串，里面的每一个元素可以用你指定的连接符来连接起来，这个连接符就是你要传入的参数。</p>
+<p>下面展示了使用 <code>join</code> 来将数组中的每一项放入字符串，并用 <code>and</code>进行连接：</p>
+<blockquote>
+<p>var veggies = [“Celery”, “Radish”, “Carrot”, “Potato”];<br>var salad = veggies.join(“ and “);<br>console.log(salad); // “Celery and Radish and Carrot and Potato” </p>
+</blockquote>
+<p>使用 <code>join</code> 方法，连接符为<code>&#39; &#39;</code>把数组 <code>joinMe</code>转化成字符串 <code>joinedString</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> joinMe = [<span class="string">"Split"</span>,<span class="string">"me"</span>,<span class="string">"into"</span>,<span class="string">"an"</span>,<span class="string">"array"</span>];</span><br><span class="line"><span class="keyword">var</span> joinedString = <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 只能在这一行下面写代码</span></span><br><span class="line"></span><br><span class="line">joinedString = joinMe.join(<span class="string">' '</span>);</span><br></pre></td></tr></table></figure>
+<p>注意jion内无参数符号，默认逗号隔开。</p>
+<h1 id="第二天"><a href="#第二天" class="headerlink" title="第二天"></a>第二天</h1><h2 id="阶乘"><a href="#阶乘" class="headerlink" title="阶乘"></a>阶乘</h2><p><strong>一种递归两种循环</strong></p>
+<p>第一种for循环</p>
+<p>倒循环</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">factorialize</span> (<span class="params">num</span>) </span>&#123;</span><br><span class="line">   <span class="keyword">if</span>(num&lt;<span class="number">0</span>)&#123;</span><br><span class="line">	   <span class="built_in">console</span>.log(<span class="number">-1</span>);</span><br><span class="line">   &#125;<span class="keyword">else</span> <span class="keyword">if</span>(num===<span class="number">0</span> || num===<span class="number">1</span>)&#123;</span><br><span class="line">	   <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">   &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">	  <span class="keyword">for</span>(<span class="keyword">var</span> i=num<span class="number">-1</span>;i&gt;=<span class="number">1</span>;i--)&#123;</span><br><span class="line">        num=num*i;</span><br><span class="line">      &#125;</span><br><span class="line">     <span class="keyword">return</span> num;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">factorialize(<span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+<p>正循环</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">num</span>)</span>&#123;</span><br><span class="line">     <span class="keyword">if</span>(num&lt;<span class="number">0</span>)&#123;</span><br><span class="line">	   <span class="built_in">console</span>.log(<span class="number">-1</span>);</span><br><span class="line">   &#125;<span class="keyword">else</span> <span class="keyword">if</span>(num===<span class="number">0</span> || num===<span class="number">1</span>)&#123;</span><br><span class="line">	   <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">   &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">       <span class="keyword">var</span> nums=num<span class="number">-1</span></span><br><span class="line">	  <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">1</span>;i&lt;=nums;i++)&#123;</span><br><span class="line">        num=num*i;</span><br><span class="line">      &#125;</span><br><span class="line">     <span class="keyword">return</span> num;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>记住for循环内不能出现运算表达式。否则报错</strong></p>
+<p>第二种while循环</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">num</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> res=num;</span><br><span class="line">      <span class="keyword">if</span>(num&lt;<span class="number">0</span>)&#123;</span><br><span class="line">	   <span class="built_in">console</span>.log(<span class="number">-1</span>);</span><br><span class="line">   &#125;<span class="keyword">else</span> <span class="keyword">if</span>(num===<span class="number">0</span> || num===<span class="number">1</span>)&#123;</span><br><span class="line">	   <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">   &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">       <span class="keyword">while</span>(num&gt;<span class="number">1</span>)&#123;</span><br><span class="line">           num--;</span><br><span class="line">           res*=num;</span><br><span class="line">       &#125;</span><br><span class="line">      &#125;</span><br><span class="line">     <span class="keyword">return</span> res;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一种递归</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">factorialize</span> (<span class="params">num</span>) </span>&#123;</span><br><span class="line">  </span><br><span class="line">   <span class="keyword">if</span>(num&lt;<span class="number">0</span>)&#123;</span><br><span class="line">	   <span class="built_in">console</span>.log(<span class="number">-1</span>);</span><br><span class="line">   &#125;<span class="keyword">else</span> <span class="keyword">if</span>(num===<span class="number">0</span> || num===<span class="number">1</span>)&#123;</span><br><span class="line">	   <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">   &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      </span><br><span class="line">        <span class="keyword">return</span> num * factorialize(num - <span class="number">1</span>); </span><br><span class="line">        </span><br><span class="line">   &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">factorialize(<span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//仅限非严格模式</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">factorial</span>(<span class="params">num</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (num &lt;=<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> num * <span class="built_in">arguments</span>.callee(num<span class="number">-1</span>)</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//严格模式下无论引用函数时使用的是什么名字，都可以保证正常完成递归调用</span></span><br><span class="line"><span class="keyword">var</span> newf=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">     <span class="keyword">return</span> num * factorialize(num - <span class="number">1</span>); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>尾递归</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">factorial</span>(<span class="params">n, total</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n === <span class="number">1</span>) <span class="keyword">return</span> total;</span><br><span class="line">  <span class="keyword">return</span> factorial(n - <span class="number">1</span>, n * total);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">factorial(<span class="number">5</span>, <span class="number">1</span>) <span class="comment">// 120</span></span><br></pre></td></tr></table></figure>
+<h2 id="回文"><a href="#回文" class="headerlink" title="回文"></a>回文</h2><p>API介绍</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">str.replace(regexp|substr, newSubStr|<span class="function"><span class="keyword">function</span>)</span></span><br><span class="line"><span class="function">参数解析： 正则|字符串，新字符串|处理函数</span></span><br></pre></td></tr></table></figure>
+<p>正则表达式<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/[^A-Za-z0<span class="number">-9</span>]/g  <span class="comment">//只允许是字母和正则的表达式。</span></span><br></pre></td></tr></table></figure></p>
+<p>如果给定的字符串是回文，返回true，反之，返回false。<br>如果一个字符串忽略标点符号、大小写和空格，正着读和反着读一模一样，那么这个字符串就是palindrome(回文)。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">palindrome</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">  <span class="comment">//先将参数字符串进行小写并剔除特殊符号</span></span><br><span class="line">  <span class="keyword">var</span> str1=str.toLowerCase().replace(<span class="regexp">/[^A-Za-z0-9]/g</span>,<span class="string">''</span>);</span><br><span class="line">  str2=str1.split(<span class="string">''</span>).reverse().join(<span class="string">''</span>);</span><br><span class="line">  <span class="keyword">if</span>(str2==str1)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">palindrome(<span class="string">"eye"</span>);</span><br></pre></td></tr></table></figure>
+<p>优化后的代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">palindrome</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">  <span class="comment">//先将参数字符串进行小写并剔除特殊符号</span></span><br><span class="line">  <span class="keyword">var</span> str1=str.toLowerCase().replace(<span class="regexp">/[^A-Za-z0-9]/g</span>,<span class="string">''</span>);</span><br><span class="line">  str2=str1.split(<span class="string">''</span>).reverse().join(<span class="string">''</span>);</span><br><span class="line">  <span class="keyword">return</span> str2===str1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">palindrome(<span class="string">"eye"</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="寻找最长"><a href="#寻找最长" class="headerlink" title="寻找最长"></a>寻找最长</h2><p>找出最长单词</p>
+<p>在句子中找出最长的单词，并返回它的长度。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">findLongestWord</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 请把你的代码写在这里</span></span><br><span class="line">  str=str.split(<span class="string">' '</span>);</span><br><span class="line">  <span class="comment">// 遍历数组</span></span><br><span class="line">  <span class="keyword">var</span> newA=[];</span><br><span class="line"> <span class="built_in">console</span>.log(str);</span><br><span class="line"> <span class="keyword">var</span> returnT=str;</span><br><span class="line">  str.forEach(<span class="function">(<span class="params">item,i</span>)=&gt;</span>&#123;</span><br><span class="line">	 newA.push(item.length);</span><br><span class="line">	 </span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">var</span> newB=newA.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</span><br><span class="line">   	<span class="keyword">return</span> b-a;</span><br><span class="line">  &#125;);</span><br><span class="line">   <span class="built_in">console</span>.log(newB[<span class="number">0</span>]);</span><br><span class="line">  returnT.map(<span class="function"><span class="params">item</span>=&gt;</span>&#123;</span><br><span class="line">	  <span class="keyword">if</span>(item.length==<span class="number">6</span>)&#123;</span><br><span class="line">		  <span class="built_in">console</span>.log(item);</span><br><span class="line">		  <span class="comment">// return item;</span></span><br><span class="line">	  &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line">findLongestWord(<span class="string">"The quick brown fox jumped over the lazy dog"</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>借鉴</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">findLongestWord2</span>(<span class="params">str</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> newstr=str.split(<span class="string">" "</span>);</span><br><span class="line">	<span class="keyword">var</span> max=newstr[<span class="number">0</span>].length;</span><br><span class="line">	<span class="keyword">var</span> l=newstr.length;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;l;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(max&lt;newstr[i].length)&#123;</span><br><span class="line">			max=newstr[i].length;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">console</span>.log(max);</span><br><span class="line">	<span class="keyword">return</span> max;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>就是将最大值先存储到设定的之中，然后循环数组，找出最大的值。</p>
+<h2 id="字母小写改大写"><a href="#字母小写改大写" class="headerlink" title="字母小写改大写"></a>字母小写改大写</h2><p><strong>正则表达式</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ReplaceFirstUper</span>(<span class="params">str</span>)  </span></span><br><span class="line"><span class="function"></span>&#123;     </span><br><span class="line">    str = str.toLowerCase();     </span><br><span class="line">    <span class="keyword">return</span> str.replace(<span class="regexp">/\b(\w)|\s(\w)/g</span>, <span class="function"><span class="keyword">function</span>(<span class="params">m</span>)</span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> m.toUpperCase();  </span><br><span class="line">    &#125;);    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(ReplaceFirstUper(<span class="string">"i'am have a pen, i have an apple!"</span>));</span><br></pre></td></tr></table></figure>
+<p>注释：\s 匹配任何不可见字符,包括空格、制表符、换页符等等。等价于[ \f\n\r\t\v]。</p>
+<p>\w 匹配包括下划线的任何单词字符。类似但不等价于“[A-Za-z0-9_]”,这里的”单词”。</p>
+<p>\b匹配一个单词的边界例如，“er\b”可以匹配“never”中的“er”，但不能匹配“verb”中的“er”；“\b1_”可以匹配“1_23”中的“1_”，但不能匹配“21_3”中的“1_”。</p>
+<p><code>(/\b(\w)|\s(\w)/g</code>中\b在前就是匹配首位单词或，第二就是匹配字符串前面的空格</p>
+<p>这里有bug</p>
+<p> <strong>完整版</strong>（正则1）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//正则+replace  </span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">titleCase2</span>(<span class="params">s</span>) </span>&#123;  </span><br><span class="line">    <span class="keyword">return</span> s.toLowerCase().replace(<span class="regexp">/\b([\w|']+)\b/g</span>, <span class="function"><span class="keyword">function</span>(<span class="params">word</span>) </span>&#123;  </span><br><span class="line">        <span class="comment">//return word.slice(0, 1).toUpperCase() + word.slice(1);  </span></span><br><span class="line">        <span class="keyword">return</span> word.replace(word.charAt(<span class="number">0</span>), word.charAt(<span class="number">0</span>).toUpperCase());  </span><br><span class="line">    &#125;);  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="built_in">console</span>.log(titleCase2(a));</span><br></pre></td></tr></table></figure>
+<p>这个是匹配单词将特殊符号视为单词的一部分。</p>
+<p>charAt() 方法可返回指定位置的字符。</p>
+<p>第一个字符位置为 0, 第二个字符位置为 1,以此类推.</p>
+<p>匹配到要替换的字母。</p>
+<p><strong>完整版</strong>（正则2）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">titleCase</span>(<span class="params">str</span>) </span>&#123; <span class="keyword">return</span> str.replace(<span class="regexp">/\w\S*/g</span>, <span class="function"><span class="keyword">function</span>(<span class="params">word</span>)</span>&#123; <span class="keyword">return</span> word.charAt(<span class="number">0</span>).toUpperCase()+word.substr(<span class="number">1</span>).toLowerCase();&#125;); &#125;</span><br><span class="line">titleCase(<span class="string">"I'm a little tea pot"</span>, <span class="string">""</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>substr() 方法可在字符串中抽取从 <em>开始</em> 下标开始的指定数目的字符</strong></p>
+<p><strong>语法<em>string</em>.substr(<em>start</em>,<em>length</em>)</strong></p>
+<p><strong>es6正则</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">titleCase</span>(<span class="params">str</span>) </span>&#123; <span class="keyword">return</span> str.toLowerCase().replace(<span class="regexp">/( |^)[a-z]/g</span>, (L) =&gt; L.toUpperCase()); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>/( |^)[a-z]/g</code> - 匹配出整个字符串最开始的首字母以及以空格分隔的每个单词的首字母。</p>
+<p>使用<code>replace()</code>方法进行首字母大写化替换。</p>
+<p><strong>最后整理</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">method1</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">	<span class="comment">// 这一步就是将字符串以空格为界进行拆开</span></span><br><span class="line">	str = str.toLowerCase().replace(<span class="regexp">/\b([\w|']+)\b/g</span>, <span class="function"><span class="keyword">function</span>(<span class="params">m</span>) </span>&#123;</span><br><span class="line">		m.replace(m.charAt(<span class="number">0</span>), m.charAt(<span class="number">0</span>).toUpperCase());</span><br><span class="line">	&#125;);</span><br><span class="line">	<span class="keyword">return</span> str;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">method2</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">	<span class="comment">// 空格开头的或则是字符串最开始位置的首字母</span></span><br><span class="line">	str = str.toLowerCase().replace(<span class="regexp">/( |^)\w/g</span>, <span class="function"><span class="keyword">function</span>(<span class="params">m</span>) </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> m.toUpperCase();</span><br><span class="line">	&#125;);</span><br><span class="line">	<span class="keyword">return</span> str;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这一步就是将字符串以空格为界进行拆开</span></span><br><span class="line"><span class="comment">// 正则表达式表达的就是匹配全局的字母和非空字符中的零个或多个</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">method3</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">	str = str.toLowerCase().replace(<span class="regexp">/\w\S*/g</span>, <span class="function"><span class="keyword">function</span>(<span class="params">word</span>) </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> word.charAt(<span class="number">0</span>).toUpperCase() + word.substr(<span class="number">1</span>).toLowerCase();</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">return</span> str;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 所用方法就是slice/Map</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">method4</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">	str = str.toLowerCase().split(<span class="string">' '</span>).map(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> item.charAt(<span class="number">0</span>).toUpperCase() + item.slice(<span class="number">1</span>);</span><br><span class="line">	&#125;).join(<span class="string">' '</span>);</span><br><span class="line">	<span class="keyword">return</span> str;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// for ...in </span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">titleCase</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">	str = str.toLowerCase().split(<span class="string">' '</span>);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> str) &#123;</span><br><span class="line">		str[i] = str[i].replace(str[i].charAt(<span class="number">0</span>), str[i].charAt(<span class="number">0</span>).toUpperCase());</span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="keyword">return</span> str.join(<span class="string">' '</span>);</span><br><span class="line">&#125;</span><br><span class="line">titleCase(<span class="string">"hello world"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 复杂些的</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">titleCase</span>(<span class="params">str</span>) </span>&#123; <span class="comment">//将字符串分解为数组并将其小写化 </span></span><br><span class="line">	<span class="keyword">var</span> convertToArray = str.toLowerCase().split(<span class="string">" "</span>);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; convertToArray.length; i++) &#123;</span><br><span class="line">		<span class="keyword">var</span> char = convertToArray[i].charAt(<span class="number">0</span>);</span><br><span class="line">		convertToArray[i] = convertToArray[i].replace(char, <span class="function"><span class="keyword">function</span> <span class="title">replace</span>(<span class="params">char</span>) </span>&#123;</span><br><span class="line">			<span class="keyword">return</span> char.toUpperCase();</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> convertToArray.join(<span class="string">" "</span>);</span><br><span class="line">&#125;</span><br><span class="line">titleCase(<span class="string">"hello world"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 简化的</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">titleCase</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> convertToArray = str.toLowerCase().split(<span class="string">" "</span>);</span><br><span class="line">	<span class="keyword">var</span> result = convertToArray.map(<span class="function"><span class="keyword">function</span>(<span class="params">val</span>) </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> val.replace(val.charAt(<span class="number">0</span>), val.charAt(<span class="number">0</span>).toUpperCase());</span><br><span class="line">	&#125;);</span><br><span class="line">	<span class="keyword">return</span> result.join(<span class="string">" "</span>);</span><br><span class="line">&#125;</span><br><span class="line">titleCase(<span class="string">"hello world"</span>); <span class="comment">//"Hello World"</span></span><br></pre></td></tr></table></figure>
+<h2 id="slice用法"><a href="#slice用法" class="headerlink" title="slice用法"></a>slice用法</h2><p><em>array</em>.slice(<em>start</em>, <em>end</em>)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><em>start</em></td>
+<td style="text-align:left">可选。规定从何处开始选取。如果是负数，那么它规定从数组尾部开始算起的位置。也就是说，-1 指最后一个元素，-2 指倒数第二个元素，以此类推。</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>end</em></td>
+<td style="text-align:left">可选。规定从何处结束选取。该参数是数组片断结束处的数组下标。如果没有指定该参数，那么切分的数组包含从 start 到数组结束的所有元素。如果这个参数是负数，那么它规定的是从数组尾部开始算起的元素。</td>
+</tr>
+</tbody>
+</table>
+<p>返回值</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Array</td>
+<td style="text-align:left">返回一个新的数组，包含从 start 到 end （不包括该元素）的 arrayObject 中的元素。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="找出读个数组中最大值"><a href="#找出读个数组中最大值" class="headerlink" title="找出读个数组中最大值"></a>找出读个数组中最大值</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">largestOfFour</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 请把你的代码写在这里</span></span><br><span class="line">  <span class="keyword">const</span> newArray=[];</span><br><span class="line">  arr.map(<span class="function"><span class="params">item</span>=&gt;</span>&#123;</span><br><span class="line">	  <span class="keyword">let</span> newV=item.sort(<span class="function">(<span class="params">a,b</span>)=&gt;</span>b-a);</span><br><span class="line">	  newArray.push(newV[<span class="number">0</span>]);</span><br><span class="line">	  </span><br><span class="line">  &#125;)</span><br><span class="line">  arr=newArray;</span><br><span class="line">  <span class="built_in">console</span>.log(arr);</span><br><span class="line">  <span class="keyword">return</span> arr;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">largestOfFour([[<span class="number">4</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">3</span>], [<span class="number">13</span>, <span class="number">27</span>, <span class="number">18</span>, <span class="number">26</span>], [<span class="number">32</span>, <span class="number">35</span>, <span class="number">37</span>, <span class="number">39</span>], [<span class="number">1000</span>, <span class="number">1001</span>, <span class="number">857</span>, <span class="number">1</span>]]);</span><br></pre></td></tr></table></figure>
+<h2 id="substr"><a href="#substr" class="headerlink" title="substr()"></a>substr()</h2><p><strong>substr() 方法可在字符串中抽取从 <em>开始</em> 下标开始的指定数目的字符</strong></p>
+<p><strong>语法<em>string</em>.substr(<em>start</em>,<em>length</em>)</strong></p>
+<h2 id="检查字符串结尾"><a href="#检查字符串结尾" class="headerlink" title="检查字符串结尾"></a>检查字符串结尾</h2><p>判断一个字符串(<code>str</code>)是否以指定的字符串(<code>target</code>)结尾。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">confirmEnding</span>(<span class="params">str, target</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 请把你的代码写在这里</span></span><br><span class="line">   <span class="keyword">return</span> str.substr(str.length-target.length,target.length)===target;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">confirmEnding(<span class="string">"Bastian"</span>, <span class="string">"n"</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="重复输出字符串"><a href="#重复输出字符串" class="headerlink" title="重复输出字符串"></a>重复输出字符串</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">repeat</span>(<span class="params">str, num</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> spec = <span class="string">""</span>;</span><br><span class="line">  <span class="keyword">if</span>(num &lt; <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> spec;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i = num;i &gt; <span class="number">0</span>;i--)&#123;</span><br><span class="line">    spec = spec + str;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> spec;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//可以for循环也可以while循环</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">repeat</span>(<span class="params">str, num</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 请把你的代码写在这里</span></span><br><span class="line">  <span class="keyword">var</span> newArray=[];</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i=num;i&gt;<span class="number">0</span>;i--)&#123;</span><br><span class="line">     newArray.push(str);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> newArray.join(<span class="string">''</span>);</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">repeat(<span class="string">"abc"</span>, <span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="截断字符串"><a href="#截断字符串" class="headerlink" title="截断字符串"></a>截断字符串</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">truncate</span>(<span class="params">str, num</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 请把你的代码写在这里</span></span><br><span class="line">   <span class="keyword">if</span>(num&lt;=<span class="number">3</span>)&#123;</span><br><span class="line">   <span class="keyword">return</span> str.slice(<span class="number">0</span>,num)+<span class="string">'...'</span>;</span><br><span class="line"> &#125;</span><br><span class="line">  <span class="keyword">if</span>(str.length&gt;num)&#123;</span><br><span class="line">   <span class="keyword">return</span> str.replace(str.slice(num<span class="number">-3</span>),<span class="string">"..."</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> str;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">truncate(<span class="string">"A-tisket a-tasket A green and yellow basket"</span>, <span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="猴子吃香蕉-分割数组"><a href="#猴子吃香蕉-分割数组" class="headerlink" title="猴子吃香蕉, 分割数组"></a>猴子吃香蕉, 分割数组</h2><p>把一个数组<code>arr</code>按照指定的数组大小<code>size</code>分割成若干个数组块。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">chunk</span>(<span class="params">arr, size</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 请把你的代码写在这里</span></span><br><span class="line">  <span class="keyword">var</span> newarr=[];</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;arr.length;i=i+size)&#123;</span><br><span class="line">    newarr.push(arr.slice(i,i+size));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> newarr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">chunk([<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>], <span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="截断数组"><a href="#截断数组" class="headerlink" title="截断数组"></a>截断数组</h2><p>返回一个数组被截断<code>n</code>个元素后还剩余的元素，截断从索引0开始</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">slasher</span>(<span class="params">arr, howMany</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 请把你的代码写在这里</span></span><br><span class="line">   <span class="keyword">var</span> arr1=arr.slice(howMany);</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> arr1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">slasher([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], <span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">slasher</span>(<span class="params">arr, howMany</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 请把你的代码写在这里</span></span><br><span class="line">  arr.splice(<span class="number">0</span>,howMany);</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">slasher([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], <span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+<p>slice不改变原数组返回值是新数组，splice是改变原数组，返回值是索引</p>
+<h2 id="splice"><a href="#splice" class="headerlink" title="splice"></a>splice</h2><p><em>rray</em>.splice(<em>index</em>,<em>howmany</em>,<em>item1</em>,…..,<em>itemX</em>)</p>
+<p>参数 Values</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><em>index</em></td>
+<td style="text-align:left">必需。规定从何处添加/删除元素。 该参数是开始插入和（或）删除的数组元素的下标，必须是数字。</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>howmany</em></td>
+<td style="text-align:left">必需。规定应该删除多少元素。必须是数字，但可以是 “0”。 如果未规定此参数，则删除从 index 开始到原数组结尾的所有元素。</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>item1</em>, …, <em>itemX</em></td>
+<td style="text-align:left">可选。要添加到数组的新元素</td>
+</tr>
+</tbody>
+</table>
+<p>返回值</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Array</td>
+<td style="text-align:left">如果从 arrayObject 中删除了元素，则返回的是含有被删除的元素的数组。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="比较字符串"><a href="#比较字符串" class="headerlink" title="比较字符串"></a>比较字符串</h2><p>（蛤蟆可以吃队友，也可以吃对手）</p>
+<p>如果数组第一个字符串元素包含了第二个字符串元素的所有字符，函数返回true。</p>
+<p>自我啰嗦版</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mutation</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">   <span class="comment">// 请把你的代码写在这里</span></span><br><span class="line">  arr1=arr[<span class="number">1</span>].toLowerCase();</span><br><span class="line">  arr0=arr[<span class="number">0</span>].toLowerCase();</span><br><span class="line">   <span class="keyword">var</span> arr2=arr1.split(<span class="string">''</span>);</span><br><span class="line">   <span class="keyword">var</span> num=<span class="number">0</span>;</span><br><span class="line">   <span class="comment">//遍历数组</span></span><br><span class="line">   arr2.forEach(<span class="function"><span class="params">item</span>=&gt;</span>&#123;</span><br><span class="line">	  <span class="keyword">if</span>(arr0.indexOf(item)!=<span class="number">-1</span>)&#123;</span><br><span class="line">		  num++;</span><br><span class="line">	  &#125; </span><br><span class="line">   &#125;);</span><br><span class="line">   <span class="keyword">if</span>(num==arr1.length)&#123;</span><br><span class="line">	  </span><br><span class="line">	   <span class="built_in">console</span>.log(<span class="literal">true</span>);</span><br><span class="line">	   <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">   &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="literal">false</span>);</span><br><span class="line">   <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line">mutation([<span class="string">"hello"</span>, <span class="string">"hey"</span>]);</span><br></pre></td></tr></table></figure>
+<p><strong>改进版</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mutation</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 请把你的代码写在这里</span></span><br><span class="line">  arr1=arr[<span class="number">1</span>].toLowerCase();</span><br><span class="line">  arr0=arr[<span class="number">0</span>].toLowerCase();</span><br><span class="line">   <span class="keyword">var</span> arr2=arr1.split(<span class="string">''</span>);</span><br><span class="line">   <span class="keyword">var</span> ts=<span class="literal">true</span>;</span><br><span class="line">   <span class="comment">//遍历数组</span></span><br><span class="line">   arr2.map(<span class="function"><span class="params">item</span>=&gt;</span>&#123;</span><br><span class="line">	   <span class="keyword">if</span>(arr0.indexOf(item)==<span class="number">-1</span>)&#123;</span><br><span class="line">	   		ts=<span class="literal">false</span>;</span><br><span class="line">	    &#125;</span><br><span class="line">		</span><br><span class="line">   &#125;);</span><br><span class="line"> </span><br><span class="line">  <span class="keyword">return</span> ts;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">mutation([<span class="string">"hello"</span>, <span class="string">"hey"</span>]);</span><br></pre></td></tr></table></figure>
+<p>map循环和foreach，遍历每一项并不能停止程序运行</p>
+<p><strong>他人</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如果数组第一个字符串元素包含了第二个字符串元素的所有字符，函数返回true。</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mutation</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> newArr1 = arr[<span class="number">0</span>].toLowerCase();<span class="comment">//转换为小写</span></span><br><span class="line">  <span class="keyword">var</span> newArr2= arr[<span class="number">1</span>].toLowerCase(); </span><br><span class="line"></span><br><span class="line">  <span class="comment">//判断第二个字符串中的所有元素是否都能在第一个字符串中找到</span></span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i &lt; newArr2.length; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span>(newArr1.indexOf(newArr2[i]) == <span class="number">-1</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">mutation([<span class="string">"hello"</span>, <span class="string">"hey"</span>]);   <span class="comment">//false</span></span><br><span class="line">mutation([<span class="string">"Mary"</span>, <span class="string">"Aarmy"</span>]);  <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<h2 id="indexof"><a href="#indexof" class="headerlink" title="indexof"></a>indexof</h2><p><code>indexOf()</code>方法返回在数组中可以找到一个给定元素的第一个索引，如果不存在，则返回-1。</p>
+<p>语法<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf#Syntax" target="_blank" rel="noopener">节</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">arr.indexOf(searchElement)</span><br><span class="line">arr.indexOf(searchElement[, fromIndex = 0])</span><br></pre></td></tr></table></figure>
+<p>参数<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf#%E5%8F%82%E6%95%B0" target="_blank" rel="noopener">节</a></p>
+<ul>
+<li><p><code>searchElement</code></p>
+<p>要查找的元素</p>
+</li>
+<li><p><code>fromIndex</code></p>
+<p>开始查找的位置。如果该索引值大于或等于数组长度，意味着不会在数组里查找，返回-1。如果参数中提供的索引值是一个负值，则将其作为数组末尾的一个抵消，即-1表示从最后一个元素开始查找，-2表示从倒数第二个元素开始查找 ，以此类推。 注意：如果参数中提供的索引值是一个负值，并不改变其查找顺序，查找顺序仍然是从前向后查询数组。如果抵消后的索引值仍小于0，则整个数组都将会被查询。其默认值为0.</p>
+</li>
+</ul>
+<h2 id="过滤数组假值"><a href="#过滤数组假值" class="headerlink" title="过滤数组假值"></a>过滤数组假值</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bouncer</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 请把你的代码写在这里</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> arr.filter(<span class="built_in">Boolean</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bouncer([<span class="number">7</span>, <span class="string">"ate"</span>, <span class="string">""</span>, <span class="literal">false</span>, <span class="number">9</span>]);</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bouncer</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 请把你的代码写在这里</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> arr.filter(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Boolean</span>(item)==<span class="literal">true</span>;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bouncer([<span class="number">7</span>, <span class="string">"ate"</span>, <span class="string">""</span>, <span class="literal">false</span>, <span class="number">9</span>]);</span><br></pre></td></tr></table></figure>
+<p><strong>拓展</strong></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">js中的假值：在JavaScript中，false、null、0、空字符串、undefined 和 NaN被称为假值。</span><br></pre></td></tr></table></figure>
+<p>需要注意的是，这种方法字符串类型会返回true哦，比如’false’,’0’</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Boolean</span>(value);<span class="comment">//判断字符串是真值还是假值</span></span><br></pre></td></tr></table></figure>
+<h2 id="摧毁数组"><a href="#摧毁数组" class="headerlink" title="摧毁数组"></a>摧毁数组</h2><p><strong>金克斯的迫击炮！</strong></p>
+<p>实现一个摧毁(destroyer)函数，第一个参数是待摧毁的数组，其余的参数是待摧毁的值。</p>
+<p>当你完成不了挑战的时候，记得开大招’Read-Search-Ask’。</p>
+<p>这是一些对你有帮助的资源:</p>
+<ul>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/arguments" target="_blank" rel="noopener">Arguments object</a></p>
+</li>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/filter" target="_blank" rel="noopener">Array.filter()</a></p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">destroyer</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 请把你的代码写在这里</span></span><br><span class="line">  <span class="keyword">var</span> args=<span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>,<span class="number">1</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(args);</span><br><span class="line">  <span class="keyword">var</span> arg=<span class="built_in">Array</span>.prototype.splice.call(<span class="built_in">arguments</span>,<span class="number">0</span>,<span class="number">1</span>)[<span class="number">0</span>];</span><br><span class="line">  <span class="built_in">console</span>.log(arg);</span><br><span class="line">  <span class="keyword">var</span> arr2=arg.filter(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>)</span>&#123;</span><br><span class="line">	 <span class="keyword">if</span>(args.indexOf(item)==<span class="number">-1</span>)&#123;</span><br><span class="line">		 <span class="keyword">return</span> item;</span><br><span class="line">	 &#125;</span><br><span class="line">  &#125;)   </span><br><span class="line"> <span class="built_in">console</span>.log(arr2);</span><br><span class="line">  <span class="keyword">return</span> arr2;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">destroyer([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], <span class="number">2</span>, <span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>借鉴</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">destroyer</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 请把你的代码写在这里</span></span><br><span class="line">  <span class="keyword">var</span>  args = [];</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="built_in">arguments</span>.length;i++)&#123;</span><br><span class="line">    args.push(<span class="built_in">arguments</span>[i]);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">   <span class="keyword">var</span> arr1 = arr.filter(<span class="function"><span class="keyword">function</span>(<span class="params">ele</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> args.indexOf(ele)&lt;<span class="number">0</span>;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="built_in">console</span>.log(arr1);</span><br><span class="line">  <span class="keyword">return</span> arr1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">destroyer([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], <span class="number">2</span>, <span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="数组排序并找出元素索引"><a href="#数组排序并找出元素索引" class="headerlink" title="数组排序并找出元素索引"></a><strong>数组排序并找出元素索引</strong></h2><p>先给数组排序，然后找到指定的值在数组的位置，最后返回位置对应的索引。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">where</span>(<span class="params">arr, num</span>) </span>&#123;</span><br><span class="line">  arr.push(num);</span><br><span class="line">  arr.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</span><br><span class="line">  	<span class="keyword">return</span> a-b;</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">return</span> arr.indexOf(num);</span><br><span class="line">&#125;</span><br><span class="line">where([<span class="number">40</span>, <span class="number">60</span>], <span class="number">50</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="凯撒密码"><a href="#凯撒密码" class="headerlink" title="凯撒密码"></a>凯撒密码</h2><p>（让上帝的归上帝，凯撒的归凯撒）</p>
+<p>下面我们来介绍风靡全球的凯撒密码<code>Caesar cipher</code>，又叫移位密码。</p>
+<p>移位密码也就是密码中的字母会按照指定的数量来做移位。</p>
+<h3 id="charCodeAt"><a href="#charCodeAt" class="headerlink" title="charCodeAt"></a>charCodeAt</h3><p>语法<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/charCodeAt#%E8%AF%AD%E6%B3%95" target="_blank" rel="noopener">节</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str.charCodeAt(index)</span><br></pre></td></tr></table></figure>
+<p>参数<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/charCodeAt#%E5%8F%82%E6%95%B0" target="_blank" rel="noopener">节</a></p>
+<ul>
+<li><p><code>index</code></p>
+<p>一个大于等于 0，小于字符串长度的整数。如果不是一个数值，则默认为 0。</p>
+</li>
+</ul>
+<p>返回值<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/charCodeAt#%E8%BF%94%E5%9B%9E%E5%80%BC" target="_blank" rel="noopener">节</a></p>
+<p>返回值是一表示给定索引处（String中index索引处）字符的 UTF-16 代码单元值的数字；如果索引超出范围，则返回 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/NaN" target="_blank" rel="noopener"><code>NaN</code></a>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"ABC"</span>.charCodeAt(<span class="number">0</span>) <span class="comment">// returns 65:"A"</span></span><br><span class="line"><span class="string">"ABC"</span>.charCodeAt(<span class="number">1</span>) <span class="comment">// returns 66:"B"</span></span><br><span class="line"><span class="string">"ABC"</span>.charCodeAt(<span class="number">2</span>) <span class="comment">// returns 67:"C"</span></span><br><span class="line"><span class="string">"ABC"</span>.charCodeAt(<span class="number">3</span>) <span class="comment">// returns NaN</span></span><br></pre></td></tr></table></figure>
+<h3 id="fromCharCode"><a href="#fromCharCode" class="headerlink" title="fromCharCode"></a>fromCharCode</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String.fromCharCode(num1, ..., numN)</span><br></pre></td></tr></table></figure>
+<p>参数<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode#Parameters" target="_blank" rel="noopener">节</a></p>
+<ul>
+<li><p><code>num1, ..., num*N*</code></p>
+<p>一系列UTF-16代码单元的数字。 范围介于0到65535（0xFFFF）之间。 大于0xFFFF的数字将被截断。 不进行有效性检查。</p>
+</li>
+</ul>
+<p>返回值<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode#%E8%BF%94%E5%9B%9E%E5%80%BC" target="_blank" rel="noopener">节</a></p>
+<p>一个长度为N的字符串，由N个指定的UTF-16代码单元组成.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">String</span>.fromCharCode(<span class="number">65</span>, <span class="number">66</span>, <span class="number">67</span>);  <span class="comment">// returns "ABC"</span></span><br><span class="line"><span class="built_in">String</span>.fromCharCode(<span class="number">0x2014</span>)       <span class="comment">// returns "—"</span></span><br><span class="line"><span class="built_in">String</span>.fromCharCode(<span class="number">0x12014</span>)      <span class="comment">// also returns "—"; the digit 1 is truncated and ignored</span></span><br></pre></td></tr></table></figure>
+<p><strong>凯撒密码</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">var</span> newArr=str.split(<span class="string">''</span>);</span><br><span class="line">  <span class="keyword">var</span> newA=[];</span><br><span class="line">  newArr.forEach(<span class="function"><span class="params">item</span>=&gt;</span>&#123;</span><br><span class="line">    item=item.charCodeAt(<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">if</span>(item&gt;=<span class="number">65</span>&amp;&amp;item&lt;=<span class="number">90</span>)&#123;</span><br><span class="line">		  <span class="keyword">if</span>(item&gt;=<span class="number">65</span> &amp;&amp; item&lt;=<span class="number">77</span>) &#123;</span><br><span class="line">        item = <span class="built_in">String</span>.fromCharCode(item+<span class="number">13</span>);</span><br><span class="line">      &#125;<span class="keyword">else</span> <span class="keyword">if</span>(item&gt;=<span class="number">78</span>&amp;&amp; item&lt;=<span class="number">90</span>) &#123;</span><br><span class="line">        item = <span class="built_in">String</span>.fromCharCode(item<span class="number">-13</span>);</span><br><span class="line">      &#125;</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		item= <span class="built_in">String</span>.fromCharCode(item);</span><br><span class="line">	&#125;</span><br><span class="line">	newA.push(item);</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="built_in">console</span>.log(newA.join(<span class="string">''</span>));</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> newA.join(<span class="string">''</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/weixin.jpg" alt="叶春锁 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/zhifubao.jpg" alt="叶春锁 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+            <a href="/tags/freecamecode/" rel="tag"># freecamecode</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/16/2019-04-16-Event对象/" rel="next" title="Event对象">
+                <i class="fa fa-chevron-left"></i> Event对象
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/17/2019-4-17死记硬背http/" rel="prev" title="死记硬背http">
+                死记硬背http <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/0.jpg" alt="叶春锁">
+            
+              <p class="site-author-name" itemprop="name">叶春锁</p>
+              <p class="site-description motion-element" itemprop="description">做自己爱做的事，爱自己在做的事！</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yechunsuo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="yechunsuo@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一天"><span class="nav-number">1.</span> <span class="nav-text">第一天</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题1split"><span class="nav-number">1.1.</span> <span class="nav-text">问题1split</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题2map"><span class="nav-number">1.2.</span> <span class="nav-text">问题2map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题3reduce"><span class="nav-number">1.3.</span> <span class="nav-text">问题3reduce</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题4filter"><span class="nav-number">1.4.</span> <span class="nav-text">问题4filter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题5sort"><span class="nav-number">1.5.</span> <span class="nav-text">问题5sort</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reverse反转"><span class="nav-number">1.6.</span> <span class="nav-text">reverse反转</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#concat链接"><span class="nav-number">1.7.</span> <span class="nav-text">concat链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#split分割"><span class="nav-number">1.8.</span> <span class="nav-text">split分割</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jion"><span class="nav-number">1.9.</span> <span class="nav-text">jion</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二天"><span class="nav-number">2.</span> <span class="nav-text">第二天</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#阶乘"><span class="nav-number">2.1.</span> <span class="nav-text">阶乘</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#回文"><span class="nav-number">2.2.</span> <span class="nav-text">回文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#寻找最长"><span class="nav-number">2.3.</span> <span class="nav-text">寻找最长</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字母小写改大写"><span class="nav-number">2.4.</span> <span class="nav-text">字母小写改大写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#slice用法"><span class="nav-number">2.5.</span> <span class="nav-text">slice用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#找出读个数组中最大值"><span class="nav-number">2.6.</span> <span class="nav-text">找出读个数组中最大值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#substr"><span class="nav-number">2.7.</span> <span class="nav-text">substr()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#检查字符串结尾"><span class="nav-number">2.8.</span> <span class="nav-text">检查字符串结尾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重复输出字符串"><span class="nav-number">2.9.</span> <span class="nav-text">重复输出字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#截断字符串"><span class="nav-number">2.10.</span> <span class="nav-text">截断字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#猴子吃香蕉-分割数组"><span class="nav-number">2.11.</span> <span class="nav-text">猴子吃香蕉, 分割数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#截断数组"><span class="nav-number">2.12.</span> <span class="nav-text">截断数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#splice"><span class="nav-number">2.13.</span> <span class="nav-text">splice</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#比较字符串"><span class="nav-number">2.14.</span> <span class="nav-text">比较字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#indexof"><span class="nav-number">2.15.</span> <span class="nav-text">indexof</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#过滤数组假值"><span class="nav-number">2.16.</span> <span class="nav-text">过滤数组假值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#摧毁数组"><span class="nav-number">2.17.</span> <span class="nav-text">摧毁数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组排序并找出元素索引"><span class="nav-number">2.18.</span> <span class="nav-text">数组排序并找出元素索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#凯撒密码"><span class="nav-number">2.19.</span> <span class="nav-text">凯撒密码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#charCodeAt"><span class="nav-number">2.19.1.</span> <span class="nav-text">charCodeAt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fromCharCode"><span class="nav-number">2.19.2.</span> <span class="nav-text">fromCharCode</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">叶春锁</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'IzJLUfS5PQYanKpb3IHuKN1a-gzGzoHsz',
+        appKey: 'ACLVh1AR3D9Mq4Mh6x9LGU0b',
+        placeholder: '请在此输入您的留言',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("IzJLUfS5PQYanKpb3IHuKN1a-gzGzoHsz", "ACLVh1AR3D9Mq4Mh6x9LGU0b");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>

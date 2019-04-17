@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Event 对象">
+<meta name="description" content="Event 对象**Event()** 构造函数, 创建一个新的事件对象 Event。 语法节 1event = new Event(typeArg, eventInit); 参数节  typeArg 是DOMString 类型，表示所创建事件的名称。  eventInit可选   案例创建一个支持冒泡但不能被取消的look事件 123456var ev = new Event(&apos;look&apos;,&amp;#">
 <meta name="keywords" content="js">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Event对象">
 <meta property="og:url" content="http://yoursite.com/2019/04/16/2019-04-16-Event对象/index.html">
 <meta property="og:site_name" content="纵宇博客">
-<meta property="og:description" content="Event 对象">
+<meta property="og:description" content="Event 对象**Event()** 构造函数, 创建一个新的事件对象 Event。 语法节 1event = new Event(typeArg, eventInit); 参数节  typeArg 是DOMString 类型，表示所创建事件的名称。  eventInit可选   案例创建一个支持冒泡但不能被取消的look事件 123456var ev = new Event(&apos;look&apos;,&amp;#">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2019-04-16T12:37:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Event对象">
-<meta name="twitter:description" content="Event 对象">
+<meta name="twitter:description" content="Event 对象**Event()** 构造函数, 创建一个新的事件对象 Event。 语法节 1event = new Event(typeArg, eventInit); 参数节  typeArg 是DOMString 类型，表示所创建事件的名称。  eventInit可选   案例创建一个支持冒泡但不能被取消的look事件 123456var ev = new Event(&apos;look&apos;,&amp;#">
 
 
 
@@ -415,7 +415,20 @@
       
 
       
-        <h1 id="Event-对象"><a href="#Event-对象" class="headerlink" title="Event 对象"></a>Event 对象</h1>
+        <h1 id="Event-对象"><a href="#Event-对象" class="headerlink" title="Event 对象"></a>Event 对象</h1><p><code>**Event()**</code> 构造函数, 创建一个新的事件对象 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event" target="_blank" rel="noopener"><code>Event</code></a>。</p>
+<p><strong>语法<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event/Event#%E8%AF%AD%E6%B3%95" target="_blank" rel="noopener">节</a></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">event = new Event(typeArg, eventInit);</span><br></pre></td></tr></table></figure>
+<p><strong>参数<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event/Event#%E5%8F%82%E6%95%B0" target="_blank" rel="noopener">节</a></strong></p>
+<ul>
+<li><p><em>typeArg</em></p>
+<p>是<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/DOMString" target="_blank" rel="noopener"><code>DOMString</code></a> 类型，表示所创建事件的名称。</p>
+</li>
+<li><p><em>eventInit</em>可选</p>
+</li>
+</ul>
+<p>案例创建一个支持冒泡但不能被取消的look事件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ev = <span class="keyword">new</span> Event(<span class="string">'look'</span>,&#123;</span><br><span class="line">    <span class="string">"bubbles"</span>:<span class="literal">true</span>, <span class="string">"cancelable"</span>:<span class="literal">false</span>&#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">document</span>.dispathEvent(ev);</span><br><span class="line"><span class="comment">// 事件可以在任何元素触发，不仅仅是document</span></span><br><span class="line">myDiv.dispatchEvent(ev);</span><br></pre></td></tr></table></figure>
+
       
     </div>
     
@@ -483,6 +496,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/16/基础算法训练/" rel="prev" title="基础算法训练">
+                基础算法训练 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -564,7 +581,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -575,7 +592,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -586,7 +603,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
