@@ -304,6 +304,199 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/18/2019-04-18-滚动事件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="叶春锁">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="纵宇博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/18/2019-04-18-滚动事件/" itemprop="url">滚动事件</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-18T19:02:16+08:00">
+                2019-04-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/DOM/" itemprop="url" rel="index">
+                    <span itemprop="name">DOM</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/18/2019-04-18-滚动事件/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/18/2019-04-18-滚动事件/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/04/18/2019-04-18-滚动事件/" class="leancloud_visitors" data-flag-title="滚动事件">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="JavaScript-scroll-事件"><a href="#JavaScript-scroll-事件" class="headerlink" title="JavaScript scroll 事件"></a>JavaScript scroll 事件</h1><h2 id="scroll事件"><a href="#scroll事件" class="headerlink" title="scroll事件"></a>scroll事件</h2><h2 id="Element-scrollTop"><a href="#Element-scrollTop" class="headerlink" title="Element.scrollTop"></a>Element.scrollTop</h2><p>获取元素的滚动像素值</p>
+<p><code>**Element.scrollTop**</code> 属性可以获取或设置一个元素的内容垂直滚动的像素数。</p>
+<p>一个元素的 <code>scrollTop</code> 值是这个元素的顶部到视口可见内容（的顶部）的距离的度量。当一个元素的内容没有产生垂直方向的滚动条，那么它的 <code>scrollTop 值为0。</code></p>
+<p><code>scrollTop</code> 可以被设置为任何整数值，同时注意：</p>
+<ul>
+<li>如果一个元素不能被滚动（例如，它没有溢出，或者这个元素有一个”<strong>non-scrollable”</strong>属性）， <code>scrollTop</code>将被设置为<code>0</code>。</li>
+<li>设置scrollTop的值小于0，<code>scrollTop</code> 被设为<code>0</code></li>
+<li>如果设置了超出这个容器可滚动的值, <code>scrollTop</code> 会被设为最大值.</li>
+</ul>
+<h3 id="案例代码"><a href="#案例代码" class="headerlink" title="案例代码"></a>案例代码</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">     &lt;p id=<span class="string">"mybtn"</span>&gt;&lt;/p&gt;</span><br><span class="line">&lt;<span class="regexp">/body&gt;</span></span><br><span class="line"><span class="regexp">&lt;script type="text/</span>javascript<span class="string">"&gt;</span></span><br><span class="line"><span class="string">		var myp=document.getElementById('mybtn');</span></span><br><span class="line"><span class="string">		window.addEventListener('scroll',function(e)&#123;</span></span><br><span class="line"><span class="string">		    myp.innerHTML=document.body.scrollTop|document.documentElement.scrollTop;</span></span><br><span class="line"><span class="string">            //body和document的值</span></span><br><span class="line"><span class="string">		&#125;,false)</span></span><br><span class="line"><span class="string">&lt;/script&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="../images/Video_2019-04-18_191641[00-00-02--00-00-05].gif" alt></p>
+<h2 id="原生回到顶部代码"><a href="#原生回到顶部代码" class="headerlink" title="原生回到顶部代码"></a>原生回到顶部代码</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">		&lt;h1 <span class="class"><span class="keyword">class</span></span>=<span class="string">"top"</span>&gt;这是顶部&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">		&lt;h1 class="bottom"&gt;这是底部&lt;/</span>h1&gt;</span><br><span class="line">		&lt;div id=<span class="string">"box"</span>&gt;^&lt;/div&gt;</span><br><span class="line">	&lt;<span class="regexp">/body&gt;</span></span><br><span class="line"><span class="regexp">	&lt;script type="text/</span>javascript<span class="string">"&gt;</span></span><br><span class="line"><span class="string">		var box=document.getElementById('box');</span></span><br><span class="line"><span class="string">		box.addEventListener('click',function(e)&#123;</span></span><br><span class="line"><span class="string">	//先给盒子赋予点击事件</span></span><br><span class="line"><span class="string">            //计时器是设计缓动效果</span></span><br><span class="line"><span class="string">			var timer=setInterval(function()&#123;</span></span><br><span class="line"><span class="string">  //将最新滚动值赋予变量</span></span><br><span class="line"><span class="string">				var scrollTopValue=document.body.scrollTop||document.documentElement.scrollTop;</span></span><br><span class="line"><span class="string">                //设置缓动值</span></span><br><span class="line"><span class="string">				let ispeed=Math.floor(-scrollTopValue/6);</span></span><br><span class="line"><span class="string">				console.log(1);</span></span><br><span class="line"><span class="string">       //给滚动值赋予新值</span></span><br><span class="line"><span class="string">                document.documentElement.scrollTop=document.body.scrollTop=scrollTopValue+ispeed;</span></span><br><span class="line"><span class="string">                //如果滚动值为0；清除定时器</span></span><br><span class="line"><span class="string">				if(scrollTopValue==0)&#123;</span></span><br><span class="line"><span class="string">					clearInterval(timer);</span></span><br><span class="line"><span class="string">				&#125;</span></span><br><span class="line"><span class="string">			&#125;,20);</span></span><br><span class="line"><span class="string">			</span></span><br><span class="line"><span class="string">		&#125;,false)</span></span><br><span class="line"><span class="string">	&lt;/script&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>添加按钮的显示与隐藏</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">		&lt;h1 <span class="class"><span class="keyword">class</span></span>=<span class="string">"top"</span>&gt;这是顶部&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">		&lt;h1 class="bottom"&gt;这是底部&lt;/</span>h1&gt;</span><br><span class="line">		&lt;div id=<span class="string">"box"</span>&gt;^&lt;/div&gt;</span><br><span class="line">	&lt;<span class="regexp">/body&gt;</span></span><br><span class="line"><span class="regexp">	&lt;script type="text/</span>javascript<span class="string">"&gt;</span></span><br><span class="line"><span class="string">		var box=document.getElementById('box');</span></span><br><span class="line"><span class="string">//求doucument的可视区域</span></span><br><span class="line"><span class="string">		var WclientX=document.documentElement.clientHeight;</span></span><br><span class="line"><span class="string">		var timer=null;</span></span><br><span class="line"><span class="string">		// 盒子的隐藏事件</span></span><br><span class="line"><span class="string">		window.addEventListener('scroll',function()&#123;</span></span><br><span class="line"><span class="string">			var scrollTopValue=document.body.scrollTop||document.documentElement.scrollTop;</span></span><br><span class="line"><span class="string">			if(scrollTopValue&gt;=WclientX)&#123;</span></span><br><span class="line"><span class="string">				box.style.display="</span>block<span class="string">";</span></span><br><span class="line"><span class="string">			&#125;else&#123;</span></span><br><span class="line"><span class="string">				box.style.display="</span>none<span class="string">";</span></span><br><span class="line"><span class="string">			&#125;</span></span><br><span class="line"><span class="string">			</span></span><br><span class="line"><span class="string">		&#125;,false);</span></span><br><span class="line"><span class="string">		// 滚动事件</span></span><br><span class="line"><span class="string">		box.addEventListener('click',function(e)&#123;</span></span><br><span class="line"><span class="string">			</span></span><br><span class="line"><span class="string">			var timer=setInterval(function()&#123;</span></span><br><span class="line"><span class="string">				var scrollTopValue=document.body.scrollTop||document.documentElement.scrollTop;</span></span><br><span class="line"><span class="string">				let ispeed=Math.floor(-scrollTopValue/6);</span></span><br><span class="line"><span class="string">				console.log(1);</span></span><br><span class="line"><span class="string">				document.documentElement.scrollTop=document.body.scrollTop=scrollTopValue+ispeed;</span></span><br><span class="line"><span class="string">				if(scrollTopValue==0)&#123;</span></span><br><span class="line"><span class="string">					clearInterval(timer);</span></span><br><span class="line"><span class="string">				&#125;</span></span><br><span class="line"><span class="string">			&#125;,20);</span></span><br><span class="line"><span class="string">			</span></span><br><span class="line"><span class="string">		&#125;,false)</span></span><br></pre></td></tr></table></figure>
+<p>主要判断滚动区域大于可视区域时将盒子显示</p>
+<h2 id="Vue的回到顶部代码"><a href="#Vue的回到顶部代码" class="headerlink" title="Vue的回到顶部代码"></a>Vue的回到顶部代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 回顶部按钮为一张50*50的图片 --&gt;</span><br><span class="line">&lt;!-- btnFlag 控制图片显示隐藏 --&gt;</span><br><span class="line">&lt;!-- backTop 回顶部的方法 --&gt;</span><br><span class="line">&lt;img v-if=&quot;btnFlag&quot; class=&quot;go-top&quot; src=&quot;图片url&quot; @click=&quot;backTop&quot;&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// vue的两个生命钩子，这里不多解释。</span></span><br><span class="line"><span class="comment">// window对象，所有浏览器都支持window对象。它表示浏览器窗口，监听滚动事件</span></span><br><span class="line">mounted () &#123;</span><br><span class="line">  <span class="built_in">window</span>.addEventListener(<span class="string">'scroll'</span>, <span class="keyword">this</span>.scrollToTop)</span><br><span class="line">&#125;,</span><br><span class="line">destroyed () &#123;</span><br><span class="line">  <span class="built_in">window</span>.removeEventListener(<span class="string">'scroll'</span>, <span class="keyword">this</span>.scrollToTop)</span><br><span class="line">&#125;,</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">methods: &#123;</span><br><span class="line">  <span class="comment">// 点击图片回到顶部方法，加计时器是为了过渡顺滑</span></span><br><span class="line">  backTop () &#123;</span><br><span class="line">      <span class="keyword">let</span> that = <span class="keyword">this</span></span><br><span class="line">      <span class="keyword">let</span> timer = setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> ispeed = <span class="built_in">Math</span>.floor(-that.scrollTop / <span class="number">5</span>)</span><br><span class="line">        <span class="built_in">document</span>.documentElement.scrollTop = <span class="built_in">document</span>.body.scrollTop = that.scrollTop + ispeed</span><br><span class="line">        <span class="keyword">if</span> (that.scrollTop === <span class="number">0</span>) &#123;</span><br><span class="line">          clearInterval(timer)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;, <span class="number">16</span>)</span><br><span class="line">  &#125;,</span><br><span class="line"> </span><br><span class="line">  <span class="comment">// 为了计算距离顶部的高度，当高度大于60显示回顶部图标，小于60则隐藏</span></span><br><span class="line">  scrollToTop () &#123;</span><br><span class="line">    <span class="keyword">let</span> that = <span class="keyword">this</span></span><br><span class="line">    <span class="keyword">let</span> scrollTop = <span class="built_in">window</span>.pageYOffset || <span class="built_in">document</span>.documentElement.scrollTop || <span class="built_in">document</span>.body.scrollTop</span><br><span class="line">    that.scrollTop = scrollTop</span><br><span class="line">    <span class="keyword">if</span> (that.scrollTop &gt; <span class="number">60</span>) &#123;</span><br><span class="line">      that.btnFlag = <span class="literal">true</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      that.btnFlag = <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>　<strong>注意这里的｀that.scrollTop｀这里vue实例会帮我们记录滚动值。</strong></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/17/2019-04-17-鼠标事件/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -445,17 +638,170 @@
 </ul>
 <p><code>click</code>事件指的是，用户在同一个位置先完成<code>mousedown</code>动作，再完成<code>mouseup</code>动作。因此，触发顺序是，<code>mousedown</code>首先触发，<code>mouseup</code>接着触发，<code>click</code>最后触发。</p>
 <p><code>dblclick</code>事件则会在<code>mousedown</code>、<code>mouseup</code>、<code>click</code>之后触发。</p>
-<p><code>mouseover</code>事件和<code>mouseenter</code>事件，都是鼠标进入一个节点时触发。两者的区别是，<code>mouseenter</code>事件只触发一次，而只要鼠标在节点内部移动，<code>mouseover</code>事件会在子节点上触发多次。</p>
+<h3 id="mouseover事件和mouseenter事件"><a href="#mouseover事件和mouseenter事件" class="headerlink" title="mouseover事件和mouseenter事件"></a>mouseover事件和mouseenter事件</h3><p><code>mouseover</code>事件和<code>mouseenter</code>事件，都是鼠标进入一个节点时触发。两者的区别是，<code>mouseenter</code>事件只触发一次，而只要鼠标在节点内部移动，<code>mouseover</code>事件会在子节点上触发多次。</p>
 <blockquote>
-<p>记住mouseover在节点元素上经过会触发一次，mouseenter进入节点只触发一次</p>
+<p>记住mouseover在节点元素上经过会触发一次，mouseenter进入节点只触发一次（相对于冒泡事件机制）</p>
 </blockquote>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"btn btn-primary"</span>&gt;</span>秦叔宝<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"btn btn-primary"</span>&gt;</span>程咬金<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"btn btn-primary"</span>&gt;</span>尉迟敬德<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">			<span class="keyword">var</span> ul = <span class="built_in">document</span>.querySelector(<span class="string">'ul'</span>);</span></span><br><span class="line"><span class="javascript">			ul.addEventListener(<span class="string">'mouseenter'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">				e.target.style.background=<span class="string">"yellow"</span>;</span></span><br><span class="line"><span class="javascript">				<span class="built_in">console</span>.log(<span class="string">"事件目标元素+mouseenter"</span>);</span></span><br><span class="line"><span class="javascript">				<span class="built_in">console</span>.log(e.target);</span></span><br><span class="line"><span class="javascript">				setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">					e.target.style.background=<span class="string">" "</span>;</span></span><br><span class="line"><span class="undefined">				&#125;,500);</span></span><br><span class="line"><span class="javascript">			&#125;,<span class="literal">false</span>);</span></span><br><span class="line"><span class="javascript">			ul.addEventListener(<span class="string">'mousemove'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">				e.target.style.background=<span class="string">"red"</span>;</span></span><br><span class="line"><span class="javascript">				<span class="built_in">console</span>.log(<span class="string">"事件目标元素+mousemove"</span>);</span></span><br><span class="line"><span class="javascript">				<span class="built_in">console</span>.log(e.target);</span></span><br><span class="line"><span class="javascript">				setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">					e.target.style.background=<span class="string">""</span>;</span></span><br><span class="line"><span class="undefined">				&#125;,500);</span></span><br><span class="line"><span class="javascript">			&#125;,<span class="literal">false</span>);</span></span><br><span class="line"><span class="undefined">		</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p><img src="../images/1555511057328.png" alt="1555511057328"></p>
-<p><strong>注意这里：因为mouseenter经过节点只执行一次，是因为它不支持事件冒泡</strong></p>
+<blockquote>
+<p> <strong>注意这里：因为mouseenter经过节点只执行一次，是因为它不支持事件冒泡</strong></p>
+</blockquote>
 <p>当我们屏蔽mousemove，开启捕获事件机制时，</p>
 <p><img src="../images/1555513256764.png" alt="1555513256764"></p>
 <p>当我们屏蔽mousemove，开启冒泡事件机制时，</p>
+<p>可以看出事件被触发了一次</p>
 <p><img src="../images/1555513382279.png" alt="1555513382279"></p>
+<h3 id="mouseout事件和mouseleave事件"><a href="#mouseout事件和mouseleave事件" class="headerlink" title="mouseout事件和mouseleave事件"></a><code>mouseout</code>事件和<code>mouseleave</code>事件</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ul = <span class="built_in">document</span>.querySelector(<span class="string">'ul'</span>);</span><br><span class="line">			ul.addEventListener(<span class="string">'mouseleave'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">				e.target.style.background=<span class="string">"yellowgreen"</span></span><br><span class="line">				<span class="built_in">console</span>.log(<span class="string">'mouseleave的目标节点'</span>+e.target.tagName);</span><br><span class="line">				<span class="keyword">var</span> phase = event.eventPhase;</span><br><span class="line">				<span class="built_in">console</span>.log(phase);</span><br><span class="line">				<span class="built_in">console</span>.log(<span class="string">'-----------'</span>);</span><br><span class="line">				setTimeout(</span><br><span class="line">				<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">					 e.target.style.background=<span class="string">" "</span></span><br><span class="line">				&#125; </span><br><span class="line">				,<span class="number">500</span>);</span><br><span class="line">			&#125;,<span class="literal">false</span>);</span><br><span class="line">			ul.addEventListener(<span class="string">'mouseout'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">				e.target.style.background=<span class="string">"red"</span>;</span><br><span class="line">				<span class="built_in">console</span>.log(<span class="string">'mouseout的目标节点'</span>+e.target.tagName);</span><br><span class="line">				<span class="keyword">var</span> phase = event.eventPhase;</span><br><span class="line">				<span class="built_in">console</span>.log(phase);</span><br><span class="line">				<span class="built_in">console</span>.log(<span class="string">'-----------'</span>);</span><br><span class="line">				setTimeout(</span><br><span class="line">				   <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">				   	 e.target.style.background=<span class="string">" "</span></span><br><span class="line">				   &#125; </span><br><span class="line">				,<span class="number">500</span>);</span><br><span class="line">			&#125;)</span><br></pre></td></tr></table></figure>
+<p><img src="../images/1555571789340.png" alt="1555571789340"></p>
+<p><strong>我们可以看出mouseleave也不支持冒泡事件机制</strong></p>
+<p>这里我们可以总结一下：</p>
+<blockquote>
+<p> <strong>不带o者不冒泡</strong></p>
+</blockquote>
+<h2 id="MouseEvent-接口概述"><a href="#MouseEvent-接口概述" class="headerlink" title="MouseEvent 接口概述"></a>MouseEvent 接口概述</h2><p><code>MouseEvent</code>接口代表了鼠标相关的事件，单击（click）、双击（dblclick）、松开鼠标键（mouseup）、按下鼠标键（mousedown）等动作，所产生的事件对象都是<code>MouseEvent</code>实例。此外，滚轮事件和拖拉事件也是<code>MouseEvent</code>实例。</p>
+<p><code>MouseEvent</code>接口继承了<code>Event</code>接口，所以拥有<code>Event</code>的所有属性和方法。它还有自己的属性和方法。</p>
+<p>浏览器原生提供一个<code>MouseEvent</code>构造函数，用于新建一个<code>MouseEvent</code>实例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var event = new MouseEvent(type, options);</span><br></pre></td></tr></table></figure>
+<p><code>MouseEvent</code>构造函数接受两个参数。第一个参数是字符串，表示事件名称；第二个参数是一个事件配置对象，该参数可选。除了<code>Event</code>接口的实例配置属性，该对象可以配置以下属性，所有属性都是可选的。</p>
+<ul>
+<li><code>screenX</code>：数值，鼠标相对于屏幕的水平位置（单位像素），默认值为0，设置该属性不会移动鼠标。</li>
+<li><code>screenY</code>：数值，鼠标相对于屏幕的垂直位置（单位像素），其他与<code>screenX</code>相同。</li>
+<li><code>clientX</code>：数值，鼠标相对于程序窗口的水平位置（单位像素），默认值为0，设置该属性不会移动鼠标。</li>
+<li><code>clientY</code>：数值，鼠标相对于程序窗口的垂直位置（单位像素），其他与<code>clientX</code>相同。</li>
+<li><code>ctrlKey</code>：布尔值，是否同时按下了 Ctrl 键，默认值为<code>false</code>。</li>
+<li><code>shiftKey</code>：布尔值，是否同时按下了 Shift 键，默认值为<code>false</code>。</li>
+<li><code>altKey</code>：布尔值，是否同时按下 Alt 键，默认值为<code>false</code>。</li>
+<li><code>metaKey</code>：布尔值，是否同时按下 Meta 键，默认值为<code>false</code>。</li>
+<li><code>button</code>：数值，表示按下了哪一个鼠标按键，默认值为<code>0</code>，表示按下主键（通常是鼠标的左键）或者当前事件没有定义这个属性；<code>1</code>表示按下辅助键（通常是鼠标的中间键），<code>2</code>表示按下次要键（通常是鼠标的右键）。</li>
+<li><code>buttons</code>：数值，表示按下了鼠标的哪些键，是一个三个比特位的二进制值，默认为<code>0</code>（没有按下任何键）。<code>1</code>（二进制<code>001</code>）表示按下主键（通常是左键），<code>2</code>（二进制<code>010</code>）表示按下次要键（通常是右键），<code>4</code>（二进制<code>100</code>）表示按下辅助键（通常是中间键）。因此，如果返回<code>3</code>（二进制<code>011</code>）就表示同时按下了左键和右键。</li>
+<li><code>relatedTarget</code>：节点对象，表示事件的相关节点，默认为<code>null</code>。<code>mouseenter</code>和<code>mouseover</code>事件时，表示鼠标刚刚离开的那个元素节点；<code>mouseout</code>和<code>mouseleave</code>事件时，表示鼠标正在进入的那个元素节点。</li>
+</ul>
+<p>下面是一个例子。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">simulateClick</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> event = <span class="keyword">new</span> MouseEvent(<span class="string">'click'</span>, &#123;</span><br><span class="line">    <span class="string">'bubbles'</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">'cancelable'</span>: <span class="literal">true</span></span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">var</span> cb = <span class="built_in">document</span>.getElementById(<span class="string">'checkbox'</span>);</span><br><span class="line">  cb.dispatchEvent(event);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面代码生成一个鼠标点击事件，并触发该事件</p>
+<h2 id="MouseEvent-接口的实例属性"><a href="#MouseEvent-接口的实例属性" class="headerlink" title="MouseEvent 接口的实例属性"></a>MouseEvent 接口的实例属性</h2><h3 id="MouseEvent-altKey，MouseEvent-ctrlKey，MouseEvent-metaKey，MouseEvent-shiftKey"><a href="#MouseEvent-altKey，MouseEvent-ctrlKey，MouseEvent-metaKey，MouseEvent-shiftKey" class="headerlink" title="MouseEvent.altKey，MouseEvent.ctrlKey，MouseEvent.metaKey，MouseEvent.shiftKey"></a>MouseEvent.altKey，MouseEvent.ctrlKey，MouseEvent.metaKey，MouseEvent.shiftKey</h3><p><code>MouseEvent.altKey</code>、<code>MouseEvent.ctrlKey</code>、<code>MouseEvent.metaKey</code>、<code>MouseEvent.shiftKey</code>这四个属性都返回一个布尔值，表示事件发生时，是否按下对应的键。它们都是只读属性。</p>
+<ul>
+<li><code>altKey</code>属性：Alt 键</li>
+<li><code>ctrlKey</code>属性：Ctrl 键</li>
+<li><code>metaKey</code>属性：Meta 键（Mac 键盘是一个四瓣的小花，Windows 键盘是 Windows 键）</li>
+<li><code>shiftKey</code>属性：Shift 键</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// HTML 代码如下</span><br><span class="line">// &lt;body onclick=&quot;showKey(event)&quot;&gt;</span><br><span class="line">function showKey(e) &#123;</span><br><span class="line">  console.log(&apos;ALT key pressed: &apos; + e.altKey);</span><br><span class="line">  console.log(&apos;CTRL key pressed: &apos; + e.ctrlKey);</span><br><span class="line">  console.log(&apos;META key pressed: &apos; + e.metaKey);</span><br><span class="line">  console.log(&apos;SHIFT key pressed: &apos; + e.shiftKey);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面代码中，点击网页会输出是否同时按下对应的键。</p>
+<h2 id="MouseEvent-button，MouseEvent-buttons"><a href="#MouseEvent-button，MouseEvent-buttons" class="headerlink" title="MouseEvent.button，MouseEvent.buttons"></a>MouseEvent.button，MouseEvent.buttons</h2><p><code>MouseEvent.button</code>属性返回一个数值，表示事件发生时按下了鼠标的哪个键。该属性只读。</p>
+<ul>
+<li>0：按下主键（通常是左键），或者该事件没有初始化这个属性（比如<code>mousemove</code>事件）。</li>
+<li>1：按下辅助键（通常是中键或者滚轮键）。</li>
+<li>2：按下次键（通常是右键）。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// HTML 代码为</span><br><span class="line">// &lt;button onmouseup=&quot;whichButton(event)&quot;&gt;点击&lt;/button&gt;</span><br><span class="line">var whichButton = function (e) &#123;</span><br><span class="line">  switch (e.button) &#123;</span><br><span class="line">    case 0:</span><br><span class="line">      console.log(&apos;Left button clicked.&apos;);</span><br><span class="line">      break;</span><br><span class="line">    case 1:</span><br><span class="line">      console.log(&apos;Middle button clicked.&apos;);</span><br><span class="line">      break;</span><br><span class="line">    case 2:</span><br><span class="line">      console.log(&apos;Right button clicked.&apos;);</span><br><span class="line">      break;</span><br><span class="line">    default:</span><br><span class="line">      console.log(&apos;Unexpected code: &apos; + e.button);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>MouseEvent.buttons</code>属性返回一个三个比特位的值，表示同时按下了哪些键。它用来处理同时按下多个鼠标键的情况。该属性只读。</p>
+<ul>
+<li>1：二进制为<code>001</code>（十进制的1），表示按下左键。</li>
+<li>2：二进制为<code>010</code>（十进制的2），表示按下右键。</li>
+<li>4：二进制为<code>100</code>（十进制的4），表示按下中键或滚轮键。</li>
+</ul>
+<p>同时按下多个键的时候，每个按下的键对应的比特位都会有值。比如，同时按下左键和右键，会返回3（二进制为011）。</p>
+<h1 id="较常用"><a href="#较常用" class="headerlink" title="较常用"></a>较常用</h1><h3 id="MouseEvent-clientX，MouseEvent-clientY"><a href="#MouseEvent-clientX，MouseEvent-clientY" class="headerlink" title="MouseEvent.clientX，MouseEvent.clientY"></a>MouseEvent.clientX，MouseEvent.clientY</h3><p><code>MouseEvent.clientX</code>属性返回鼠标位置相对于浏览器窗口左上角的水平坐标（单位像素），<code>MouseEvent.clientY</code>属性返回垂直坐标。这两个属性都是只读属性。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// HTML 代码为</span></span><br><span class="line"><span class="comment">// &lt;body onmousedown="showCoords(event)"&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showCoords</span>(<span class="params">evt</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(</span><br><span class="line">    <span class="string">'clientX value: '</span> + evt.clientX + <span class="string">'\n'</span> +</span><br><span class="line">    <span class="string">'clientY value: '</span> + evt.clientY + <span class="string">'\n'</span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这两个属性还分别有一个别名<code>MouseEvent.x</code>和<code>MouseEvent.y</code>。</p>
+<p><img src="../images/1555575035463.png" alt="1555575035463"></p>
+<p>clintX与clintY的示意图</p>
+<hr>
+<h3 id="MouseEvent-movementX，MouseEvent-movementY"><a href="#MouseEvent-movementX，MouseEvent-movementY" class="headerlink" title="MouseEvent.movementX，MouseEvent.movementY"></a>MouseEvent.movementX，MouseEvent.movementY</h3><p><code>MouseEvent.movementX</code>属性返回当前位置与上一个<code>mousemove</code>事件之间的水平距离（单位像素）。数值上，它等于下面的计算公式。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">currentEvent.movementX = currentEvent.screenX - previousEvent.screenX</span><br></pre></td></tr></table></figure>
+<p><code>MouseEvent.movementY</code>属性返回当前位置与上一个<code>mousemove</code>事件之间的垂直距离（单位像素）。数值上，它等于下面的计算公式。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">currentEvent.movementY = currentEvent.screenY - previousEvent.screenY。</span><br></pre></td></tr></table></figure>
+<p>这两个属性都是只读属性。</p>
+<h3 id="MouseEvent-screenX，MouseEvent-screenY"><a href="#MouseEvent-screenX，MouseEvent-screenY" class="headerlink" title="MouseEvent.screenX，MouseEvent.screenY"></a>MouseEvent.screenX，MouseEvent.screenY</h3><p><code>MouseEvent.screenX</code>属性返回鼠标位置相对于屏幕左上角的水平坐标（单位像素），<code>MouseEvent.screenY</code>属性返回垂直坐标。这两个属性都是只读属性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// HTML 代码如下</span><br><span class="line">// &lt;body onmousedown=&quot;showCoords(event)&quot;&gt;</span><br><span class="line">function showCoords(evt) &#123;</span><br><span class="line">  console.log(</span><br><span class="line">    &apos;screenX value: &apos; + evt.screenX + &apos;\n&apos;,</span><br><span class="line">    &apos;screenY value: &apos; + evt.screenY + &apos;\n&apos;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="../images/1555575096227.png" alt="1555575096227"></p>
+<p>这是screenY与screenX示意图</p>
+<hr>
+<h3 id="MouseEvent-offsetX，MouseEvent-offsetY"><a href="#MouseEvent-offsetX，MouseEvent-offsetY" class="headerlink" title="MouseEvent.offsetX，MouseEvent.offsetY"></a>MouseEvent.offsetX，MouseEvent.offsetY</h3><p><code>MouseEvent.offsetX</code>属性返回鼠标位置与目标节点左侧的<code>padding</code>边缘的水平距离（单位像素），<code>MouseEvent.offsetY</code>属性返回与目标节点上方的<code>padding</code>边缘的垂直距离。这两个属性都是只读属性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/* HTML 代码如下</span><br><span class="line">  &lt;style&gt;</span><br><span class="line">    p &#123;</span><br><span class="line">      width: 100px;</span><br><span class="line">      height: 100px;</span><br><span class="line">      padding: 100px;</span><br><span class="line">    &#125;</span><br><span class="line">  &lt;/style&gt;</span><br><span class="line">  &lt;p&gt;Hello&lt;/p&gt;</span><br><span class="line">*/</span><br><span class="line">var p = document.querySelector(&apos;p&apos;);</span><br><span class="line">p.addEventListener(</span><br><span class="line">  &apos;click&apos;,</span><br><span class="line">  function (e) &#123;</span><br><span class="line">    console.log(e.offsetX);</span><br><span class="line">    console.log(e.offsetY);</span><br><span class="line">  &#125;,</span><br><span class="line">  false</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>上面代码中，鼠标如果在<code>p</code>元素的中心位置点击，会返回<code>150 150</code>。因此中心位置距离左侧和上方的<code>padding</code>边缘，等于<code>padding</code>的宽度（100像素）加上元素内容区域一半的宽度（50像素）。</p>
+<p><img src="../images/1555575311860.png" alt="1555575311860"></p>
+<h3 id="MouseEvent-pageX，MouseEvent-pageY"><a href="#MouseEvent-pageX，MouseEvent-pageY" class="headerlink" title="MouseEvent.pageX，MouseEvent.pageY"></a>MouseEvent.pageX，MouseEvent.pageY</h3><p><code>MouseEvent.pageX</code>属性返回鼠标位置与文档左侧边缘的距离（单位像素），<code>MouseEvent.pageY</code>属性返回与文档上侧边缘的距离（单位像素）。它们的返回值都包括文档不可见的部分。这两个属性都是只读。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/* HTML 代码如下</span><br><span class="line">  &lt;style&gt;</span><br><span class="line">    body &#123;</span><br><span class="line">      height: 2000px;</span><br><span class="line">    &#125;</span><br><span class="line">  &lt;/style&gt;</span><br><span class="line">*/</span><br><span class="line">document.body.addEventListener(</span><br><span class="line">  &apos;click&apos;,</span><br><span class="line">  function (e) &#123;</span><br><span class="line">    console.log(e.pageX);</span><br><span class="line">    console.log(e.pageY);</span><br><span class="line">  &#125;,</span><br><span class="line">  false</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>上面代码中，页面高度为2000像素，会产生垂直滚动条。滚动到页面底部，点击鼠标输出的<code>pageY</code>值会接近2000。</p>
+<h3 id="MouseEvent-relatedTarget"><a href="#MouseEvent-relatedTarget" class="headerlink" title="MouseEvent.relatedTarget"></a>MouseEvent.relate<img src="../images/1555582876496.png" alt="1555582876496">dTarget</h3><p><code>MouseEvent.relatedTarget</code>属性返回事件的相关节点。对于那些没有相关节点的事件，该属性返回<code>null</code>。该属性只读。</p>
+<p>下表列出不同事件的<code>target</code>属性值和<code>relatedTarget</code>属性值义。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">事件名称</th>
+<th style="text-align:left">target 属性</th>
+<th style="text-align:left">relatedTarget 属性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">focusin</td>
+<td style="text-align:left">接受焦点的节点</td>
+<td style="text-align:left">丧失焦点的节点</td>
+</tr>
+<tr>
+<td style="text-align:left">focusout</td>
+<td style="text-align:left">丧失焦点的节点</td>
+<td style="text-align:left">接受焦点的节点</td>
+</tr>
+<tr>
+<td style="text-align:left">mouseenter</td>
+<td style="text-align:left">将要进入的节点</td>
+<td style="text-align:left">将要离开的节点</td>
+</tr>
+<tr>
+<td style="text-align:left">mouseleave</td>
+<td style="text-align:left">将要离开的节点</td>
+<td style="text-align:left">将要进入的节点</td>
+</tr>
+<tr>
+<td style="text-align:left">mouseout</td>
+<td style="text-align:left">将要离开的节点</td>
+<td style="text-align:left">将要进入的节点</td>
+</tr>
+<tr>
+<td style="text-align:left">mouseover</td>
+<td style="text-align:left">将要进入的节点</td>
+<td style="text-align:left">将要离开的节点</td>
+</tr>
+<tr>
+<td style="text-align:left">dragenter</td>
+<td style="text-align:left">将要进入的节点</td>
+<td style="text-align:left">将要离开的节点</td>
+</tr>
+<tr>
+<td style="text-align:left">dragexit</td>
+<td style="text-align:left">将要离开的节点</td>
+<td style="text-align:left">将要进入的节点</td>
+</tr>
+</tbody>
+</table>
+<p>下面是一个例子。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  HTML 代码如下</span></span><br><span class="line"><span class="comment">  &lt;div id="outer" style="height:50px;width:50px;border-width:1px solid black;"&gt;</span></span><br><span class="line"><span class="comment">    &lt;div id="inner" style="height:25px;width:25px;border:1px solid black;"&gt;&lt;/div&gt;</span></span><br><span class="line"><span class="comment">  &lt;/div&gt;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> inner = <span class="built_in">document</span>.getElementById(<span class="string">'inner'</span>);</span><br><span class="line">inner.addEventListener(<span class="string">'mouseover'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'进入'</span> + event.target.id + <span class="string">' 离开'</span> + event.relatedTarget.id);</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br><span class="line">inner.addEventListener(<span class="string">'mouseenter'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'进入'</span> + event.target.id + <span class="string">' 离开'</span> + event.relatedTarget.id);</span><br><span class="line">&#125;);</span><br><span class="line">inner.addEventListener(<span class="string">'mouseout'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'离开'</span> + event.target.id + <span class="string">' 进入'</span> + event.relatedTarget.id);</span><br><span class="line">&#125;);</span><br><span class="line">inner.addEventListener(<span class="string">"mouseleave"</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'离开'</span> + event.target.id + <span class="string">' 进入'</span> + event.relatedTarget.id);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 鼠标从 outer 进入inner，输出</span></span><br><span class="line"><span class="comment">// 进入inner 离开outer</span></span><br><span class="line"><span class="comment">// 进入inner 离开outer</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 鼠标从 inner进入 outer，输出</span></span><br><span class="line"><span class="comment">// 离开inner 进入outer</span></span><br><span class="line"><span class="comment">// 离开inner 进入outer</span></span><br></pre></td></tr></table></figure>
+<h2 id="MouseEvent-接口的实例方法"><a href="#MouseEvent-接口的实例方法" class="headerlink" title="MouseEvent 接口的实例方法"></a>MouseEvent 接口的实例方法</h2><h3 id="MouseEvent-getModifierState"><a href="#MouseEvent-getModifierState" class="headerlink" title="MouseEvent.getModifierState()"></a>MouseEvent.getModifierState()</h3><p><code>MouseEvent.getModifierState</code>方法返回一个布尔值，表示有没有按下特定的功能键。它的参数是一个表示<a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState#Modifier_keys_on_Gecko" target="_blank" rel="noopener">功能键</a>的字符串。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">document.addEventListener(&apos;click&apos;, function (e) &#123;</span><br><span class="line">  console.log(e.getModifierState(&apos;CapsLock&apos;));</span><br><span class="line">&#125;, false);</span><br></pre></td></tr></table></figure>
+<p>上面的代码可以了解用户是否按下了大写键。</p>
+<h2 id="WheelEvent-接口（待深入）"><a href="#WheelEvent-接口（待深入）" class="headerlink" title="WheelEvent 接口（待深入）"></a>WheelEvent 接口（待深入）</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>WheelEvent 接口继承了 MouseEvent 实例，代表鼠标滚轮事件的实例对象。目前，鼠标滚轮相关的事件只有一个<code>wheel</code>事件，用户滚动鼠标的滚轮，就生成这个事件的实例。</p>
+<p>浏览器原生提供<code>WheelEvent()</code>构造函数，用来生成<code>WheelEvent</code>实例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var wheelEvent = new WheelEvent(type, options);</span><br></pre></td></tr></table></figure>
+<p><code>WheelEvent()</code>构造函数可以接受两个参数，第一个是字符串，表示事件类型，对于滚轮事件来说，这个值目前只能是<code>wheel</code>。第二个参数是事件的配置对象。该对象的属性除了<code>Event</code>、<code>UIEvent</code>的配置属性以外，还可以接受以下几个属性，所有属性都是可选的。</p>
+<ul>
+<li><code>deltaX</code>：数值，表示滚轮的水平滚动量，默认值是 0.0。</li>
+<li><code>deltaY</code>：数值，表示滚轮的垂直滚动量，默认值是 0.0。</li>
+<li><code>deltaZ</code>：数值，表示滚轮的 Z 轴滚动量，默认值是 0.0。</li>
+<li><code>deltaMode</code>：数值，表示相关的滚动事件的单位，适用于上面三个属性。<code>0</code>表示滚动单位为像素，<code>1</code>表示单位为行，<code>2</code>表示单位为页，默认为<code>0</code>。</li>
+</ul>
+<h3 id="实例属性"><a href="#实例属性" class="headerlink" title="实例属性"></a>实例属性</h3><p><code>WheelEvent</code>事件实例除了具有<code>Event</code>和<code>MouseEvent</code>的实例属性和实例方法，还有一些自己的实例属性，但是没有自己的实例方法。</p>
+<p>下面的属性都是只读属性。</p>
+<ul>
+<li><code>WheelEvent.deltaX</code>：数值，表示滚轮的水平滚动量。</li>
+<li><code>WheelEvent.deltaY</code>：数值，表示滚轮的垂直滚动量。</li>
+<li><code>WheelEvent.deltaZ</code>：数值，表示滚轮的 Z 轴滚动量。</li>
+<li><code>WheelEvent.deltaMode</code>：数值，表示上面三个属性的单位，<code>0</code>是像素，<code>1</code>是行，<code>2</code>是页。</li>
+</ul>
 
           
         
@@ -2524,242 +2870,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/11/EventTarget 接口/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="叶春锁">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="纵宇博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/11/EventTarget 接口/" itemprop="url">js事件接口</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-11T21:42:14+08:00">
-                2019-04-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/js事件/" itemprop="url" rel="index">
-                    <span itemprop="name">js事件</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/04/11/EventTarget 接口/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/11/EventTarget 接口/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/04/11/EventTarget 接口/" class="leancloud_visitors" data-flag-title="js事件接口">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="EventTarget-接口"><a href="#EventTarget-接口" class="headerlink" title="EventTarget 接口"></a>EventTarget 接口</h1><p>事件的本质是程序各个组成部分之间的一种通信方式，也是异步编程的一种实现。</p>
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>DOM的事件操作，都定义在都定义在<code>EventTarget</code>接口。所有节点对象都部署了这个接口，其他一些需要事件通信的浏览器内置对象（比如，<code>XMLHttpRequest</code>、<code>AudioNode</code>、<code>AudioContext</code>）也部署了这个接口。</p>
-<p>该接口提供三个实例方法：</p>
-<ul>
-<li><code>addEventListener</code>：绑定事件的监听函数</li>
-<li><code>removeEventListener</code>：移除事件的监听函数</li>
-<li><code>dispatchEvent</code>：触发事件<br>##EventTarget.addEventListener()</li>
-</ul>
-<p><code>EventTarget.addEventListener()</code>用于在当前节点或对象上，定义一个特定事件的监听函数。一旦这个事件发生，就会执行监听函数。该方法没有返回值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">target.addEventListener(type, listener[, useCapture]);</span><br></pre></td></tr></table></figure>
-<p>该方法接受三个参数。</p>
-<ul>
-<li><p><code>type</code>：<strong>事件名称</strong>，大小写敏感。</p>
-</li>
-<li><p><code>listener</code>：<strong>监听函数</strong>。事件发生时，会调用该监听函数。</p>
-</li>
-<li><p><code>useCapture</code>：<strong>布尔值</strong>，表示监听函数是否在捕获阶段（capture）触发（参见后文《事件的传播》部分），默认为<code>false</code>（监听函数只在冒泡阶段被触发）。该参数可选。</p>
-</li>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">target.addEventListener(type, (监听函数，也可以是handleEvent方法),（布尔值，也可以是对象）);</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>下面是一个例子。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function hello() &#123;</span><br><span class="line">  console.log(&apos;Hello world&apos;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var button = document.getElementById(&apos;btn&apos;);</span><br><span class="line">button.addEventListener(&apos;click&apos;, hello, false);</span><br></pre></td></tr></table></figure>
-<p>上面代码中，<code>button</code>节点的<code>addEventListener</code>方法绑定<code>click</code>事件的监听函数<code>hello</code>，该函数只在冒泡阶段触发。</p>
-<p>关于参数，有两个地方需要注意。</p>
-<p>首先，第二个参数除了监听函数，还可以是一个具有<code>handleEvent</code>方法的对象。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">buttonElement.addEventListener(&apos;click&apos;, &#123;</span><br><span class="line">  handleEvent: function (event) &#123;</span><br><span class="line">    console.log(&apos;click&apos;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>上面代码中，<code>addEventListener</code>方法的第二个参数，就是一个具有<code>handleEvent</code>方法的对象。</p>
-<p>其次，第三个参数除了布尔值<code>useCapture</code>，还可以是一个属性配置对象。该对象有以下属性。</p>
-<blockquote>
-<ul>
-<li><code>capture</code>：布尔值，表示该事件是否在<code>捕获阶段</code>触发监听函数。</li>
-<li><code>once</code>：布尔值，表示监听函数是否只触发一次，然后就自动移除。</li>
-<li><code>passive</code>：布尔值，表示监听函数不会调用事件的<code>preventDefault</code>方法。如果监听函数调用了，浏览器将忽略这个要求，并在监控台输出一行警告。</li>
-</ul>
-</blockquote>
-<p>如果希望事件监听函数只执行一次，可以打开属性配置对象的<code>once</code>属性。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">element.addEventListener(&apos;click&apos;, function (event) &#123;</span><br><span class="line">  // 只执行一次的代码</span><br><span class="line">&#125;, &#123;once: true&#125;);</span><br></pre></td></tr></table></figure>
-<p><code>addEventListener</code>方法可以为针对当前对象的同一个事件，添加多个不同的监听函数。这些函数按照添加顺序触发，即先添加先触发。如果为同一个事件多次添加同一个监听函数，该函数只会执行一次，多余的添加将自动被去除（不必使用<code>removeEventListener</code>方法手动去除）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function hello() &#123;</span><br><span class="line">  console.log(&apos;Hello world&apos;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">document.addEventListener(&apos;click&apos;, hello, false);</span><br><span class="line">document.addEventListener(&apos;click&apos;, hello, false);</span><br></pre></td></tr></table></figure>
-<p>执行上面代码，点击文档只会输出一行<code>Hello world</code>。</p>
-<p>如果希望向监听函数传递参数，可以用匿名函数包装一下监听函数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function print(x) &#123;</span><br><span class="line">  console.log(x);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var el = document.getElementById(&apos;div1&apos;);</span><br><span class="line">el.addEventListener(&apos;click&apos;, function () &#123; print(&apos;Hello&apos;); &#125;, false);</span><br></pre></td></tr></table></figure>
-<p>上面代码通过匿名函数，向监听函数<code>print</code>传递了一个参数。</p>
-<p>监听函数内部的<code>this</code>，指向当前事件所在的那个对象。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// HTML 代码如下</span><br><span class="line">// &lt;p id=&quot;para&quot;&gt;Hello&lt;/p&gt;</span><br><span class="line">var para = document.getElementById(&apos;para&apos;);</span><br><span class="line">para.addEventListener(&apos;click&apos;, function (e) &#123;</span><br><span class="line">  console.log(this.nodeName); // &quot;P&quot;</span><br><span class="line">&#125;, false);</span><br></pre></td></tr></table></figure>
-<p>上面代码中，监听函数内部的<code>this</code>指向事件所在的对象<code>para</code>。</p>
-<h2 id="EventTarget-removeEventListener"><a href="#EventTarget-removeEventListener" class="headerlink" title="EventTarget.removeEventListener()"></a>EventTarget.removeEventListener()</h2><p><code>EventTarget.removeEventListener</code>方法用来移除<code>addEventListener</code>方法添加的事件监听函数。该方法没有返回值。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">div.addEventListener(<span class="string">'click'</span>, listener, <span class="literal">false</span>);</span><br><span class="line">div.removeEventListener(<span class="string">'click'</span>, listener, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
-<p><code>removeEventListener</code>方法的参数，与<code>addEventListener</code>方法完全一致。它的第一个参数“事件类型”，大小写敏感。</p>
-<p>注意，<code>removeEventListener</code>方法移除的监听函数，必须是<code>addEventListener</code>方法添加的那个监听函数，而且必须在同一个元素节点，否则无效。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">div.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;&#125;, <span class="literal">false</span>);</span><br><span class="line">div.removeEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;&#125;, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
-<p>上面代码中，<code>removeEventListener</code>方法无效，因为监听函数不是同一个匿名函数。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">element.addEventListener(<span class="string">'mousedown'</span>, handleMouseDown, <span class="literal">true</span>);</span><br><span class="line">element.removeEventListener(<span class="string">"mousedown"</span>, handleMouseDown, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
-<p>上面代码中，<code>removeEventListener</code>方法也是无效的，因为第三个参数不一样。</p>
-<h2 id="EventTarget-dispatchEvent"><a href="#EventTarget-dispatchEvent" class="headerlink" title="EventTarget.dispatchEvent()"></a>EventTarget.dispatchEvent()</h2><p><code>EventTarget.dispatchEvent</code>方法在当前节点上触发指定事件，从而触发监听函数的执行。该方法返回一个布尔值，只要有一个监听函数调用了<code>Event.preventDefault()</code>，则返回值为<code>false</code>，否则为<code>true</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">target.dispatchEvent(event)</span><br></pre></td></tr></table></figure>
-<p><code>dispatchEvent</code>方法的参数是一个<code>Event</code>对象的实例（详见《Event 对象》章节）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">para.addEventListener(&apos;click&apos;, hello, false);</span><br><span class="line">var event = new Event(&apos;click&apos;);</span><br><span class="line">para.dispatchEvent(event);</span><br></pre></td></tr></table></figure>
-<p>上面代码在当前节点触发了<code>click</code>事件。</p>
-<p>如果<code>dispatchEvent</code>方法的参数为空，或者不是一个有效的事件对象，将报错。</p>
-<p>下面代码根据<code>dispatchEvent</code>方法的返回值，判断事件是否被取消了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var canceled = !cb.dispatchEvent(event);</span><br><span class="line">if (canceled) &#123;</span><br><span class="line">  console.log(&apos;事件取消&apos;);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">  console.log(&apos;事件未取消&apos;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2812,7 +2922,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">25</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2823,7 +2933,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2834,7 +2944,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
