@@ -1,6 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[函数节流与函数防抖]]></title>
+    <url>%2F2019%2F04%2F21%2F2019-04-21-%E5%87%BD%E6%95%B0%E8%8A%82%E6%B5%81%E4%B8%8E%E5%87%BD%E6%95%B0%E9%98%B2%E6%8A%96%2F</url>
+    <content type="text"><![CDATA[[函数节流与函数防抖]技巧：函数上电梯节流又防抖 概念函数防抖（debounce） 当调用动作过n毫秒后，才会执行该动作，若在这n毫秒内又调用此动作则将重新计算执行时间 函数节流（throttle） 预先设定一个执行周期，当调用动作的时刻大于等于执行周期则执行该动作，然后进入下一个新周期 函数节流（throttle）与 函数防抖（debounce）都是为了限制函数的执行频次，以优化函数触发频率过高导致的响应速度跟不上触发频率，出现延迟，假死或卡顿的现象。 比如如下的情况： window对象的resize、scroll事件 拖拽时的mousemove事件 文字输入、自动完成的keyup事件 区别可以拿我们平时坐电梯为例来形象地表述二者的区别 函数防抖 ：如果有人进电梯（触发事件），那电梯将在10秒钟后出发（执行事件监听器），这时如果又有人进电梯了（在10秒内再次触发该事件），我们又得等10秒再出发（重新计时）。 函数节流 ：保证如果电梯第一个人进来后，10秒后准时运送一次，这个时间从第一个人上电梯开始计时，不等待，如果没有人，则不运行 实现函数防抖（debounce）1234567891011121314function _debounce(fn,wait)&#123; var timer = null; return function()&#123; clearTimeout(timer) timer = setTimeout(()=&gt;&#123; fn() &#125;,wait) &#125;&#125;function _log()&#123; console.log(1)&#125;window.onscroll = _debounce(_log,500) 函数节流（throttle）仔细想想，上面的防抖方式还是有一定的缺点。如果页面很长，我们一直在滚动页面，那_log方法就一直不会被执行。所以我们可以升级一下上述的防抖方法。 12345678910111213141516171819202122232425function _throttle(fn,wait,time)&#123; var previous = null; //记录上一次运行的时间 var timer = null; return function()&#123; var now = +new Date(); if(!previous) previous = now; //当上一次执行的时间与当前的时间差大于设置的执行间隔时长的话，就主动执行一次 if(now - previous &gt; time)&#123; clearTimeout(timer); fn(); previous = now;// 执行函数后，马上记录当前时间 &#125;else&#123; clearTimeout(timer); timer = setTimeout(function()&#123; fn(); &#125;,wait); &#125; &#125;&#125;function _log()&#123; console.log(1)&#125;window.onscroll = _debounce(_log,500,2000) 其实，这就实现了我们的函数节流。赶快打开控制台运行一下吧~]]></content>
+      <categories>
+        <category>js</category>
+        <category>js高级</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
+        <tag>js高级</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[深入理解JavaScript执行上下文、函数堆栈、提升的概念]]></title>
+    <url>%2F2019%2F04%2F21%2F2019-04-21-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JavaScript%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E5%87%BD%E6%95%B0%E5%A0%86%E6%A0%88%E3%80%81%E6%8F%90%E5%8D%87%E7%9A%84%E6%A6%82%E5%BF%B5%2F</url>
+    <content type="text"><![CDATA[深入理解JavaScript执行上下文、函数堆栈、提升的概念引入概念 EC：函数执行环境（或执行上下文），Execution Context ECS：执行环境栈，Execution Context Stack VO：变量对象，Variable Object AO：活动对象，Active Object scope chain：作用域链有点不懂,下面解释EC执行上下文 每当控制器转到ECMAScript可执行代码的时候就会进入到一个执行上下文。什么叫可执行代码呢？ 可执行代码的类型全局代码： 这种类型的代码是在”程序”级处理的：例如加载外部的js文件或者本地&lt;script&gt;&lt;/script&gt;标签内的代码。全局代码不包括任何function体内的代码。 这个是默认的代码运行环境，一旦代码被载入，引擎最先进入的就是这个环境。 函数代码： 何一个函数体内的代码，但是需要注意的是，具体的函数体内的代码是不包括内部函数的代码。 Eval代码： eval内部的代码 这里仅仅引入EC这个概念，后面还有关于EC建立细节的介绍。 ECS（执行环境栈）浏览器中的JS解释器被实现为单线程，这也就意味着同一时间只能发生一件事情，其他的行为或事件将会被放在叫做执行栈里面排队。下面的图是单线程栈的抽象视图： 当浏览器首次载入脚本，他将默认进入全局执行上下文。如果你在全局代码中调用函数，你程序的时序将进入被调用的函数，并创建一个新的执行上下文，并将执行的上下文压入顶部。 如果你调用当前函数内部的其他函数，相同的函数会再次上演。代码的执行流程进入内部函数，创建一个新的执行上下文，并把它压入执行栈的顶部。 浏览器总会执行位于栈顶的执行上下文，一旦当前执行上下文的函数执行完毕，他将从栈顶弹出，并将上下文控制权交给当前的栈。这样堆栈的上下文就会被依次执行并且弹出堆栈，然后回到全局的上下文。 VO（变量对象）/AO（活动对象）VO（变量对象）/AO（活动对象）这里为什么要用一个/呢？按照字面理解，AO其实就是被激活的VO，两个其实是一个东西。下面引用知乎上的一段话，帮助理解一下。原文链接 变量对象（Variable object）是说JS的执行上下文中都有个对象用来存放执行上下文中可被访问但是不能被delete的函数标示符、形参、变量声明等。它们会被挂在这个对象上，对象的属性对应它们的名字对象属性的值对应它们的值但这个对象是规范上或者说是引擎实现上的不可在JS环境中访问到活动对象 激活对象（Activation object）有了变量对象存每个上下文中的东西，但是它什么时候能被访问到呢？就是每进入一个执行上下文时，这个执行上下文儿中的变量对象就被激活，也就是该上下文中的函数标示符、形参、变量声明等就可以被访问到了 EC建立的细节1、创建阶段【当函数被调用，但未执行任何其内部代码之前】 创建作用域链（Scope Chain） 创建变量，函数和参数。 求”this“的值 2、执行阶段 初始化变量的值和函数的引用，解释/执行代码。 我们可以将每个执行上下文抽象为一个对象，这个对象具有三个属性 12345ECObj: &#123; scopeChain: &#123; /* 变量对象（variableObject）+ 所有父级执行上下文的变量对象*/ &#125;, variableObject: &#123; /*函数 arguments/参数，内部变量和函数声明 */ &#125;, this: &#123;&#125; &#125; 解释器执行代码的伪逻辑1、查找调用函数的代码。 2、执行代码之前，先进入创建上下文阶段： 初始化作用域链 创建变量对象： 创建arguments对象，检查上下文，初始化参数名称和值并创建引用的复制。 扫描上下文的函数声明（而非函数表达式）： 为发现的每一个函数，在变量对象上创建一个属性——确切的说是函数的名字——其有一个指向函数在内存中的引用。 如果函数的名字已经存在，引用指针将被重写。 扫描上下文的变量声明： 为发现的每个变量声明，在变量对象上创建一个属性——就是变量的名字，并且将变量的值初始化为undefined 如果变量的名字已经在变量对象里存在，将不会进行任何操作并继续扫描。 求出上下文内部“this”的值。 3、激活/代码执行阶段： 在当前上下文上运行/解释函数代码，并随着代码一行行执行指派变量的值。 VO — 对应上述第二个阶段123456function foo(i)&#123; var a = 'hello' var b = function()&#123;&#125; function c()&#123;&#125;&#125;foo(22) 当我们调用foo(22)时，整个创建阶段是下面这样的 1234567891011121314ECObj = &#123; scopChain： &#123;...&#125;, variableObject: &#123; arguments: &#123; 0: 22, length: 1 &#125;, i: 22, c: pointer to function c() a: undefined, b: undefined &#125;, this: &#123; ... &#125;&#125; 正如我们看到的，在上下文创建阶段，VO的初始化过程如下（该过程是有先后顺序的：函数的形参==&gt;&gt;函数声明==&gt;&gt;变量声明）： 函数的形参（当进入函数执行上下文时） —— 变量对象的一个属性，其属性名就是形参的名字，其值就是实参的值；对于没有传递的参数，其值为undefined 函数声明（FunctionDeclaration, FD） —— 变量对象的一个属性，其属性名和值都是函数对象创建出来的；如果变量对象已经包含了相同名字的属性，则替换它的值 变量声明（var，VariableDeclaration） —— 变量对象的一个属性，其属性名即为变量名，其值为undefined;如果变量名和已经声明的函数名或者函数的参数名相同，则不会影响已经存在的属性。 对于函数的形参没有什么可说的，主要看一下函数的声明以及变量的声明两个部分。 1、如何理解函数声明过程中如果变量对象已经包含了相同名字的属性，则替换它的值这句话？ 看如下这段代码： 12345function foo1(a)&#123; console.log(a) function a()&#123;&#125; &#125;foo1(20)//&apos;function a()&#123;&#125;&apos; 根据上面的介绍，我们知道VO创建过程中，函数形参的优先级是高于函数的声明的，结果是函数体内部声明的function a(){}覆盖了函数形参a的声明，因此最后输出a是一个function 2、如何理解变量声明过程中如果变量名和已经声明的函数名或者函数的参数名相同，则不会影响已经存在的属性这句话？ 123456789101112131415//情景一：与参数名相同function foo2(a)&#123; console.log(a) var a = 10&#125;foo2(20) //'20'//情景二：与函数名相同function foo2()&#123; console.log(a) var a = 10 function a()&#123;&#125;&#125;foo2() //'function a()&#123;&#125;' 下面是几个比较有趣的例子，当做加餐小菜，大家细细品味。这里给出一句话当做参考： 函数的声明比变量优先级要高，并且定义过程不会被变量覆盖，除非是赋值 1234567891011121314&gt; function foo3(a)&#123;&gt; var a = 10&gt; function a()&#123;&#125;&gt; console.log(a)&gt; &#125;&gt; foo3(20) //'10'&gt; &gt; function foo3(a)&#123;&gt; var a &gt; function a()&#123;&#125;&gt; console.log(a)&gt; &#125;&gt; foo3(20) //'function a()&#123;&#125;'&gt; AO — 对应第三个阶段正如我们看到的，创建的过程仅负责处理定义属性的名字，而并不为他们指派具体的值，当然还有对形参/实参的处理。一旦创建阶段完成，执行流进入函数并且激活/代码执行阶段，看下函数执行完成后的样子： 1234567891011121314ECObj = &#123; scopeChain: &#123; ... &#125;, variableObject: &#123; arguments: &#123; 0: 22, length: 1 &#125;, i: 22, c: pointer to function c() a: 'hello', b: pointer to function privateB() &#125;, this: &#123; ... &#125;&#125; 提升（Hoisting）对于下面的代码，相信很多人都能一眼看出输出结果，但是却很少有人能给出为什么会产生这种输出结果的解释。 12345678910111213(function() &#123; console.log(typeof foo); // 函数指针 console.log(typeof bar); // undefined var foo = 'hello', bar = function() &#123; return 'world'; &#125;; function foo() &#123; return 'hello'; &#125;&#125;()); 1、为什么我们能在foo声明之前访问它？回想在VO的创建阶段，我们知道函数在该阶段就已经被创建在变量对象中。所以在函数开始执行之前，foo已经被定义了。 2、Foo被声明了两次，为什么foo显示为函数而不是undefined或字符串？我们知道，在创建阶段，函数声明是优先于变量被创建的。而且在变量的创建过程中，如果发现VO中已经存在相同名称的属性，则不会影响已经存在的属性。因此，对foo()函数的引用首先被创建在活动对象里，并且当我们解释到var foo时，我们看见foo属性名已经存在，所以代码什么都不做并继续执行。 3、为什么bar的值是undefined？bar采用的是函数表达式的方式来定义的，所以bar实际上是一个变量，但变量的值是函数，并且我们知道变量在创建阶段被创建但他们被初始化为undefined，这也是为什么函数表达式不会被提升的原因。 总结：1、EC分为两个阶段，创建执行上下文和执行代码。2、每个EC可以抽象为一个对象，这个对象具有三个属性，分别为：作用域链Scope，VO|AO（AO，VO只能有一个）以及this。3、函数EC中的AO在进入函数EC时，确定了Arguments对象的属性；在执行函数EC时，其它变量属性具体化。4、EC创建的过程是由先后顺序的：参数声明 &gt; 函数声明 &gt; 变量声明 参考javascript 执行环境，变量对象，作用域链What is the Execution Context &amp; Stack in JavaScript?函数MDN)]]></content>
+      <categories>
+        <category>js</category>
+        <category>js高级</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
+        <tag>js高级</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[函数表达式与递归]]></title>
+    <url>%2F2019%2F04%2F21%2F%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%8E%E9%80%92%E5%BD%92%2F</url>
+    <content type="text"><![CDATA[javascript红宝书（递归）定义函数有两种方法函数声明1function suo()&#123;&#125; 函数声明提升 12suo();function suo()&#123;&#125; 函数表达式1var suo=function()&#123;&#125; 函数表达式就没提升的相关说法。 注意禁止下面这样用 12345if(true)&#123; fuction a()&#123;&#125;&#125;else&#123; function b()&#123;&#125;&#125; 应该这样书写 12345if(true)&#123; var a=function()&#123;&#125;&#125;else&#123; varb=function()&#123;&#125;&#125; 递归递归函数是在一个函数通过调用自身的情况下构成的。 阶乘递归案例 1234567function factorial(num)&#123; if(num&lt;=1)&#123; return 1; &#125;else&#123; return num*factorial(num-1); &#125;&#125; 如果出现以下代码 123var another=factorial;factorial=null;alert(another(2));//报错 以上代码吧factorial函数保存在another变量中，然后将factorial变量设置为null，结果指向原函数的引用只剩一个（var another=factorial;当然也可易理解没有指向原始函数的变量了）。所以接下来调用another时，由于必须执行factorial，而现在它已经不是函数，所以会导致错误。这种情况下使用arguments.callee来解决情况 arguments.callee指向正在执行的函数指针 1234567function factorial(num)&#123; if(num&lt;=1)&#123; return 1; &#125;else&#123; return num*arguments.callee(num-1); &#125;&#125; 不过在严格模式下不支持，那我们该怎么办？使用命名函数表达式 1234567function another=function f(num)&#123; if(num&lt;1)&#123; return 1; &#125;else&#123; return num*f(num-1); &#125;&#125; 以上代码创建了fn的命名函数表达式，然后将他复制给变量，即使把函数赋值给另一个变量，函数的名字f仍然有效，所以递归调用可以正常完成。]]></content>
+      <categories>
+        <category>js</category>
+        <category>js高程</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
+        <tag>js高程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[异常处理，"try..catch"]]></title>
+    <url>%2F2019%2F04%2F18%2F2019-04-18-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%EF%BC%8Ctry..catch%2F</url>
+    <content type="text"><![CDATA[异常处理，”try..catch”]]></content>
+      <categories>
+        <category>js</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[滚动事件]]></title>
     <url>%2F2019%2F04%2F18%2F2019-04-18-%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6%2F</url>
     <content type="text"><![CDATA[JavaScript scroll 事件scroll事件Element.scrollTop获取元素的滚动像素值 **Element.scrollTop** 属性可以获取或设置一个元素的内容垂直滚动的像素数。 一个元素的 scrollTop 值是这个元素的顶部到视口可见内容（的顶部）的距离的度量。当一个元素的内容没有产生垂直方向的滚动条，那么它的 scrollTop 值为0。 scrollTop 可以被设置为任何整数值，同时注意： 如果一个元素不能被滚动（例如，它没有溢出，或者这个元素有一个”non-scrollable”属性）， scrollTop将被设置为0。 设置scrollTop的值小于0，scrollTop 被设为0 如果设置了超出这个容器可滚动的值, scrollTop 会被设为最大值. 案例代码12345678910&lt;body&gt; &lt;p id="mybtn"&gt;&lt;/p&gt;&lt;/body&gt;&lt;script type="text/javascript"&gt; var myp=document.getElementById('mybtn'); window.addEventListener('scroll',function(e)&#123; myp.innerHTML=document.body.scrollTop|document.documentElement.scrollTop; //body和document的值 &#125;,false)&lt;/script&gt; 原生回到顶部代码1234567891011121314151617181920212223242526&lt;body&gt; &lt;h1 class="top"&gt;这是顶部&lt;/h1&gt; &lt;h1 class="bottom"&gt;这是底部&lt;/h1&gt; &lt;div id="box"&gt;^&lt;/div&gt; &lt;/body&gt; &lt;script type="text/javascript"&gt; var box=document.getElementById('box'); box.addEventListener('click',function(e)&#123; //先给盒子赋予点击事件 //计时器是设计缓动效果 var timer=setInterval(function()&#123; //将最新滚动值赋予变量 var scrollTopValue=document.body.scrollTop||document.documentElement.scrollTop; //设置缓动值 let ispeed=Math.floor(-scrollTopValue/6); console.log(1); //给滚动值赋予新值 document.documentElement.scrollTop=document.body.scrollTop=scrollTopValue+ispeed; //如果滚动值为0；清除定时器 if(scrollTopValue==0)&#123; clearInterval(timer); &#125; &#125;,20); &#125;,false) &lt;/script&gt; 添加按钮的显示与隐藏 12345678910111213141516171819202122232425262728293031323334&lt;body&gt; &lt;h1 class="top"&gt;这是顶部&lt;/h1&gt; &lt;h1 class="bottom"&gt;这是底部&lt;/h1&gt; &lt;div id="box"&gt;^&lt;/div&gt; &lt;/body&gt; &lt;script type="text/javascript"&gt; var box=document.getElementById('box');//求doucument的可视区域 var WclientX=document.documentElement.clientHeight; var timer=null; // 盒子的隐藏事件 window.addEventListener('scroll',function()&#123; var scrollTopValue=document.body.scrollTop||document.documentElement.scrollTop; if(scrollTopValue&gt;=WclientX)&#123; box.style.display="block"; &#125;else&#123; box.style.display="none"; &#125; &#125;,false); // 滚动事件 box.addEventListener('click',function(e)&#123; var timer=setInterval(function()&#123; var scrollTopValue=document.body.scrollTop||document.documentElement.scrollTop; let ispeed=Math.floor(-scrollTopValue/6); console.log(1); document.documentElement.scrollTop=document.body.scrollTop=scrollTopValue+ispeed; if(scrollTopValue==0)&#123; clearInterval(timer); &#125; &#125;,20); &#125;,false) 主要判断滚动区域大于可视区域时将盒子显示 Vue的回到顶部代码1234&lt;!-- 回顶部按钮为一张50*50的图片 --&gt;&lt;!-- btnFlag 控制图片显示隐藏 --&gt;&lt;!-- backTop 回顶部的方法 --&gt;&lt;img v-if=&quot;btnFlag&quot; class=&quot;go-top&quot; src=&quot;图片url&quot; @click=&quot;backTop&quot;&gt; 1234567891011121314151617181920212223242526272829303132333435// vue的两个生命钩子，这里不多解释。// window对象，所有浏览器都支持window对象。它表示浏览器窗口，监听滚动事件mounted () &#123; window.addEventListener('scroll', this.scrollToTop)&#125;,destroyed () &#123; window.removeEventListener('scroll', this.scrollToTop)&#125;, methods: &#123; // 点击图片回到顶部方法，加计时器是为了过渡顺滑 backTop () &#123; let that = this let timer = setInterval(() =&gt; &#123; let ispeed = Math.floor(-that.scrollTop / 5) document.documentElement.scrollTop = document.body.scrollTop = that.scrollTop + ispeed if (that.scrollTop === 0) &#123; clearInterval(timer) &#125; &#125;, 16) &#125;, // 为了计算距离顶部的高度，当高度大于60显示回顶部图标，小于60则隐藏 scrollToTop () &#123; let that = this let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop that.scrollTop = scrollTop if (that.scrollTop &gt; 60) &#123; that.btnFlag = true &#125; else &#123; that.btnFlag = false &#125; &#125;&#125; 注意这里的｀that.scrollTop｀这里vue实例会帮我们记录滚动值。]]></content>
@@ -256,6 +306,19 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[按钮的动态获取(购物车启示)]]></title>
+    <url>%2F2019%2F03%2F26%2Fvue%E6%8C%89%E9%92%AE%E5%8A%A8%E6%80%81%E8%AF%BB%E5%8F%96%2F</url>
+    <content type="text"><![CDATA[按钮的动态获取当多个相同按钮进行动态的渲染时，我们无法动态获取它。 解决方案： 按钮触发事件，打印event会获取当前按钮信息值 123456789101112131415161718192021222324252627altKey: falsebubbles: truebutton: 0buttons: 0cancelBubble: falsecancelable: trueclientX: 238clientY: 637composed: truectrlKey: falsecurrentTarget: nulldefaultPrevented: falsedetail: 1eventPhase: 0fromElement: nullisTrusted: truelayerX: 238layerY: 16metaKey: falsemovementX: 0movementY: 0offsetX: 81offsetY: 15pageX: 238pageY: 637path: (13) [span.item-blue-btn, div.item-... ... 里面的path[0]就是我们当前的按钮元素 在项目购物车中当我们点击按钮，会触发vuex中的事件，此时我们可以利用vuex存储我们的事件元素 1state.ball.el=event.path[0]; 这样我们就可以在其他组件通过vuex拿到该按钮，动态的获取它的值。如例 1var carbtn=this.$store.state.ball.el.getBoundingClientRect();]]></content>
+      <categories>
+        <category>vue</category>
+      </categories>
+      <tags>
+        <tag>vue</tag>
+        <tag>npm</tag>
+        <tag>github</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[js算法（1）]]></title>
     <url>%2F2019%2F03%2F26%2F%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95%EF%BC%881%EF%BC%89%2F</url>
     <content type="text"><![CDATA[判断一个单词是否回文123function checkStr(str)&#123; return str==str.split('').reverse().jion('');&#125; split() 方法用于把一个字符串分割成字符串数组。 提示： 空字符串 (“”) 用作 逗号，那么 stringObject 中的每个字符之间都会被分割。 注意： split() 方法不改变原始字符串。 reverse将数组倒排 join()方法用于把数组中的所有元素转换一个字符串。元素是通过指定的分隔符进行分隔的。如若没有指定那么默认逗号分隔。 去掉数组重复的值123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869//indexof就是查找数组中有无符合条件的数，有返回该数的索引位置，没有就返回-1；Array.prototype.method1()=function()&#123; //设置预存数组 var newArr=[]; //遍历调用者 for(var i=0;i&lt;this.length;i++)&#123; if(newArr.indexOf(this[i])==-1)&#123; newArr.push(this[i]); &#125; return newArr; &#125;&#125;//对象存值检查法Array.prototype.method2=function()&#123; var newArr=[]; var newObj=&#123;&#125;; for(var i=0;i&lt;this.length;i++)&#123; if(!newObj[this[i]])&#123; newObj[this[i]]=true; newArr.push(this[i]); &#125; &#125; return newArr;&#125;//索引返回值法（当返回值不是一个索引位置时代表重复）Array.prototype.methods=function()&#123; var newArr=[this[0]]; for(var i=1;i&lt;this.length;i++)&#123; if(this.indexOf(this[i])==i)&#123; newArr.push(this[i]); &#125; &#125; return newArr;&#125;Array.prototype.method31=function()&#123; var newArr=[]; for(var i=0;i&lt;this.length;i++)&#123; if(this.indexOf(this[i])==i)&#123; newArr.push(this[i]); &#125; &#125; return newArr;&#125;//排序比邻法Array.prototype.method4=function()&#123; var newArr=[this[0]]; this.sort(); for(var i=1;i&lt;this.length;i++)&#123; if(this[i]!=newArr[newArr.length-1])&#123; newArr.push(this[i]); &#125; &#125; return newArr;&#125;Array.prototype.method5=function()&#123; var newArr=[this[0]]; this.sort(); for(var i=1;i&lt;this.length;i++)&#123; if(this[i]!=this[i-1])&#123; newArr.push(this[i]); &#125; &#125; return newArr;&#125; 找出字符串中重复出现最多的值12345678910111213141516171819202122function method6(str)&#123; var newObj=&#123;&#125;; //遍历的意思就是说将数组值做为键存入对象】 //碰到重复的就把对应键的值加1 for(var i=0;i&lt;str.length;i++)&#123; if(!newObj[str.charAt(i)])&#123; newObj[str.charAt(i)]=1; &#125;else&#123; newObj[str.charAt(i)]+=1; &#125; &#125; //这时我们得到了新对象,我们应该遍历找到重复的值 var newValue=1; var newKey=''; for(var key in newObj)&#123; if(newObj[key]&gt;newValue)&#123; newValue=newObj[key]; newKey=key; &#125; &#125; return newKey;&#125; 12345678910111213141516171819String.prototype.method8=function()&#123; var newObj=&#123;&#125;; for(var i=0;i&lt;this.length;i++)&#123; if(!newObj[this.charAt(i)])&#123; newObj[this.charAt(i)]=1; &#125;else&#123; newObj[this.charAt(i)]+=1; &#125; &#125; //遍历新对象 var setkey=''; var setValue=1; for(var key in newObj)&#123; if(newObj[key]&gt;setValue)&#123; setValue=newObj[key]; setkey=key; &#125; return key;&#125;]]></content>
@@ -269,19 +332,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[按钮的动态获取(购物车启示)]]></title>
-    <url>%2F2019%2F03%2F26%2Fvue%E6%8C%89%E9%92%AE%E5%8A%A8%E6%80%81%E8%AF%BB%E5%8F%96%2F</url>
-    <content type="text"><![CDATA[按钮的动态获取当多个相同按钮进行动态的渲染时，我们无法动态获取它。 解决方案： 按钮触发事件，打印event会获取当前按钮信息值 123456789101112131415161718192021222324252627altKey: falsebubbles: truebutton: 0buttons: 0cancelBubble: falsecancelable: trueclientX: 238clientY: 637composed: truectrlKey: falsecurrentTarget: nulldefaultPrevented: falsedetail: 1eventPhase: 0fromElement: nullisTrusted: truelayerX: 238layerY: 16metaKey: falsemovementX: 0movementY: 0offsetX: 81offsetY: 15pageX: 238pageY: 637path: (13) [span.item-blue-btn, div.item-... ... 里面的path[0]就是我们当前的按钮元素 在项目购物车中当我们点击按钮，会触发vuex中的事件，此时我们可以利用vuex存储我们的事件元素 1state.ball.el=event.path[0]; 这样我们就可以在其他组件通过vuex拿到该按钮，动态的获取它的值。如例 1var carbtn=this.$store.state.ball.el.getBoundingClientRect();]]></content>
-      <categories>
-        <category>vue</category>
-      </categories>
-      <tags>
-        <tag>npm</tag>
-        <tag>github</tag>
-        <tag>vue</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[贝塞尔曲线的使用(购物车启示)]]></title>
     <url>%2F2019%2F03%2F26%2F%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%E7%9A%84%E4%BD%BF%E7%94%A8%2F</url>
     <content type="text"><![CDATA[半场动画贝塞尔曲线的应用前言当我们设置好曲线的时候，触发它并没有抛物线。 根据网上正确资料显示： 两层盒子嵌套的实现抛物线，外层盒子往X轴方向移动，内层盒子向Y轴移动 修改DOM所以我们应该修改dom，将盒子修改成内外嵌套的盒子。 123456789101112&lt;transition v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:after-enter="afterEnter" v-bind:css="true" &gt; &lt;div class="addcart-mask" v-show="$store.state.ball.show" ref="balls"&gt; &lt;div ref="inner"&gt; &lt;img class="mask-item" :src="$store.state.ball.src"&gt; &lt;/div&gt; &lt;/div&gt; &lt;/transition&gt; 事件拆分12345678910111213141516171819202122232425beforeEnter(el)&#123; //获取开始位置 var ball=this.$refs.ball.getBoundingClientRect(); //终点位置 var carbtn=this.$store.state.ball.el.getBoundingClientRect(); //计算出要移动的xy轴线坐标 var cx=ball.left-carbtn.left-80; var cy=ball.top-carbtn.top+15; //内外盒子拆分translate this.$refs.inner.style.transform=`translateY($&#123;-cy&#125;px)`; this.$refs.balls.style.transform=`translateX($&#123;-cx&#125;px)`; &#125;, enter(el,done)&#123; el.offsetWidth;//固定用法 //盒子进行位置还原 this.$refs.balls.style.transform=`translate(0,0)`; this.$refs.inner.style.transform=`translate(0,0)`; //添加贝塞尔曲线过渡，这里注意父级归0处理 this.$refs.balls.style.transition='.4s all cubic-bezier(0,0,0,0)'; this.$refs.inner.style.transition='.4s all cubic-bezier(.17,.67,.45,1.02)'; done();//调用下一个函数，提前运行。 &#125;, afterEnter(el)&#123; this.$store.commit('xiugai'); &#125;]]></content>
@@ -289,9 +339,9 @@
         <category>vue</category>
       </categories>
       <tags>
+        <tag>vue</tag>
         <tag>npm</tag>
         <tag>github</tag>
-        <tag>vue</tag>
       </tags>
   </entry>
 </search>

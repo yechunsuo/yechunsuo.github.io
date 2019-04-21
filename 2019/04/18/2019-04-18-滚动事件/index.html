@@ -87,12 +87,12 @@
 <meta property="og:site_name" content="纵宇博客">
 <meta property="og:description" content="JavaScript scroll 事件scroll事件Element.scrollTop获取元素的滚动像素值 **Element.scrollTop** 属性可以获取或设置一个元素的内容垂直滚动的像素数。 一个元素的 scrollTop 值是这个元素的顶部到视口可见内容（的顶部）的距离的度量。当一个元素的内容没有产生垂直方向的滚动条，那么它的 scrollTop 值为0。 scrollTop 可">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2019/04/18/images/Video_2019-04-18_191641[00-00-02--00-00-05].gif">
+<meta property="og:image" content="http://yoursite.com/images/Video_2019-04-18_191641[00-00-02--00-00-05].gif">
 <meta property="og:updated_time" content="2019-04-18T11:02:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="滚动事件">
 <meta name="twitter:description" content="JavaScript scroll 事件scroll事件Element.scrollTop获取元素的滚动像素值 **Element.scrollTop** 属性可以获取或设置一个元素的内容垂直滚动的像素数。 一个元素的 scrollTop 值是这个元素的顶部到视口可见内容（的顶部）的距离的度量。当一个元素的内容没有产生垂直方向的滚动条，那么它的 scrollTop 值为0。 scrollTop 可">
-<meta name="twitter:image" content="http://yoursite.com/2019/04/18/images/Video_2019-04-18_191641[00-00-02--00-00-05].gif">
+<meta name="twitter:image" content="http://yoursite.com/images/Video_2019-04-18_191641[00-00-02--00-00-05].gif">
 
 
 
@@ -438,7 +438,7 @@
 <li>如果设置了超出这个容器可滚动的值, <code>scrollTop</code> 会被设为最大值.</li>
 </ul>
 <h3 id="案例代码"><a href="#案例代码" class="headerlink" title="案例代码"></a>案例代码</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">     &lt;p id=<span class="string">"mybtn"</span>&gt;&lt;/p&gt;</span><br><span class="line">&lt;<span class="regexp">/body&gt;</span></span><br><span class="line"><span class="regexp">&lt;script type="text/</span>javascript<span class="string">"&gt;</span></span><br><span class="line"><span class="string">		var myp=document.getElementById('mybtn');</span></span><br><span class="line"><span class="string">		window.addEventListener('scroll',function(e)&#123;</span></span><br><span class="line"><span class="string">		    myp.innerHTML=document.body.scrollTop|document.documentElement.scrollTop;</span></span><br><span class="line"><span class="string">            //body和document的值</span></span><br><span class="line"><span class="string">		&#125;,false)</span></span><br><span class="line"><span class="string">&lt;/script&gt;</span></span><br></pre></td></tr></table></figure>
-<p><img src="../images/Video_2019-04-18_191641[00-00-02--00-00-05].gif" alt></p>
+<p><img src="/images/Video_2019-04-18_191641[00-00-02--00-00-05].gif" alt></p>
 <h2 id="原生回到顶部代码"><a href="#原生回到顶部代码" class="headerlink" title="原生回到顶部代码"></a>原生回到顶部代码</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">		&lt;h1 <span class="class"><span class="keyword">class</span></span>=<span class="string">"top"</span>&gt;这是顶部&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">		&lt;h1 class="bottom"&gt;这是底部&lt;/</span>h1&gt;</span><br><span class="line">		&lt;div id=<span class="string">"box"</span>&gt;^&lt;/div&gt;</span><br><span class="line">	&lt;<span class="regexp">/body&gt;</span></span><br><span class="line"><span class="regexp">	&lt;script type="text/</span>javascript<span class="string">"&gt;</span></span><br><span class="line"><span class="string">		var box=document.getElementById('box');</span></span><br><span class="line"><span class="string">		box.addEventListener('click',function(e)&#123;</span></span><br><span class="line"><span class="string">	//先给盒子赋予点击事件</span></span><br><span class="line"><span class="string">            //计时器是设计缓动效果</span></span><br><span class="line"><span class="string">			var timer=setInterval(function()&#123;</span></span><br><span class="line"><span class="string">  //将最新滚动值赋予变量</span></span><br><span class="line"><span class="string">				var scrollTopValue=document.body.scrollTop||document.documentElement.scrollTop;</span></span><br><span class="line"><span class="string">                //设置缓动值</span></span><br><span class="line"><span class="string">				let ispeed=Math.floor(-scrollTopValue/6);</span></span><br><span class="line"><span class="string">				console.log(1);</span></span><br><span class="line"><span class="string">       //给滚动值赋予新值</span></span><br><span class="line"><span class="string">                document.documentElement.scrollTop=document.body.scrollTop=scrollTopValue+ispeed;</span></span><br><span class="line"><span class="string">                //如果滚动值为0；清除定时器</span></span><br><span class="line"><span class="string">				if(scrollTopValue==0)&#123;</span></span><br><span class="line"><span class="string">					clearInterval(timer);</span></span><br><span class="line"><span class="string">				&#125;</span></span><br><span class="line"><span class="string">			&#125;,20);</span></span><br><span class="line"><span class="string">			</span></span><br><span class="line"><span class="string">		&#125;,false)</span></span><br><span class="line"><span class="string">	&lt;/script&gt;</span></span><br></pre></td></tr></table></figure>
 <p><strong>添加按钮的显示与隐藏</strong></p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">		&lt;h1 <span class="class"><span class="keyword">class</span></span>=<span class="string">"top"</span>&gt;这是顶部&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">		&lt;h1 class="bottom"&gt;这是底部&lt;/</span>h1&gt;</span><br><span class="line">		&lt;div id=<span class="string">"box"</span>&gt;^&lt;/div&gt;</span><br><span class="line">	&lt;<span class="regexp">/body&gt;</span></span><br><span class="line"><span class="regexp">	&lt;script type="text/</span>javascript<span class="string">"&gt;</span></span><br><span class="line"><span class="string">		var box=document.getElementById('box');</span></span><br><span class="line"><span class="string">//求doucument的可视区域</span></span><br><span class="line"><span class="string">		var WclientX=document.documentElement.clientHeight;</span></span><br><span class="line"><span class="string">		var timer=null;</span></span><br><span class="line"><span class="string">		// 盒子的隐藏事件</span></span><br><span class="line"><span class="string">		window.addEventListener('scroll',function()&#123;</span></span><br><span class="line"><span class="string">			var scrollTopValue=document.body.scrollTop||document.documentElement.scrollTop;</span></span><br><span class="line"><span class="string">			if(scrollTopValue&gt;=WclientX)&#123;</span></span><br><span class="line"><span class="string">				box.style.display="</span>block<span class="string">";</span></span><br><span class="line"><span class="string">			&#125;else&#123;</span></span><br><span class="line"><span class="string">				box.style.display="</span>none<span class="string">";</span></span><br><span class="line"><span class="string">			&#125;</span></span><br><span class="line"><span class="string">			</span></span><br><span class="line"><span class="string">		&#125;,false);</span></span><br><span class="line"><span class="string">		// 滚动事件</span></span><br><span class="line"><span class="string">		box.addEventListener('click',function(e)&#123;</span></span><br><span class="line"><span class="string">			</span></span><br><span class="line"><span class="string">			var timer=setInterval(function()&#123;</span></span><br><span class="line"><span class="string">				var scrollTopValue=document.body.scrollTop||document.documentElement.scrollTop;</span></span><br><span class="line"><span class="string">				let ispeed=Math.floor(-scrollTopValue/6);</span></span><br><span class="line"><span class="string">				console.log(1);</span></span><br><span class="line"><span class="string">				document.documentElement.scrollTop=document.body.scrollTop=scrollTopValue+ispeed;</span></span><br><span class="line"><span class="string">				if(scrollTopValue==0)&#123;</span></span><br><span class="line"><span class="string">					clearInterval(timer);</span></span><br><span class="line"><span class="string">				&#125;</span></span><br><span class="line"><span class="string">			&#125;,20);</span></span><br><span class="line"><span class="string">			</span></span><br><span class="line"><span class="string">		&#125;,false)</span></span><br></pre></td></tr></table></figure>
@@ -518,6 +518,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/18/2019-04-18-异常处理，try..catch/" rel="prev" title="异常处理，" try..catch"">
+                异常处理，"try..catch" <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -599,7 +603,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -610,7 +614,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -621,7 +625,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
