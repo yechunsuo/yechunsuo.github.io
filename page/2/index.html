@@ -304,6 +304,700 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/22/2019-04-22-instanceof原理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="叶春锁">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="纵宇博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/22/2019-04-22-instanceof原理/" itemprop="url">instanceof原理剖析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-22T08:58:20+08:00">
+                2019-04-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/javaScript高级/" itemprop="url" rel="index">
+                    <span itemprop="name">javaScript高级</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/22/2019-04-22-instanceof原理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/22/2019-04-22-instanceof原理/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/04/22/2019-04-22-instanceof原理/" class="leancloud_visitors" data-flag-title="instanceof原理剖析">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>问题：typeof能干什么？</strong><br><strong>回答：判断基本类型的，比如：Number, Boolean, Undefined, String, Null， 其他的引用类型和Null会返回object；</strong></p>
+<p><strong>问题：如果一个对象是数组，应该怎么判断？</strong><br><strong>回答：用instanceof，比如对象是arr，用arr instanceof Array，如果返回ture就表示是数组，为false就不是。</strong></p>
+<p><strong>问题：那instanceof的原理是什么？</strong> </p>
+<p><strong>问题：那如果那个数组对象和Object对象去做运算应该返回什么呢？</strong> </p>
+<p><strong>回答：true，因为Object是所有对象的基类。</strong></p>
+<h1 id="instanceof原理"><a href="#instanceof原理" class="headerlink" title="instanceof原理"></a>instanceof原理</h1><p><strong>什么是instanceof？</strong></p>
+<blockquote>
+<p><strong>instanceof运算符用于测试构造函数的prototype属性是否出现在对象的原型链中的任何位置</strong></p>
+</blockquote>
+<p>案例引入</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name,age</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name=name;</span><br><span class="line">    <span class="keyword">this</span>.age=age;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Student</span>(<span class="params">num</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.num=num</span><br><span class="line">&#125;</span><br><span class="line">Student.prototype=<span class="keyword">new</span> Person(<span class="string">'天级'</span>，<span class="number">18</span>）;</span><br><span class="line"><span class="keyword">var</span> s = <span class="keyword">new</span> Student(<span class="number">99</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(s <span class="keyword">instanceof</span> Student);  <span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(s <span class="keyword">instanceof</span> Person);  <span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(s <span class="keyword">instanceof</span> <span class="built_in">Object</span>);  <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<p><img src="H:\Blog\hlog\source\images\SouthEast" alt="è¿éåå¾çæè¿°"></p>
+<p><img src="/images/20170411114644655.png" alt="è¿éåå¾çæè¿°"></p>
+<p>这是关于上面这个函数的原型链图，我们可以看到对象s有一条属于自己的原型链，然而Student，Person，和Object对象的原型属性所指向的原型对象都在这条原型链上，所以答案就出来了：</p>
+<blockquote>
+<p>检测对象A是不是另一个对象B的实例的原理是：<strong>查看对象B的prototype属性指向的原型对象是否在对象A的原型链上，若在则返回true，若不在则返回false</strong>。</p>
+</blockquote>
+<h1 id="instanceof底层如何工作"><a href="#instanceof底层如何工作" class="headerlink" title="instanceof底层如何工作"></a>instanceof底层如何工作</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">instance_of</span>(<span class="params">L, R</span>) </span>&#123;<span class="comment">//L 表示左表达式，R 表示右表达式 </span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> O = R.prototype;   <span class="comment">// 取 R 的显示原型 </span></span><br><span class="line"></span><br><span class="line">    L = L.__proto__;  <span class="comment">// 取 L 的隐式原型</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;    </span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (L === <span class="literal">null</span>)      </span><br><span class="line"></span><br><span class="line">             <span class="keyword">return</span> <span class="literal">false</span>;   </span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (O === L)  <span class="comment">// 当 O 显式原型 严格等于  L隐式原型 时，返回true</span></span><br><span class="line"></span><br><span class="line">             <span class="keyword">return</span> <span class="literal">true</span>;   </span><br><span class="line"></span><br><span class="line">        L = L.__proto__;  </span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="案例：未发生继承关系时"><a href="#案例：未发生继承关系时" class="headerlink" title="案例：未发生继承关系时"></a>案例：未发生继承关系时</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name,age,sex</span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.age = age;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.sex = sex;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Student</span>(<span class="params">score</span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.score = score;</span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> per = <span class="keyword">new</span> Person(<span class="string">"小明"</span>，<span class="number">20</span>，“男”)；</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> stu = <span class="keyword">new</span> Student（<span class="number">98</span>）；</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(per <span class="keyword">instanceof</span> Person);  <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(stu <span class="keyword">instanceof</span> Student);  <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(per <span class="keyword">instanceof</span> <span class="built_in">Object</span>);  <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(stu <span class="keyword">instanceof</span> <span class="built_in">Object</span>);  <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p><img src="/images/13525005-a23c9129e5564e93.webp" alt="img"></p>
+<p>注看这张图复习原型链</p>
+<h4 id="instanceof的工作流程分析"><a href="#instanceof的工作流程分析" class="headerlink" title="instanceof的工作流程分析"></a>instanceof的工作流程分析</h4><p><strong>首先看per instanceof Person</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> function instance_of(L, R) &#123; // L即per ；  R即Person</span><br><span class="line"> </span><br><span class="line">   var O = R.prototype; //O为Person.prototype</span><br><span class="line"> </span><br><span class="line">   L = L.__proto__;       // L为per._proto_</span><br><span class="line"> </span><br><span class="line">   while (true) &#123;    //执行循环</span><br><span class="line"> </span><br><span class="line">        if (L === null)   //不通过</span><br><span class="line"> </span><br><span class="line">            return false;   </span><br><span class="line"> </span><br><span class="line">        if (O === L)       //判断：Person.prototype ===per._proto_？</span><br><span class="line"> </span><br><span class="line">             return true;  //如果等于就返回true，证明per是Person类型</span><br><span class="line"> </span><br><span class="line">        L = L.__proto__;                   </span><br><span class="line"> </span><br><span class="line">   &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行per instanceof Person  ，通过图示看出 Person.prototype ===per.<em>proto</em> 是成立的，所以返回true，证明引用per是属于构造函数Person的。</p>
+<p><strong>接下来再看   per instanceof Object</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">instance_of</span>(<span class="params">L, R</span>) </span>&#123; <span class="comment">//L即per ；  R即Object        </span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">var</span> O = R.prototype;  <span class="comment">//O为Object.prototype        </span></span><br><span class="line"></span><br><span class="line">   L = L.__proto__;    <span class="comment">// L为per._proto_             </span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">while</span> (<span class="literal">true</span>) &#123;     <span class="comment">//执行循环                   </span></span><br><span class="line"></span><br><span class="line">       <span class="keyword">if</span> (L === <span class="literal">null</span>)   <span class="comment">//不通过                            </span></span><br><span class="line"></span><br><span class="line">           <span class="keyword">return</span> <span class="literal">false</span>;                      </span><br><span class="line"></span><br><span class="line">       <span class="keyword">if</span> (O === L)   <span class="comment">//Object .prototype === per._proto_？  不成立**</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;                         </span><br><span class="line"></span><br><span class="line">        L = L.__proto__;   <span class="comment">//令L为 per._proto_ ._proto_ ，**</span></span><br><span class="line"></span><br><span class="line">                        <span class="comment">//即图中Person.prototype._proto_指向的对象</span></span><br><span class="line"></span><br><span class="line">                        <span class="comment">//接着执行循环，</span></span><br><span class="line"></span><br><span class="line">                        <span class="comment">//到Object .prototype === per._proto_ ._proto_  ？</span></span><br><span class="line"></span><br><span class="line">                        <span class="comment">//成立，返回true</span></span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="案例：发生继承关系时"><a href="#案例：发生继承关系时" class="headerlink" title="案例：发生继承关系时"></a>案例：发生继承关系时</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name,age,sex</span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.age = age;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.sex = sex;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Student</span>(<span class="params">name,age,sex,score</span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">    Person.call(<span class="keyword">this</span>,name,age,sex);  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.score = score;</span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">Student.prototype = <span class="keyword">new</span> Person();  <span class="comment">// 这里改变了原型指向，实现继承</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> stu = <span class="keyword">new</span> Student(<span class="string">"小明"</span>,<span class="number">20</span>,<span class="string">"男"</span>,<span class="number">99</span>); <span class="comment">//创建了学生对象stu</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(stu <span class="keyword">instanceof</span> Student);    <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(stu <span class="keyword">instanceof</span> Person);    <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(stu <span class="keyword">instanceof</span> <span class="built_in">Object</span>);    <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<h4 id="1、下图2是发生继承关系后的原型图解"><a href="#1、下图2是发生继承关系后的原型图解" class="headerlink" title="1、下图2是发生继承关系后的原型图解"></a>1、下图2是发生继承关系后的原型图解</h4><p><img src="/images/13525005-1f4110c78c84c0aa.webp" alt="img"></p>
+<p>图2  发生继承关系后的原型图解</p>
+<h4 id="2、instanceof的工作流程分析"><a href="#2、instanceof的工作流程分析" class="headerlink" title="2、instanceof的工作流程分析"></a>2、instanceof的工作流程分析</h4><p><strong>首先看 stu instanceof Student</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">instance_of</span>(<span class="params">L, R</span>) </span>&#123; <span class="comment">//L即stu ；  R即Student</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> O = R.prototype;  <span class="comment">//O为Student.prototype,现在指向了per</span></span><br><span class="line"></span><br><span class="line">   L = L.__proto__;    <span class="comment">//L为stu._proto_，也随着prototype的改变而指向了per</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">while</span> (<span class="literal">true</span>) &#123;    <span class="comment">//执行循环</span></span><br><span class="line"></span><br><span class="line">         <span class="keyword">if</span> (L === <span class="literal">null</span>)  <span class="comment">//不通过</span></span><br><span class="line"></span><br><span class="line">             <span class="keyword">return</span> <span class="literal">false</span>;   </span><br><span class="line"></span><br><span class="line">         <span class="keyword">if</span> (O === L)    <span class="comment">//判断： Student.prototype ===stu._proto_？</span></span><br><span class="line"></span><br><span class="line">             <span class="keyword">return</span> <span class="literal">true</span>;  <span class="comment">//此时，两方都指Person的实例对象per，所以true</span></span><br><span class="line"></span><br><span class="line">         L = L.__proto__;                   </span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以，即使发生了原型继承，stu instanceof Student 依然是成立的。</p>
+<p><strong>接下来看 stu instanceof Person，instanceof是如何判断stu继承了Person</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">instance_of</span>(<span class="params">L, R</span>) </span>&#123; <span class="comment">// L即stu ；  R即Person        </span></span><br><span class="line"> </span><br><span class="line">   <span class="keyword">var</span> O = R.prototype; <span class="comment">// O为Person.prototype     </span></span><br><span class="line"> </span><br><span class="line">    L = L.__proto__;   <span class="comment">//L为stu._proto_，现在指向的是per实例对象</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;   <span class="comment">// 执行循环                   </span></span><br><span class="line"> </span><br><span class="line">       <span class="keyword">if</span> (L === <span class="literal">null</span>)   <span class="comment">//不通过                            </span></span><br><span class="line"> </span><br><span class="line">           <span class="keyword">return</span> <span class="literal">false</span>;                    </span><br><span class="line"> </span><br><span class="line">       <span class="keyword">if</span> (O === L)    <span class="comment">//判断：   Person.prototype === stu._proto_ ？      </span></span><br><span class="line"> </span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;   <span class="comment">//此时，stu._proto_ 指向per实例对象，并不满足</span></span><br><span class="line"> </span><br><span class="line">        L = L.__proto__;  <span class="comment">//令L=  stu._proto_._proto_，执行循环</span></span><br><span class="line"> </span><br><span class="line">   &#125;                      <span class="comment">//stu._proto_ ._proto_，看图示知：</span></span><br><span class="line"> </span><br><span class="line">&#125;                        <span class="comment">//指的就是Person.prototype，所以也返回true</span></span><br></pre></td></tr></table></figure>
+<p>stu instanceof Person返回值为true，这就证明了stu继承了Person。</p>
+<p>stu instanceof Object也是同理的，根据图示即可轻易得出。</p>
+<h1 id="五、结论"><a href="#五、结论" class="headerlink" title="五、结论"></a>五、结论</h1><h4 id="1、instanceof-的作用"><a href="#1、instanceof-的作用" class="headerlink" title="1、instanceof 的作用"></a>1、instanceof 的作用</h4><p>用于判断一个引用类型是否属于某构造函数；</p>
+<p>还可以在继承关系中用来判断一个实例是否属于它的父类型。</p>
+<blockquote>
+<p><strong>instanceof运算符用于测试构造函数的prototype属性是否出现在对象的原型链中的任何位置</strong></p>
+<p>继承关系判断父类型</p>
+<p>非继承关系是：引用类型是否属于构造函数。</p>
+</blockquote>
+<h4 id="2、和typeof的区别："><a href="#2、和typeof的区别：" class="headerlink" title="2、和typeof的区别："></a>2、和typeof的区别：</h4><p>typeof在对值类型number、string、boolean 、null 、 undefined、 以及引用类型的function的反应是精准的；但是，对于对象{ }  、数组[ ]  、null  都会返回object</p>
+<p>为了弥补这一点，instanceof 从原型的角度，来判断某引用属于哪个构造函数，从而判定它的数据类型。</p>
+<p>摘自链接：<a href="https://www.jianshu.com/p/6c99d3678283" target="_blank" rel="noopener">https://www.jianshu.com/p/6c99d3678283</a></p>
+<h1 id="六（附）"><a href="#六（附）" class="headerlink" title="六（附）"></a>六（附）</h1><p>创建对象的几种方法：</p>
+<p>使用原生构造函数创建对象</p>
+<p>字面量创建对象</p>
+<p>构造函数创建对象</p>
+<p>工厂模式创建对象</p>
+<p>原型模式创建对象</p>
+<p>具体查看博客javaScript高级下属文档</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/21/2019-04-21-函数节流与函数防抖/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="叶春锁">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="纵宇博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/21/2019-04-21-函数节流与函数防抖/" itemprop="url">函数节流与函数防抖</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-21T19:39:15+08:00">
+                2019-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/js高级/" itemprop="url" rel="index">
+                    <span itemprop="name">js高级</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/21/2019-04-21-函数节流与函数防抖/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/21/2019-04-21-函数节流与函数防抖/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/04/21/2019-04-21-函数节流与函数防抖/" class="leancloud_visitors" data-flag-title="函数节流与函数防抖">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="函数节流与函数防抖"><a href="#函数节流与函数防抖" class="headerlink" title="[函数节流与函数防抖]"></a>[函数节流与函数防抖]</h1><p>技巧：函数上电梯节流又防抖</p>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p><strong>函数防抖（debounce）</strong></p>
+<blockquote>
+<p>当调用动作过n毫秒后，才会执行该动作，若在这n毫秒内又调用此动作则将重新计算执行时间</p>
+</blockquote>
+<p><strong>函数节流（throttle）</strong></p>
+<blockquote>
+<p>预先设定一个执行周期，当调用动作的时刻大于等于执行周期则执行该动作，然后进入下一个新周期</p>
+</blockquote>
+<p><strong>函数节流（throttle）</strong>与 <strong>函数防抖（debounce）</strong>都是为了限制函数的执行频次，以优化函数触发频率过高导致的响应速度跟不上触发频率，出现延迟，假死或卡顿的现象。</p>
+<p><strong>比如如下的情况：</strong></p>
+<blockquote>
+<ul>
+<li>window对象的resize、scroll事件</li>
+<li>拖拽时的mousemove事件</li>
+<li>文字输入、自动完成的keyup事件</li>
+</ul>
+</blockquote>
+<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p><strong>可以拿我们平时坐电梯为例来形象地表述二者的区别</strong></p>
+<blockquote>
+<p><strong>函数防抖</strong></p>
+<p>：如果有人进电梯（触发事件），那电梯将在10秒钟后出发（执行事件监听器），这时如果又有人进电梯了（在10秒内再次触发该事件），我们又得等10秒再出发（重新计时）。</p>
+<p><strong>函数节流</strong> ：保证如果电梯第一个人进来后，10秒后准时运送一次，这个时间从第一个人上电梯开始计时，不等待，如果没有人，则不运行</p>
+</blockquote>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><h4 id="函数防抖（debounce）"><a href="#函数防抖（debounce）" class="headerlink" title="函数防抖（debounce）"></a>函数防抖（debounce）</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_debounce</span>(<span class="params">fn,wait</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> timer = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        clearTimeout(timer)</span><br><span class="line">        timer = setTimeout(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">            fn()</span><br><span class="line">        &#125;,wait)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_log</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">window</span>.onscroll = _debounce(_log,<span class="number">500</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="函数节流（throttle）"><a href="#函数节流（throttle）" class="headerlink" title="函数节流（throttle）"></a>函数节流（throttle）</h4><p>仔细想想，上面的防抖方式还是有一定的缺点。如果页面很长，我们一直在滚动页面，那_log方法就一直不会被执行。所以我们可以升级一下上述的防抖方法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_throttle</span>(<span class="params">fn,wait,time</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> previous = <span class="literal">null</span>; <span class="comment">//记录上一次运行的时间</span></span><br><span class="line">    <span class="keyword">var</span> timer = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> now = +<span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(!previous) previous = now;</span><br><span class="line">        <span class="comment">//当上一次执行的时间与当前的时间差大于设置的执行间隔时长的话，就主动执行一次</span></span><br><span class="line">        <span class="keyword">if</span>(now - previous &gt; time)&#123;</span><br><span class="line">            clearTimeout(timer);</span><br><span class="line">            fn();</span><br><span class="line">            previous = now;<span class="comment">// 执行函数后，马上记录当前时间</span></span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            clearTimeout(timer);</span><br><span class="line">            timer = setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                fn();</span><br><span class="line">            &#125;,wait);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_log</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">window</span>.onscroll = _debounce(_log,<span class="number">500</span>,<span class="number">2000</span>)</span><br></pre></td></tr></table></figure>
+<p>其实，这就实现了我们的函数节流。赶快打开控制台运行一下吧~</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/21/2019-04-21-深入理解JavaScript执行上下文、函数堆栈、提升的概念/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="叶春锁">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="纵宇博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/21/2019-04-21-深入理解JavaScript执行上下文、函数堆栈、提升的概念/" itemprop="url">深入理解JavaScript执行上下文、函数堆栈、提升的概念</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-21T16:31:36+08:00">
+                2019-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/js高级/" itemprop="url" rel="index">
+                    <span itemprop="name">js高级</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/21/2019-04-21-深入理解JavaScript执行上下文、函数堆栈、提升的概念/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/21/2019-04-21-深入理解JavaScript执行上下文、函数堆栈、提升的概念/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/04/21/2019-04-21-深入理解JavaScript执行上下文、函数堆栈、提升的概念/" class="leancloud_visitors" data-flag-title="深入理解JavaScript执行上下文、函数堆栈、提升的概念">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="深入理解JavaScript执行上下文、函数堆栈、提升的概念"><a href="#深入理解JavaScript执行上下文、函数堆栈、提升的概念" class="headerlink" title="深入理解JavaScript执行上下文、函数堆栈、提升的概念"></a><a href="https://segmentfault.com/a/1190000009041008" target="_blank" rel="noopener">深入理解JavaScript执行上下文、函数堆栈、提升的概念</a></h1><h2 id="引入概念"><a href="#引入概念" class="headerlink" title="引入概念"></a>引入概念</h2><ul>
+<li><code>EC</code>：函数执行环境（或执行上下文），Execution Context</li>
+<li><code>ECS</code>：执行环境栈，Execution Context Stack</li>
+<li><code>VO</code>：变量对象，Variable Object</li>
+<li><code>AO</code>：活动对象，Active Object</li>
+<li><code>scope chain</code>：作用域链<br>有点不懂,下面解释<h3 id="EC执行上下文"><a href="#EC执行上下文" class="headerlink" title="EC执行上下文"></a>EC执行上下文</h3><blockquote>
+<p>每当控制器转到ECMAScript可执行代码的时候就会进入到一个执行上下文。<br>什么叫可执行代码呢？</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="可执行代码的类型"><a href="#可执行代码的类型" class="headerlink" title="可执行代码的类型"></a>可执行代码的类型</h4><p><strong>全局代码：</strong></p>
+<p>这种类型的代码是在”程序”级处理的：例如加载外部的js文件或者本地<code>&lt;script&gt;&lt;/script&gt;</code>标签内的代码。<strong>全局代码不包括任何function体内的代码</strong>。 这个是默认的代码运行环境，一旦代码被载入，引擎最先进入的就是这个环境。</p>
+<p><strong>函数代码：</strong></p>
+<p>何一个函数体内的代码，但是需要注意的是，<strong>具体的函数体内的代码是不包括内部函数的代码</strong>。</p>
+<p><strong>Eval代码：</strong></p>
+<p>eval内部的代码</p>
+<p>这里仅仅引入EC这个概念，后面还有关于EC建立细节的介绍。</p>
+<h3 id="ECS（执行环境栈）"><a href="#ECS（执行环境栈）" class="headerlink" title="ECS（执行环境栈）"></a>ECS（执行环境栈）</h3><p>浏览器中的JS解释器被实现为单线程，这也就意味着同一时间只能发生一件事情，其他的行为或事件将会被放在叫做执行栈里面排队。下面的图是单线程栈的抽象视图：</p>
+<p><img src="/images/2856827268-57cfc64554b89_articlex.jpg" alt="æ§è¡å æ "></p>
+<blockquote>
+<p>当浏览器首次载入脚本，他将默认进入全局执行上下文。如果你在全局代码中调用函数，你程序的时序将进入被调用的函数，并创建一个新的执行上下文，并将执行的上下文压入顶部。</p>
+<p>如果你调用当前函数内部的其他函数，相同的函数会再次上演。代码的执行流程进入内部函数，创建一个新的执行上下文，并把它压入执行栈的顶部。</p>
+<p>浏览器总会执行位于栈顶的执行上下文，一旦当前执行上下文的函数执行完毕，他将从栈顶弹出，并将上下文控制权交给当前的栈。这样堆栈的上下文就会被依次执行并且弹出堆栈，然后回到全局的上下文。</p>
+</blockquote>
+<p><img src="/images/3871505191-58edec89d4df1_articlex-1555837835595.png" alt="Alt text"></p>
+<h3 id="VO（变量对象）-AO（活动对象）"><a href="#VO（变量对象）-AO（活动对象）" class="headerlink" title="VO（变量对象）/AO（活动对象）"></a>VO（变量对象）/AO（活动对象）</h3><h3 id="VO（变量对象）-AO（活动对象）-1"><a href="#VO（变量对象）-AO（活动对象）-1" class="headerlink" title="VO（变量对象）/AO（活动对象）"></a>VO（变量对象）/AO（活动对象）</h3><p>这里为什么要用一个<code>/</code>呢？按照字面理解，AO其实就是被激活的VO，两个其实是一个东西。下面引用知乎上的一段话，帮助理解一下。<a href="https://www.zhihu.com/question/36393048/answer/71869653" target="_blank" rel="noopener">原文链接</a></p>
+<blockquote>
+<p><strong>变量对象</strong><code>（Variable object）</code>是说JS的执行上下文中都有个对象用来存放执行上下文中可被访问但是不能被<code>delete</code>的<em>函数标示符</em>、<em>形参</em>、<em>变量声明</em>等。它们会被挂在这个对象上，对象的属性对应它们的名字对象属性的值对应它们的值但这个对象是规范上或者说是引擎实现上的不可在JS环境中访问到活动对象</p>
+<p><strong>激活对象</strong><code>（Activation object）</code>有了变量对象存每个上下文中的东西，但是它什么时候能被访问到呢？就是每进入一个执行上下文时，这个执行上下文儿中的变量对象就被激活，也就是该上下文中的函数标示符、形参、变量声明等就可以被访问到了</p>
+</blockquote>
+<h4 id="EC建立的细节"><a href="#EC建立的细节" class="headerlink" title="EC建立的细节"></a><code>EC</code>建立的细节</h4><h5 id="1、创建阶段【当函数被调用，但未执行任何其内部代码之前】"><a href="#1、创建阶段【当函数被调用，但未执行任何其内部代码之前】" class="headerlink" title="1、创建阶段【当函数被调用，但未执行任何其内部代码之前】"></a>1、创建阶段【当函数被调用，但未执行任何其内部代码之前】</h5><ul>
+<li>创建作用域链（Scope Chain）</li>
+<li>创建变量，函数和参数。</li>
+<li>求”this“的值</li>
+</ul>
+<h5 id="2、执行阶段"><a href="#2、执行阶段" class="headerlink" title="2、执行阶段"></a>2、执行阶段</h5><ul>
+<li>初始化变量的值和函数的引用，解释/执行代码。</li>
+</ul>
+<p><strong>我们可以将每个执行上下文抽象为一个对象，这个对象具有三个属性</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ECObj: &#123;</span><br><span class="line">    scopeChain: &#123; <span class="comment">/* 变量对象（variableObject）+ 所有父级执行上下文的变量对象*/</span> &#125;, </span><br><span class="line">    variableObject: &#123; <span class="comment">/*函数 arguments/参数，内部变量和函数声明 */</span> &#125;, </span><br><span class="line">    <span class="keyword">this</span>: &#123;&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="解释器执行代码的伪逻辑"><a href="#解释器执行代码的伪逻辑" class="headerlink" title="解释器执行代码的伪逻辑"></a>解释器执行代码的伪逻辑</h4><p>1、查找调用函数的代码。</p>
+<p>2、执行代码之前，先进入创建上下文阶段：</p>
+<ul>
+<li>初始化作用域链</li>
+<li>创建变量对象：<ul>
+<li><strong>创建arguments对象</strong>，检查上下文，初始化参数名称和值并创建引用的复制。</li>
+<li><strong>扫描上下文的函数声明（而非函数表达式）</strong>：<ul>
+<li>为发现的每一个函数，在变量对象上创建一个属性——确切的说是函数的名字——其有一个指向函数在内存中的引用。</li>
+<li>如果函数的名字已经存在，引用指针将被重写。</li>
+</ul>
+</li>
+<li><strong>扫描上下文的变量声明</strong>：<ul>
+<li>为发现的每个变量声明，在变量对象上创建一个属性——就是变量的名字，并且将变量的值初始化为undefined</li>
+<li>如果变量的名字已经在变量对象里存在，将不会进行任何操作并继续扫描。</li>
+</ul>
+</li>
+<li><strong>求出上下文内部“this”的值</strong>。</li>
+</ul>
+</li>
+</ul>
+<p>3、激活/代码执行阶段：</p>
+<ul>
+<li>在当前上下文上运行/解释函数代码，并随着代码一行行执行指派变量的值。</li>
+</ul>
+<h5 id="VO-—-对应上述第二个阶段"><a href="#VO-—-对应上述第二个阶段" class="headerlink" title="VO — 对应上述第二个阶段"></a><strong>VO — 对应上述第二个阶段</strong></h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">i</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="string">'hello'</span></span><br><span class="line">    <span class="keyword">var</span> b = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">c</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line">foo(<span class="number">22</span>)</span><br></pre></td></tr></table></figure>
+<p>当我们调用<code>foo(22)</code>时，整个创建阶段是下面这样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">ECObj = &#123;</span><br><span class="line">    scopChain： &#123;...&#125;,</span><br><span class="line">     variableObject: &#123;</span><br><span class="line">        arguments: &#123;</span><br><span class="line">            0: 22,</span><br><span class="line">            length: 1</span><br><span class="line">        &#125;,</span><br><span class="line">        i: 22,</span><br><span class="line">        c: pointer to function c()</span><br><span class="line">        a: undefined,</span><br><span class="line">        b: undefined</span><br><span class="line">    &#125;,</span><br><span class="line">    this: &#123; ... &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>正如我们看到的，在上下文创建阶段，VO的初始化过程如下（<strong>该过程是有先后顺序的：函数的形参==&gt;&gt;函数声明==&gt;&gt;变量声明</strong>）：</p>
+<ul>
+<li><strong>函数的形参</strong>（当进入函数执行上下文时） —— 变量对象的一个属性，其属性名就是形参的名字，其值就是实参的值；对于没有传递的参数，其值为undefined</li>
+<li><strong>函数声明</strong>（FunctionDeclaration, FD） —— 变量对象的一个属性，其属性名和值都是函数对象创建出来的；<em>如果变量对象已经包含了相同名字的属性，则替换它的值</em></li>
+<li><strong>变量声明</strong>（var，VariableDeclaration） —— 变量对象的一个属性，其属性名即为变量名，其值为undefined;<em>如果变量名和已经声明的函数名或者函数的参数名相同，则不会影响已经存在的属性。</em></li>
+</ul>
+<p>对于函数的形参没有什么可说的，主要看一下函数的声明以及变量的声明两个部分。</p>
+<p><strong>1、如何理解函数声明过程中如果变量对象已经包含了相同名字的属性，则替换它的值这句话？</strong></p>
+<p>看如下这段代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function foo1(a)&#123;</span><br><span class="line">    console.log(a)</span><br><span class="line">    function a()&#123;&#125; </span><br><span class="line">&#125;</span><br><span class="line">foo1(20)//&apos;function a()&#123;&#125;&apos;</span><br></pre></td></tr></table></figure>
+<p>根据上面的介绍，我们知道VO创建过程中，函数形参的优先级是高于函数的声明的，结果是函数体内部声明的<code>function a(){}</code>覆盖了函数形参<code>a</code>的声明，因此最后输出<code>a</code>是一个<code>function</code></p>
+<p><strong>2、如何理解变量声明过程中如果变量名和已经声明的函数名或者函数的参数名相同，则不会影响已经存在的属性这句话？</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//情景一：与参数名相同</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo2</span>(<span class="params">a</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(a)</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">10</span></span><br><span class="line">&#125;</span><br><span class="line">foo2(<span class="number">20</span>) <span class="comment">//'20'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//情景二：与函数名相同</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo2</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(a)</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">10</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line">foo2() <span class="comment">//'function a()&#123;&#125;'</span></span><br></pre></td></tr></table></figure>
+<p>下面是几个比较有趣的例子，当做加餐小菜，大家细细品味。这里给出一句话当做参考：</p>
+<blockquote>
+<p><strong>函数的声明比变量优先级要高，并且定义过程不会被变量覆盖，除非是赋值</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="function"><span class="keyword">function</span> <span class="title">foo3</span>(<span class="params">a</span>)</span>&#123;</span><br><span class="line">&gt;     <span class="keyword">var</span> a = <span class="number">10</span></span><br><span class="line">&gt;     <span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">&gt;     <span class="built_in">console</span>.log(a)</span><br><span class="line">&gt; &#125;</span><br><span class="line">&gt; foo3(<span class="number">20</span>) <span class="comment">//'10'</span></span><br><span class="line">&gt; </span><br><span class="line">&gt; <span class="function"><span class="keyword">function</span> <span class="title">foo3</span>(<span class="params">a</span>)</span>&#123;</span><br><span class="line">&gt;     <span class="keyword">var</span> a </span><br><span class="line">&gt;     <span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">&gt;     <span class="built_in">console</span>.log(a)</span><br><span class="line">&gt; &#125;</span><br><span class="line">&gt; foo3(<span class="number">20</span>) <span class="comment">//'function a()&#123;&#125;'</span></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h5 id="AO-—-对应第三个阶段"><a href="#AO-—-对应第三个阶段" class="headerlink" title="AO — 对应第三个阶段"></a><strong>AO — 对应第三个阶段</strong></h5><p>正如我们看到的，创建的过程仅负责处理定义属性的名字，而并不为他们指派具体的值，当然还有对形参/实参的处理。一旦创建阶段完成，执行流进入函数并且激活/代码执行阶段，看下函数执行完成后的样子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">ECObj = &#123;</span><br><span class="line">    scopeChain: &#123; ... &#125;,</span><br><span class="line">    variableObject: &#123;</span><br><span class="line">        <span class="built_in">arguments</span>: &#123;</span><br><span class="line">            <span class="number">0</span>: <span class="number">22</span>,</span><br><span class="line">            length: <span class="number">1</span></span><br><span class="line">        &#125;,</span><br><span class="line">        i: <span class="number">22</span>,</span><br><span class="line">        c: pointer to <span class="function"><span class="keyword">function</span> <span class="title">c</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        <span class="title">a</span>: '<span class="title">hello</span>',</span></span><br><span class="line"><span class="function">        <span class="title">b</span>: <span class="title">pointer</span> <span class="title">to</span> <span class="title">function</span> <span class="title">privateB</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    &#125;,</span></span><br><span class="line"><span class="function">    <span class="title">this</span>: </span>&#123; ... &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="提升（Hoisting）"><a href="#提升（Hoisting）" class="headerlink" title="提升（Hoisting）"></a>提升（Hoisting）</h3><p>对于下面的代码，相信很多人都能一眼看出输出结果，但是却很少有人能给出为什么会产生这种输出结果的解释。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> foo); <span class="comment">// 函数指针</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> bar); <span class="comment">// undefined</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> foo = <span class="string">'hello'</span>,</span><br><span class="line">        bar = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'world'</span>;</span><br><span class="line">        &#125;;</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'hello'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;());</span><br></pre></td></tr></table></figure>
+<p><strong>1、为什么我们能在foo声明之前访问它？</strong><br>回想在<code>VO</code>的创建阶段，我们知道函数在该阶段就已经被创建在变量对象中。所以在函数开始执行之前，foo已经被定义了。</p>
+<p><strong>2、Foo被声明了两次，为什么foo显示为函数而不是undefined或字符串？</strong><br>我们知道，在创建阶段，函数声明是优先于变量被创建的。而且在变量的创建过程中，如果发现<code>VO</code>中已经存在相同名称的属性，则不会影响已经存在的属性。<br>因此，对<code>foo()</code>函数的引用首先被创建在活动对象里，并且当我们解释到var foo时，我们看见<code>foo</code>属性名已经存在，所以代码什么都不做并继续执行。</p>
+<p><strong>3、为什么bar的值是undefined？</strong><br><code>bar</code>采用的是函数表达式的方式来定义的，所以<code>bar</code>实际上是一个变量，但变量的值是函数，并且我们知道变量在创建阶段被创建但他们被初始化为<code>undefined</code>，这也是为什么函数表达式不会被提升的原因。</p>
+<h4 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h4><p>1、<code>EC</code>分为两个阶段，创建执行上下文和执行代码。<br>2、每个<code>EC</code>可以抽象为一个对象，这个对象具有三个属性，分别为：作用域链<code>Scope</code>，<code>VO|AO</code>（<code>AO</code>，<code>VO</code>只能有一个）以及<code>this</code>。<br>3、函数<code>EC</code>中的<code>AO</code>在进入函数<code>EC</code>时，确定了Arguments对象的属性；在执行函数<code>EC</code>时，其它变量属性具体化。<br>4、<code>EC</code>创建的过程是由先后顺序的：参数声明 <code>&gt;</code> 函数声明 <code>&gt;</code> 变量声明</p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="https://segmentfault.com/a/1190000000533094" target="_blank" rel="noopener">javascript 执行环境，变量对象，作用域链</a><br><a href="http://davidshariff.com/blog/what-is-the-execution-context-in-javascript/" target="_blank" rel="noopener">What is the Execution Context &amp; Stack in JavaScript?</a><br><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Functions#闭包(Closures" target="_blank" rel="noopener">函数MDN</a>)</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/21/函数表达式与递归/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2079,681 +2773,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/16/2019-04-16-DOM级别和DOM事件/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="叶春锁">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="纵宇博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/16/2019-04-16-DOM级别和DOM事件/" itemprop="url">DOM级别和DOM事件</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-16T16:40:34+08:00">
-                2019-04-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/04/16/2019-04-16-DOM级别和DOM事件/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/16/2019-04-16-DOM级别和DOM事件/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/04/16/2019-04-16-DOM级别和DOM事件/" class="leancloud_visitors" data-flag-title="DOM级别和DOM事件">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="引入"><a href="#引入" class="headerlink" title="引入:"></a>引入:</h1><p>1.理解dom级别：</p>
-<p>0级缺点就是单处理事件函数，2级弥补缺点，3级添加更多的事件类型。</p>
-<p>2.事件触发的三个阶段：</p>
-<p>一个事件的发生有3个阶段：</p>
-<p>（1）window对象向目标节点进行传导，我们成为捕获阶段。</p>
-<p>（2）到达目标节点触发事件，我们成为目标阶段。</p>
-<p>（3）从目标节点传导回window对象，我们成为冒泡阶段。</p>
-<p>具体流程window》document》html》body……</p>
-<p>3.什么时间代理</p>
-<p>   由于事件冒泡机制，我们可以把子节点的事件监听函数绑定到父节点，由父节点处理处理多个子元素的事件。</p>
-<p>4.阻止事件冒泡stopPropagation，特性就是阻止事件传递，并没有完全取消当前元素click的其他事件监听函数。</p>
-<p>完全取消stopImmediatePropagation</p>
-<p>5.Event对象的常见应用</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Event对象的常见应用</span><br><span class="line">event.preventDefault()：阻止默认事件</span><br><span class="line">event.stopPropagation()：阻止事件冒泡</span><br><span class="line">event.stopImmediatePropagation()：阻止事件执行(事件响应优先级)</span><br><span class="line">event.currentTarget：当前所绑定的事件对象</span><br><span class="line"><span class="comment">//联想事件委托，父元素就是当前所绑定的事件对象。</span></span><br><span class="line">event.target：当前被点击的元素</span><br><span class="line"><span class="comment">//联想事件委托,就是当前点击的子元素。</span></span><br></pre></td></tr></table></figure>
-<p>6.自定义事件</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Event(<span class="string">'事件名'</span>)</span><br><span class="line">&lt;div id=<span class="string">"ev"</span>&gt;目标元素&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">&lt;script&gt;</span></span><br><span class="line"><span class="regexp">    var eve=new Event('custome');</span></span><br><span class="line"><span class="regexp">    ev.addEventListener('custome',function () &#123;</span></span><br><span class="line"><span class="regexp">        console.log('custome');</span></span><br><span class="line"><span class="regexp">    &#125;);</span></span><br><span class="line"><span class="regexp">    ev.dispatchEvent(eve);</span></span><br><span class="line"><span class="regexp">&lt;/</span>script&gt;</span><br><span class="line">CustomEvent(<span class="string">'事件名'</span>,obj)：可以增加一个obj参数对象</span><br><span class="line">detail：提供有关事件的自定义信息的子对象。</span><br><span class="line">&lt;div id=<span class="string">"ev"</span>&gt;目标元素&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">&lt;script&gt;</span></span><br><span class="line"><span class="regexp">    var ev=document.getElementById('ev');</span></span><br><span class="line"><span class="regexp">    var eve=new CustomEvent('test',&#123;detail:&#123;a:1, b:2&#125;&#125;);</span></span><br><span class="line"><span class="regexp">    ev.addEventListener('test',function (e) &#123;</span></span><br><span class="line"><span class="regexp">        console.log(e.detail.a)</span></span><br><span class="line"><span class="regexp">    &#125;);</span></span><br><span class="line"><span class="regexp">    ev.dispatchEvent(eve);</span></span><br><span class="line"><span class="regexp">&lt;/</span>script&gt;</span><br></pre></td></tr></table></figure>
-<h1 id="DOM级别："><a href="#DOM级别：" class="headerlink" title="DOM级别："></a>DOM级别：</h1><p>DOM级别一共可以分为四个级别：DOM0级、DOM1级、DOM2级和DOM3级。而DOM事件分为3个级别：DOM0级事件处理，DOM2级事件处理和DOM3级事件处理。</p>
-<p>有人可能会疑惑，为什么没有DOM1级事件处理呢？因为1级DOM标准并没有定义事件相关的内容，所以没有所谓的1级DOM事件模型。</p>
-<h2 id="DOM0级事件"><a href="#DOM0级事件" class="headerlink" title="DOM0级事件"></a>DOM0级事件</h2><p>1.DOM0级事件之前，我们有必要了解一下HTML事件处理程序，也是最早的一种事件处理方式</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;button type=<span class="string">"button"</span> onclick=<span class="string">"showFn()"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showFn</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">'Hello World'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>以上的代码，我们通过直接在HTML代码里面定义了一个 onclick属性触发showfu这样的事件处理程序最大的缺点就是HTML和JS耦合太强，我们如果需要修改函数名就必须修改两个地方，优点是不需要操作DOM来完成事件的绑定。</p>
-<p>DOM0级处理事件就是将一个函数赋值给一个事件处理属性。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;button id=<span class="string">"btn"</span> type=<span class="string">"button"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">'btn'</span>);</span><br><span class="line">btn.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Hello World'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>以上的代码我们给button定义了一个id 通过js原生的api获取按钮<br> 将一个函数赋值给了一个事件处理属性onclick 这样的方法就是DOM0级<br> 处理事件的体现。我们可以通过给事件处理属性赋值null来解绑事件。</p>
-<p><strong>DOM0级事件处理程序的缺点在于一个处理程序无法同时绑定多个处理函数，比如我还想再点击按钮事件上加上另外一个函数。</strong></p>
-<h2 id="DOM2级事件"><a href="#DOM2级事件" class="headerlink" title="DOM2级事件"></a>DOM2级事件</h2><p>DOM2级事件在DOM0级事件的基础上弥补了一个处理程序无法同时绑定多个处理函数的缺点，允许给一个处理程序添加多个处理函数。代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;button id=&quot;btn&quot; type=&quot;button&quot;&gt;&lt;/button&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    var btn = document.getElementById(&apos;btn&apos;);</span><br><span class="line">    </span><br><span class="line">    function showFn() &#123;</span><br><span class="line">        alert(&apos;Hello World&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    btn.addEventListener(&apos;click&apos;, showFn, false);</span><br><span class="line">    </span><br><span class="line">    // btn.removeEventListener(&apos;click&apos;, showFn, false); 解绑事件 </span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>DOM2级事件定义了addEventListener和removeEventListener两个方法，分别用来绑定和解绑事件，方法中包含3个参数，分别是绑定的事件处理属性名称（不包含on）、处理函数和是否在捕获时执行事件处理函数。如果我们还需要添加一个鼠标移入的方法，只需要：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">btn.addEventListener(&apos;�mouseover&apos;, showFn, false);</span><br></pre></td></tr></table></figure>
-<p>这样点击按钮和鼠标移入时都将触发showFn方法。</p>
-<p>需要注意的是IE8级以下版本不支持addEventListener和removeEventListener，需要用attachEvent和detachEvent来实现：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">btn.attachEvent(&apos;onclick&apos;, showFn); // 绑定事件 </span><br><span class="line">btn.detachEvent(&apos;onclick&apos;, showFn); // 解绑事件</span><br></pre></td></tr></table></figure>
-<p>这里我们不需要传入第三个参数，因为IE8级以下版本只支持冒泡型事件。</p>
-<h2 id="DOM3级事件"><a href="#DOM3级事件" class="headerlink" title="DOM3级事件"></a>DOM3级事件</h2><p>DOM3级事件在DOM2级事件的基础上添加了更多的事件类型，全部类型如下：</p>
-<ol>
-<li>UI事件，当用户与页面上的元素交互时触发，如：load、scroll</li>
-<li>焦点事件，当元素获得或失去焦点时触发，如：blur、focus</li>
-<li>鼠标事件，当用户通过鼠标在页面执行操作时触发如：dbclick、mouseup</li>
-<li>滚轮事件，当使用鼠标滚轮或类似设备时触发，如：mousewheel</li>
-<li>文本事件，当在文档中输入文本时触发，如：textInput</li>
-<li>键盘事件，当用户通过键盘在页面上执行操作时触发，如：keydown、keypress</li>
-<li>合成事件，当为IME（输入法编辑器）输入字符时触发，如：compositionstart</li>
-<li>变动事件，当底层DOM结构发生变化时触发，如：DOMsubtreeModified</li>
-</ol>
-<p>同时DOM3级事件也允许使用者自定义一些事件</p>
-<h1 id="DOM流事件："><a href="#DOM流事件：" class="headerlink" title="DOM流事件："></a>DOM流事件：</h1><h3 id="1-事件冒泡"><a href="#1-事件冒泡" class="headerlink" title="1.事件冒泡"></a>1.事件冒泡</h3><p>所谓事件冒泡就是事件像泡泡一样从最开始生成的地方一层一层往上冒，比如上图中a标签为事件目标，点击a标签后同时也会触发p、li上的点击事件，一层一层向上直至最外层的html或document。下面是代码示例：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"box"</span>&gt;</span><br><span class="line">    &lt;a id=<span class="string">"child"</span>&gt;事件冒泡&lt;<span class="regexp">/a&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line"> <span class="keyword">var</span> box = <span class="built_in">document</span>.getElementById(<span class="string">'box'</span>),</span><br><span class="line"> child = <span class="built_in">document</span>.getElementById(<span class="string">'child'</span>);</span><br><span class="line"></span><br><span class="line">child.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">'我是目标事件'</span>);</span><br><span class="line"> &#125;, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line"> box.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">'事件冒泡至DIV'</span>);</span><br><span class="line"> &#125;, <span class="literal">false</span>);</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
-<p>上面的代码运行后我们点击a标签，首先会弹出’我是目标事件’提示，然后又会弹出’事件冒泡至DIV’的提示，这便说明了事件自内而外向上冒泡了。</p>
-<p>那么我们如何<strong>阻止事件冒泡</strong>呢？这里就涉及事件的Event对象中的stopPropagation方法，如下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">child.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">'我是目标事件'</span>);</span><br><span class="line">    e.stopPropagation();</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
-<p>加上stopPropagation方法后，我们再次点击a标签就不会触发div上的click事件了。</p>
-<h3 id="2-事件捕获"><a href="#2-事件捕获" class="headerlink" title="2.事件捕获"></a>2.事件捕获</h3><p>和事件冒泡相反，事件捕获是自上而下执行，我们只需要将addEventListener的第三个参数改为true就行。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"box"</span>&gt;</span><br><span class="line">    &lt;a id=<span class="string">"child"</span>&gt;事件冒泡&lt;<span class="regexp">/a&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line"> <span class="keyword">var</span> box = <span class="built_in">document</span>.getElementById(<span class="string">'box'</span>),</span><br><span class="line"> child = <span class="built_in">document</span>.getElementById(<span class="string">'child'</span>);</span><br><span class="line"></span><br><span class="line"> child.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">     alert(<span class="string">'我是目标事件'</span>);</span><br><span class="line"> &#125;, �<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"> box.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">'事件冒泡至DIV'</span>);</span><br><span class="line"> &#125;, <span class="literal">true</span>);</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
-<p>此时我们点击a标签，首先弹出的是’事件冒泡至DIV’，其次弹出的是’我是目标事件’，正好与事件冒泡相反。</p>
-<p><img src="../images/144933yldukfdlfnldjzd8.png" alt="a:3:{s:3:\&quot;pic\&quot;;s:43:\&quot;portal/201811/08/144933yldukfdlfnldjzd8.png\&quot;;s:5:\&quot;thumb\&quot;;s:0:\&quot;\&quot;;s:6:\&quot;remote\&quot;;N;}"></p>
-<h3 id="3-事件委托"><a href="#3-事件委托" class="headerlink" title="3.事件委托"></a>3.事件委托</h3><p>案例解说：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">现在有一个ul，ul里又有100个li，我想给这100个li都绑定一个点击事件，我们一般可以通过for循环来绑定，但是要是有1000个li呢？ 为了提高效率和速度，所以我们这时可以采用事件委托，只给ul绑定一个事件，根据事件冒泡的规则，只要你点了ul里的每一个li，都会触发ul的绑定事件，我们在ul绑定事件的函数里通过一些判断，就可以给这100li都触发点击事件了。</span><br><span class="line"></span><br><span class="line">作者：晏子楚</span><br><span class="line">链接：https://www.jianshu.com/p/d3e9b653fa95</span><br><span class="line">来源：简书</span><br><span class="line">简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。</span><br></pre></td></tr></table></figure>
-<p>案例代码</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"layout"</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">ul</span> <span class="attr">id</span>=<span class="string">"myul"</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"btn btn-primary"</span>&gt;</span>按钮1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"btn btn-primary"</span>&gt;</span>按钮2<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"btn btn-primary"</span>&gt;</span>按钮3<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">				</span><br><span class="line">			<span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">		<span class="function"><span class="keyword">function</span> <span class="title">clickLi</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">			<span class="built_in">console</span>.log(<span class="string">"你点击了li"</span>);</span></span><br><span class="line"><span class="undefined">		&#125;</span></span><br><span class="line"><span class="javascript">		<span class="built_in">document</span>.getElementById(<span class="string">"myul"</span>).addEventListener(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">			<span class="comment">// 每一个函数内都有一个event事件对象，它有一个target属性，指向事件源</span></span></span><br><span class="line"><span class="javascript">			<span class="keyword">if</span>(event.target.nodeName.toLowerCase()==<span class="string">"li"</span>)&#123;</span></span><br><span class="line"><span class="javascript">				<span class="comment">// 我们判断如果target事件源的节点名字是li，那就执行这个函数</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// target里面的属性是非常多的，id名、class名、节点名等等都可以取到</span></span></span><br><span class="line"><span class="undefined">				clickLi();</span></span><br><span class="line"><span class="undefined">			&#125;</span></span><br><span class="line"><span class="javascript">		&#125;,<span class="literal">false</span>)</span></span><br><span class="line"><span class="undefined">	</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>如果我们想给每个li添加不同的事件，我们应该这样做：给li设置id值，根据id赋予不同事件函数</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">		&lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"layout"</span>&gt;</span><br><span class="line">			&lt;ul id=<span class="string">"myul"</span>&gt;</span><br><span class="line">				&lt;li <span class="class"><span class="keyword">class</span></span>=<span class="string">"btn btn-primary"</span> id=<span class="string">"myli1"</span>&gt;按钮<span class="number">1</span>&lt;<span class="regexp">/li&gt;</span></span><br><span class="line"><span class="regexp">				&lt;li class="btn btn-primary" id="myli2"&gt;按钮2&lt;/</span>li&gt;</span><br><span class="line">				&lt;li <span class="class"><span class="keyword">class</span></span>=<span class="string">"btn btn-primary"</span> id=<span class="string">"myli3"</span>&gt;按钮<span class="number">3</span>&lt;<span class="regexp">/li&gt;</span></span><br><span class="line"><span class="regexp">				</span></span><br><span class="line"><span class="regexp">			&lt;/u</span>l&gt;</span><br><span class="line">		&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">	&lt;/</span>body&gt;</span><br><span class="line">	&lt;script type=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">		<span class="function"><span class="keyword">function</span> <span class="title">clickLi1</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">			<span class="built_in">console</span>.log(<span class="string">"你点击了li1"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="function"><span class="keyword">function</span> <span class="title">clickLi2</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">			<span class="built_in">console</span>.log(<span class="string">"你点击了li2"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="function"><span class="keyword">function</span> <span class="title">clickLi3</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">			<span class="built_in">console</span>.log(<span class="string">"你点击了li3"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">document</span>.getElementById(<span class="string">"myul"</span>).addEventListener(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">			<span class="comment">// 每一个函数内都有一个event事件对象，它有一个target属性，指向事件源</span></span><br><span class="line">		    <span class="keyword">var</span> liName=event.target.id;</span><br><span class="line">			<span class="keyword">if</span>(liName==<span class="string">"myli1"</span>)&#123;</span><br><span class="line">				clickLi1();</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>(liName==<span class="string">"myli2"</span>)&#123;</span><br><span class="line">				clickLi2();</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>(liName==<span class="string">"myli3"</span>)&#123;</span><br><span class="line">				clickLi3();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,<span class="literal">false</span>)</span><br><span class="line">	&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
-<p>这就是所谓的事件委托，通过监听一个父元素，来给不同的子元素绑定事件，减少监听次数，从而提升速度。</p>
-<h3 id="面试题："><a href="#面试题：" class="headerlink" title="面试题："></a>面试题：</h3><p><strong>阮大神：</strong>一个事件发生后，会在子元素和父元素之间传播（propagation）。这种传播分成三个阶段。</p>
-<p>事件流：</p>
-<blockquote>
-<p><strong>第一阶段</strong>：<strong>从<code>window</code>对象传导到目标节点（上层传到底层），称为“捕获阶段”（capture phase）。</strong></p>
-</blockquote>
-<blockquote>
-<p><strong>第二阶段</strong>：<strong>在目标节点上触发，称为“目标阶段”（target phase）。</strong></p>
-</blockquote>
-<blockquote>
-<p><strong>第三阶段</strong>：<strong>从目标节点传导回<code>window</code>对象（从底层传回上层），称为“冒泡阶段”（bubbling phase）。</strong></p>
-</blockquote>
-<p>这种三阶段的传播模型，使得同一个事件会在多个节点上触发。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">  &lt;p&gt;点击&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>div&gt;</span><br></pre></td></tr></table></figure>
-<p>上面代码中，<code>&lt;div&gt;</code>节点之中有一个<code>&lt;p&gt;</code>节点。</p>
-<p>如果对这两个节点，都设置<code>click</code>事件的监听函数（每个节点的捕获阶段和监听阶段，各设置一个监听函数），共计设置四个监听函数。然后，对<code>&lt;p&gt;</code>点击，<code>click</code>事件会触发四次。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> phases = &#123;</span><br><span class="line">  <span class="number">1</span>: <span class="string">'capture'</span>,</span><br><span class="line">  <span class="number">2</span>: <span class="string">'target'</span>,</span><br><span class="line">  <span class="number">3</span>: <span class="string">'bubble'</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> div = <span class="built_in">document</span>.querySelector(<span class="string">'div'</span>);</span><br><span class="line"><span class="keyword">var</span> p = <span class="built_in">document</span>.querySelector(<span class="string">'p'</span>);</span><br><span class="line"></span><br><span class="line">div.addEventListener(<span class="string">'click'</span>, callback, <span class="literal">true</span>);</span><br><span class="line">p.addEventListener(<span class="string">'click'</span>, callback, <span class="literal">true</span>);</span><br><span class="line">div.addEventListener(<span class="string">'click'</span>, callback, <span class="literal">false</span>);</span><br><span class="line">p.addEventListener(<span class="string">'click'</span>, callback, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">callback</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> tag = event.currentTarget.tagName;</span><br><span class="line">  <span class="keyword">var</span> phase = phases[event.eventPhase];</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"Tag: '"</span> + tag + <span class="string">"'. EventPhase: '"</span> + phase + <span class="string">"'"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 点击以后的结果</span></span><br><span class="line"><span class="comment">// Tag: 'DIV'. EventPhase: 'capture'</span></span><br><span class="line"><span class="comment">// Tag: 'P'. EventPhase: 'target'</span></span><br><span class="line"><span class="comment">// Tag: 'P'. EventPhase: 'target'</span></span><br><span class="line"><span class="comment">// Tag: 'DIV'. EventPhase: 'bubble'</span></span><br></pre></td></tr></table></figure>
-<p>上面代码表示，<code>click</code>事件被触发了四次：<code>&lt;div&gt;</code>节点的捕获阶段和冒泡阶段各1次，<code>&lt;p&gt;</code>节点的目标阶段触发了2次。</p>
-<ol>
-<li>捕获阶段：事件从<code>&lt;div&gt;</code>向<code>&lt;p&gt;</code>传播时，触发<code>&lt;div&gt;</code>的<code>click</code>事件；</li>
-<li>目标阶段：事件从<code>&lt;div&gt;</code>到达<code>&lt;p&gt;</code>时，触发<code>&lt;p&gt;</code>的<code>click</code>事件；</li>
-<li>冒泡阶段：事件从<code>&lt;p&gt;</code>传回<code>&lt;div&gt;</code>时，再次触发<code>&lt;div&gt;</code>的<code>click</code>事件。</li>
-</ol>
-<p>其中，<code>&lt;p&gt;</code>节点有两个监听函数（<code>addEventListener</code>方法第三个参数的不同，会导致绑定两个监听函数），因此它们都会因为<code>click</code>事件触发一次。所以，<code>&lt;p&gt;</code>会在<code>target</code>阶段有两次输出。</p>
-<p>注意，浏览器总是假定<code>click</code>事件的目标节点，就是点击位置嵌套最深的那个节点（本例是<code>&lt;div&gt;</code>节点里面的<code>&lt;p&gt;</code>节点）。所以，<code>&lt;p&gt;</code>节点的捕获阶段和冒泡阶段，都会显示为<code>target</code>阶段。</p>
-<p>事件传播的最上层对象是<code>window</code>，接着依次是<code>document</code>，<code>html</code>（<code>document.documentElement</code>）和<code>body</code>（<code>document.body</code>）。也就是说，上例的事件传播顺序，在捕获阶段依次为<code>window</code>、<code>document</code>、<code>html</code>、<code>body</code>、<code>div</code>、<code>p</code>，在冒泡阶段依次为<code>p</code>、<code>div</code>、<code>body</code>、<code>html</code>、<code>document</code>、<code>window</code>。</p>
-<p><strong>拓展：</strong></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">html:获取html节点：docoment.documentElement</span><br></pre></td></tr></table></figure>
-<p><strong>什么叫事件代理：由于事件冒泡机制，我们可以把子节点事件监听函数绑到父节点，由父节点的监听函数统一处理多个子元素的事件。</strong></p>
-<hr>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ul = <span class="built_in">document</span>.querySelector(<span class="string">'ul'</span>);</span><br><span class="line"></span><br><span class="line">ul.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (event.target.tagName.toLowerCase() === <span class="string">'li'</span>) &#123;</span><br><span class="line">    <span class="comment">// some code</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>上面代码中，<code>click</code>事件的监听函数定义在<code>&lt;ul&gt;</code>节点，但是实际上，它处理的是子节点<code>&lt;li&gt;</code>的<code>click</code>事件。2这样做的好处是，只要定义一个监听函数，就能处理多个子节点的事件，而不用在每个<code>&lt;li&gt;</code>节点上定义监听函数。而且以后再添加子节点，监听函数依然有效。</p>
-<p><strong>如果希望事件到某个节点为止，不再传播，可以使用事件对象的<code>stopPropagation</code>方法。</strong></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 事件传播到 p 元素后，就不再向下传播了</span></span><br><span class="line">p.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">  event.stopPropagation();</span><br><span class="line">&#125;, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 事件冒泡到 p 元素后，就不再向上冒泡了</span></span><br><span class="line">p.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">  event.stopPropagation();</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
-<p>上面代码中，<code>stopPropagation</code>方法分别在捕获阶段和冒泡阶段，阻止了事件的传播。</p>
-<p>但是，<code>stopPropagation</code>方法只会阻止事件的传播，不会阻止该事件触发<code>&lt;p&gt;</code>节点的其他<code>click</code>事件的监听函数。也就是说，不是彻底取消<code>click</code>事件。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">p.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">  event.stopPropagation();</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">p.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 会触发</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">2</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>上面代码中，<code>p</code>元素绑定了两个<code>click</code>事件的监听函数。<code>stopPropagation</code>方法只能阻止这个事件的传播，不能取消这个事件，因此，第二个监听函数会触发。输出结果会先是1，然后是2。</p>
-<p>如果想要彻底取消该事件，不再触发后面所有<code>click</code>的监听函数，可以使用<code>stopImmediatePropagation</code>方法。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">p.addEventListener(&apos;click&apos;, function (event) &#123;</span><br><span class="line">  event.stopImmediatePropagation();</span><br><span class="line">  console.log(1);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">p.addEventListener(&apos;click&apos;, function(event) &#123;</span><br><span class="line">  // 不会被触发</span><br><span class="line">  console.log(2);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>上面代码中，<code>stopImmediatePropagation</code>方法可以彻底取消这个事件，使得后面绑定的所有<code>click</code>监听函数都不再触发。所以，只会输出1，不会输出2。</p>
-<hr>
-<p>注解：当前触发的事件源载体上可能有事件，也可能没事件。只要是您点击了或其他的就是触发事件。（联系事件委托）</p>
-<p><strong>w3c 的方法是 e.stopPropagation()阻止事件冒泡</strong></p>
-<p>事件冒泡案例</p>
-<p><img src="../images/10535484-d95f19718f006f4d.webp" alt="img"></p>
-<p>这是一个模态框，现在的需求是当我们点击红色的按钮需要跳转页面，然后点击白色的对话框不需要任何反应，点其它任何地方就关闭这个模态框。<br> 这里就需要用到阻止冒泡了，红色的按钮是白色对话框的子元素，白色对话框又是这整个模态框的子元素，我们给模态框加上一个点击事件关闭，然后给红色的按钮加上一个点击事件跳转，这时就产生了一个问题，只要点击白色的对话框，由于冒泡机制，这个模态框也会关闭，实际上我们并不想点击白色的对话框有任何反应，这时我们就给这个白色的对话框绑定一个点击事件，函数里写上<code>event.stopPropagation();</code>，这样就OK了。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/15/清浮动/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="叶春锁">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="纵宇博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/15/清浮动/" itemprop="url">浮动的清除</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-15T20:53:15+08:00">
-                2019-04-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/css/" itemprop="url" rel="index">
-                    <span itemprop="name">css</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/04/15/清浮动/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/15/清浮动/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/04/15/清浮动/" class="leancloud_visitors" data-flag-title="浮动的清除">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Clear-both清除浮动"><a href="#Clear-both清除浮动" class="headerlink" title="Clear:both清除浮动"></a>Clear:both清除浮动</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo A"</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demoB demoFloat"</span>&gt;</span>float left<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demoC demoFloat"</span>&gt;</span>float right<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demoD demoFloat"</span>&gt;</span>not float<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"clear"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">并且在<span class="selector-tag">div</span><span class="selector-class">.clear</span>上应用样式：</span><br><span class="line"> <span class="selector-class">.clear</span> &#123;</span><br><span class="line">    <span class="attribute">clear</span>:both;<span class="comment">/*主要使用这个属性来清除浮动*/</span></span><br><span class="line">    <span class="comment">/*为了不让ie具有一定的空间，个人建议加上下面三个属性*/</span></span><br><span class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">line-height</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="使用overflow"><a href="#使用overflow" class="headerlink" title="使用overflow"></a>使用overflow</h2><p>使用overflow方法来清除浮动相对来说比较简单，只需要在有浮动的元素上面加上下面的属性：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.A</span> &#123;</span><br><span class="line">    <span class="attribute">overflow</span>: auto;</span><br><span class="line">    <span class="attribute">zoom</span>: <span class="number">1</span>;<span class="comment">/*在ＩＥ下触发其layout，也要以使用_height:1%来代替zoom*/</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<p>使用overflow属性来清除浮动有一点需要注意，overflow属性共有三个属性值：hidden,auto,visible。我们可以使用hiddent和auto值来清除浮动，但切记不能使用visible值，如果使用这个值将无法达到清除浮动效果，其他两个值都可以，其区据说在于一个对seo比较友好，另个hidden对seo不是太友好，</p>
-<h2 id="伪元素清除浮动"><a href="#伪元素清除浮动" class="headerlink" title="伪元素清除浮动"></a>伪元素清除浮动</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">.clearfix:before,</span><br><span class="line">  .clearfix:after &#123;</span><br><span class="line">     content:<span class="string">""</span>;</span><br><span class="line">     display:table;</span><br><span class="line">  &#125;</span><br><span class="line">  .clearfix:after &#123;</span><br><span class="line">    clear:both;</span><br><span class="line">    overflow:hidden;</span><br><span class="line">  &#125;</span><br><span class="line"> .clearfix &#123;</span><br><span class="line">    zoom:<span class="number">1</span>; <span class="comment">/* IE &lt; 8 */</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>第二种</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">:before</span>,</span><br><span class="line"> <span class="selector-class">.clearfix</span><span class="selector-pseudo">:after</span> &#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">"."</span>;</span><br><span class="line">    <span class="attribute">display</span>: block;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">visibility</span>: hidden;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="selector-class">.clearfix</span><span class="selector-pseudo">:after</span> &#123;<span class="attribute">clear</span>: both;&#125;</span><br><span class="line"> <span class="selector-class">.clearfix</span> &#123;<span class="attribute">zoom</span>: <span class="number">1</span>;&#125; <span class="comment">/* IE &lt; 8 */</span></span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/15/BFC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="叶春锁">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="纵宇博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/15/BFC/" itemprop="url">BFC理解</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-15T19:22:50+08:00">
-                2019-04-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/css/" itemprop="url" rel="index">
-                    <span itemprop="name">css</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/04/15/BFC/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/15/BFC/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/04/15/BFC/" class="leancloud_visitors" data-flag-title="BFC理解">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="BFC理解"><a href="#BFC理解" class="headerlink" title="BFC理解"></a>BFC理解</h1><p>案例引入，一个父元素内有图片元素和文字元素。</p>
-<p>当图片元素设置浮动，并且文字足够多</p>
-<p><img src="images/floats1-large-opt.png" alt="ä&quot;ä¹æ¯BFC"></p>
-<p>当文字减少</p>
-<p><img src="images/floats2-large-opt.png" alt="ä&quot;ä¹æ¯BFC"></p>
-<p>父盒子元素的边框高度就会随着文本的减少而降低（常被理解元素浮动之后致使其父容器坍塌）。</p>
-<p>那是当浮动一个元素时，盒子仍然保持原来的宽度，是文本所占的空间缩短了，才给浮动元素腾出位置，<strong>这就是为什么背景和边框能够看起来包裹住了浮动元素。</strong>（其实这只是假象）</p>
-<p>有两种方式可以解决这个布局问题。</p>
-<p><strong>一种是使用clearfix黑魔法，就是在文本和图片（浮动元素）的下面插入一个元素，比如<code>div</code>，并将设置<code>clear</code>属性值为<code>both</code>。</strong></p>
-<p><strong>当然也可以是伪元素清除浮动</strong></p>
-<p><strong>另外一种方法是使用<code>overflow</code>属性，把它设置为非默认值<code>visible</code>的值。著作权归作者所有。</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.outer &#123; overflow: auto; &#125;</span><br></pre></td></tr></table></figure>
-<p><img src="images/floats3-large-opt.png" alt="ä&quot;ä¹æ¯BFC"></p>
-<p><em>使用overflow:auto后盒子就能包裹浮动元素。</em></p>
-<p><code>overflow</code>之所以能够有效是因为当它的值是非<code>visible</code>时会创建一个BFC，而BFC的一个特性就是包裹浮动元素。(意思就是说触发BFC)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">使用Clearfix黑魔法时，除了在浮动的元素和文本最下面插入一个元素之外，更简单，也是最为经典的方式是使用CSS的伪元素::after或伪类:after。其实也就是大家常说的清除浮动。</span><br></pre></td></tr></table></figure>
-<p>你可以将BFC看作是页面中的一个迷你布局。一旦元素创建了一个BFC，它其中的所有元素都会被它包裹。</p>
-<p>表现就是：内部子元素再怎么翻江倒海都不会影响外部的元素。</p>
-<p><strong>口诀：BFC包裹，子元素们再怎么弄，也不会影响父元素。阻止它内部的元素逃离</strong></p>
-<h2 id="应用两栏自适应"><a href="#应用两栏自适应" class="headerlink" title="应用两栏自适应"></a>应用两栏自适应</h2><h2 id="阻止外边距叠加"><a href="#阻止外边距叠加" class="headerlink" title="阻止外边距叠加"></a>阻止外边距叠加</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.outer</span> &#123; <span class="attribute">background-color</span>: <span class="number">#ccc</span>; <span class="attribute">margin</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">40px</span> <span class="number">0</span>; &#125; </span><br><span class="line"><span class="selector-tag">p</span> &#123; <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">20px</span> <span class="number">0</span> <span class="number">20px</span> <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="built_in">rgb</span>(233,78,119);</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#fff</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>由于<code>p</code>元素的边缘与<code>.outer</code>元素的边缘之间没有任何东西，所以<code>.outer</code>元素与<code>p</code>元素的<code>margin</code>会叠加，<code>p</code>会与<code>.outer</code>的顶部与底部齐平，<code>p</code>对外的<code>margin</code>似乎与<code>.outer</code>的<code>margin</code>合并了，使我们无法在段落的上下看到<code>.outer</code>的灰色背景。</p>
-<blockquote>
-<p> <strong>简单来说就是外边距重叠</strong></p>
-</blockquote>
-<p><img src="images/margins1-large-opt.png" alt="Margins Collapsing"></p>
-<p>由于<code>margin</code>叠加，我们看到<code>.outer</code>内部上下没有灰色背景。</p>
-<p>思想触发BFC就可以包裹p标签的外边距，不会发生重叠</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.outer</span> &#123; </span><br><span class="line">    <span class="attribute">background-color</span>: <span class="number">#ccc</span>; </span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">40px</span> <span class="number">0</span>; </span><br><span class="line">    <span class="attribute">overflow</span>: auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="images/margins2-large-opt.png" alt="Margins Collapsing"></p>
-<p><em>创建BFC之后，外边距不再叠加。</em></p>
-<h2 id="创建BFC的方式"><a href="#创建BFC的方式" class="headerlink" title="创建BFC的方式"></a>创建BFC的方式</h2><p>推荐用第一种</p>
-<p><strong>你可以使用<code>display:flow-root</code>安全的创建BFC，来解决上文中提到的各种问题：包裹浮动元素、阻止外边距叠加和阻止围绕浮动元素。</strong></p>
-<p><strong>float的值不为none。</strong><br><strong>overflow的值为auto,scroll或hidden。</strong>（一可能有问题，二没有章法）<br><strong>display的值为table-cell, table-caption, inline-block中的任何一个。</strong><br><strong>position的值不为relative和static。（简单的就是绝对定位）</strong></p>
-<p><strong>浮动元素和绝对定位元素，非块级盒子的块级容器（例如 inline-blocks, table-cells, 和 table-captions），以及overflow值不为“visiable”的块级盒子，都会为他们的内容创建新的BFC（块级格式上下文）</strong></p>
-<hr>
-<p>详细查阅下方链接</p>
-<p>总结自<a href="https://www.w3cplus.com/css/understanding-css-layout-block-formatting-context.html" target="_blank" rel="noopener">https://www.w3cplus.com/css/understanding-css-layout-block-formatting-context.html</a></p>
-<p>补充：</p>
-<p>在BFC中，盒子从顶端开始垂直地一个接一个地排列，两个盒子之间的垂直的间隙是由他们的margin 值所决定的。在一个BFC中，两个相邻的块级盒子的垂直外边距会产生折叠。</p>
-<p><img src="images/1555331300546.png" alt="1555331300546"></p>
-<h2 id="合并外边距与BFC"><a href="#合并外边距与BFC" class="headerlink" title="合并外边距与BFC"></a>合并外边距与BFC</h2><p>在CSS当中，相邻的两个盒子（可能是兄弟关系也可能是祖先关系）的外边距可以结合成一个单独的外边距。这种合并外边距的方式被称为折叠，并且因而所结合成的外边距称为折叠外边距。</p>
-<h3 id="折叠的结果："><a href="#折叠的结果：" class="headerlink" title="折叠的结果："></a>折叠的结果：</h3><ol>
-<li>两个相邻的外边距都是正数时，折叠结果是它们两者之间较大的值。</li>
-<li>两个相邻的外边距都是负数时，折叠结果是两者绝对值的较大值。</li>
-<li>两个外边距一正一负时，折叠结果是两者的相加的和。</li>
-</ol>
-<h3 id="产生折叠的必备条件：margin必须是邻接的"><a href="#产生折叠的必备条件：margin必须是邻接的" class="headerlink" title="产生折叠的必备条件：margin必须是邻接的!"></a>产生折叠的必备条件：margin必须是邻接的!</h3><p>而根据w3c规范，两个margin是邻接的必须满足以下条件：</p>
-<ul>
-<li>必须是处于常规文档流（非float和绝对定位）的<a href="http://www.w3.org/TR/CSS2/visuren.html#block-boxes" target="_blank" rel="noopener">块级盒子</a>,并且处于同一个<a href="http://www.w3.org/TR/CSS2/visuren.html#block-formatting" target="_blank" rel="noopener">BFC</a>当中。</li>
-<li>没有线盒，没有空隙（<a href="http://www.w3.org/TR/CSS2/visuren.html#clearance" target="_blank" rel="noopener">clearance</a>，下面会讲到），没有padding和border将他们分隔开</li>
-<li>都属于垂直方向上相邻的外边距，可以是下面任意一种情况<ul>
-<li>元素的margin-top与其第一个常规文档流的子元素的margin-top</li>
-<li>元素的margin-bottom与其下一个常规文档流的兄弟元素的margin-top</li>
-<li>height为auto的元素的margin-bottom与其最后一个常规文档流的子元素的margin-bottom</li>
-<li>高度为0并且最小高度也为0，不包含常规文档流的子元素，并且自身没有建立新的BFC的元素的margin-top和margin-bottom</li>
-</ul>
-</li>
-</ul>
-<h3 id="以上的条件意味着下列的规则："><a href="#以上的条件意味着下列的规则：" class="headerlink" title="以上的条件意味着下列的规则："></a>以上的条件意味着下列的规则：</h3><ul>
-<li>创建了新的BFC的元素（例如浮动元素或者’overflow’值为’visible’以外的元素）与它的子元素的外边距不会折叠</li>
-<li><a href="http://www.w3.org/TR/CSS2/visuren.html#floats" target="_blank" rel="noopener">浮动</a>元素不与任何元素的外边距产生折叠（包括其父元素和子元素）</li>
-<li>绝对定位元素不与任何元素的外边距产生折叠</li>
-<li>inline-block元素不与任何元素的外边距产生折叠</li>
-<li>一个常规文档流元素的margin-bottom与它下一个常规文档流的兄弟元素的margin-top会产生折叠，除非它们之间存在间隙（clearance）。</li>
-<li>一个常规文档流元素的margin-top 与其第一个常规文档流的子元素的margin-top产生折叠，条件为父元素不包含 padding 和 border ，子元素不包含 clearance。</li>
-<li>一个 ‘height’ 为 ‘auto’ 并且 ‘min-height’ 为 ‘0’的常规文档流元素的 margin-bottom 会与其最后一个常规文档流子元素的 margin-bottom 折叠，条件为父元素不包含 padding 和 border ，子元素的 margin-bottom 不与包含 clearance 的 margin-top 折叠。</li>
-<li>一个不包含border-top、border-bottom、padding-top、padding-bottom的常规文档流元素，并且其 ‘height’ 为 0 或 ‘auto’， ‘min-height’ 为 ‘0’，其里面也不包含行盒(line box)，其自身的 margin-top 和 margin-bottom 会折叠。</li>
-</ul>
-<h4 id="浮动和绝对定位不与任何元素产生-margin-折叠"><a href="#浮动和绝对定位不与任何元素产生-margin-折叠" class="headerlink" title="浮动和绝对定位不与任何元素产生 margin 折叠"></a>浮动和绝对定位不与任何元素产生 margin 折叠</h4><p><strong>原因：</strong>浮动元素和绝对定位元素不与其他盒子产生外边距折叠是因为<strong>元素会脱离当前的文档流，违反了上面所述的两个margin是邻接的条件同时，又因为浮动和绝对定位会使元素为它的内容创建新的BFC</strong>，因此该元素和子元素所处的BFC是不相同的，因此也不会产生margin的折叠。</p>
-<h4 id="分析二：inline-block元素与其兄弟元素、子元素和父元素的外边距都不会折叠（包括其父元素和子元素）"><a href="#分析二：inline-block元素与其兄弟元素、子元素和父元素的外边距都不会折叠（包括其父元素和子元素）" class="headerlink" title="分析二：inline-block元素与其兄弟元素、子元素和父元素的外边距都不会折叠（包括其父元素和子元素）"></a>分析二：inline-block元素与其兄弟元素、子元素和父元素的外边距都不会折叠（包括其父元素和子元素）</h4><p>inline-block不符合w3c规范所说元素必须是<a href="http://www.w3.org/TR/CSS2/visuren.html#block-boxes" target="_blank" rel="noopener">块级盒子</a>的条件，因为规范中又说明，块级盒子的display属性必须是以下三种之一：’block’， ‘list-item’， 和 ‘table’。</p>
-<hr>
-<p>本文摘自：<a href="https://www.w3cplus.com/css/understanding-bfc-and-margin-collapse.html" target="_blank" rel="noopener">https://www.w3cplus.com/css/understanding-bfc-and-margin-collapse.html</a></p>
-<p>MDN<a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2806,7 +2825,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2817,7 +2836,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2828,7 +2847,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
