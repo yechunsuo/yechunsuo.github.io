@@ -432,7 +432,8 @@
 <li>创建一个空对象，作为将要返回的对象实例。</li>
 <li>将这个空对象的原型-proto-，指向构造函数的<code>prototype</code>属性。</li>
 <li>将这个空对象赋值给函数内部的<code>this</code>关键字。</li>
-<li>开始执行构造函数内部的代码。<br><strong>原理简化 流程 </strong></li>
+<li>开始执行构造函数内部的代码。</li>
+<li>如果构造函数有return，return后面是对象，那么将返回该对象。如果不是则省略return。<br><strong>原理简化 流程 </strong></li>
 </ol>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_new</span>(<span class="params"><span class="regexp">/* 构造函数 */</span> constructor, <span class="regexp">/* 构造函数参数 */</span> params</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 将 arguments 对象转为数组</span></span><br><span class="line">  <span class="keyword">var</span> args = [].slice.call(<span class="built_in">arguments</span>);</span><br><span class="line">  <span class="comment">// 取出构造函数</span></span><br><span class="line">    <span class="comment">//shif就是删除数组第一个元素，并返回该元素。</span></span><br><span class="line">  <span class="keyword">var</span> <span class="keyword">constructor</span> = args.shift();</span><br><span class="line">  // 创建一个空对象，继承构造函数的 prototype 属性</span><br><span class="line">  var context = Object.create(<span class="keyword">constructor</span>.prototype);</span><br><span class="line">  // 执行构造函数</span><br><span class="line">  var result = <span class="keyword">constructor</span>.apply(context, args);</span><br><span class="line">  // 如果返回结果是对象，就直接返回，否则返回 context 对象</span><br><span class="line">  return (typeof result === 'object' &amp;&amp; result != null) ? result : context;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 实例</span><br><span class="line">var actor = _new(Person, '张三', 28);</span><br></pre></td></tr></table></figure>
 
@@ -590,7 +591,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -601,7 +602,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -612,7 +613,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -635,6 +636,12 @@
                     <a href="yechunsuo@163.com" target="_blank" title="E-Mail">
                       
                         <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://plus.google.com/yourname" target="_blank" title="Google">
+                      
+                        <i class="fa fa-fw fa-google"></i>Google</a>
                   </span>
                 
             </div>
