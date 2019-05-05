@@ -304,6 +304,771 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/27/深拷贝浅拷贝/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="叶春锁">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="纵宇博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/27/深拷贝浅拷贝/" itemprop="url">深拷贝浅拷贝</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-27T00:00:00+08:00">
+                2019-03-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js高级/" itemprop="url" rel="index">
+                    <span itemprop="name">js高级</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/27/深拷贝浅拷贝/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/27/深拷贝浅拷贝/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/03/27/深拷贝浅拷贝/" class="leancloud_visitors" data-flag-title="深拷贝浅拷贝">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h3 id="基本数据类型和引用数据类型"><a href="#基本数据类型和引用数据类型" class="headerlink" title="基本数据类型和引用数据类型"></a>基本数据类型和引用数据类型</h3><p>基本类型值指的是简单的数据段，包括es6里面新增的一共是有6种，具体如下：number、string、boolean、null、undefined、symbol。</p>
+<p>引用类型值指那些可能由多个值构成的对象和数组，函数<br>在将一个值赋给变量时，解析器必须确定这个值是基本类型值还是引用类型值。</p>
+<h3 id="堆栈的理解"><a href="#堆栈的理解" class="headerlink" title="堆栈的理解"></a>堆栈的理解</h3><p>栈：自动分配内存空间，系统自动释放，里面存放的是基本类型的值和引用类型的地址<br>堆：动态分配的内存，大小不定，也不会自动释放。里面存放引用类型的值。 </p>
+<p><img src="/images/20180511101107567.png" alt></p>
+<p><strong>基本类型与引用类型最大的区别实际就是 传值与传址 的区别</strong></p>
+<p>值传递：基本类型采用的是值传递。<br>地址传递：引用类型则是地址传递，将存放在栈内存中的地址赋值给接收的变量。</p>
+<h2 id="那么什么是浅拷贝"><a href="#那么什么是浅拷贝" class="headerlink" title="那么什么是浅拷贝"></a>那么什么是浅拷贝</h2><p>基本数据类型Number(赋值操作)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a=<span class="number">1</span>;</span><br><span class="line"><span class="keyword">let</span> b=a;</span><br><span class="line">b           <span class="comment">//1</span></span><br><span class="line">b=<span class="number">2</span>;</span><br><span class="line">b          <span class="comment">//2</span></span><br><span class="line">a          <span class="comment">//1</span></span><br></pre></td></tr></table></figure>
+<p>数组</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> arr2 = arr1;</span><br><span class="line">arr2         <span class="comment">//[1,2,3]</span></span><br><span class="line">arr2.push(<span class="number">4</span>);</span><br><span class="line">arr2         <span class="comment">//[1,2,3,4]</span></span><br><span class="line">arr1         <span class="comment">//[1,2，3,4]</span></span><br></pre></td></tr></table></figure>
+<p>首先栈内存arr1会指向堆内存里的数组，栈内存的arr1保存的是数组的引用，也就相当于内存地址，arr2=arr1,会把arr1的引用赋给arr2，所以arr2也有了数组的引用，此时arr1和arr2指向的是同一个数组，因此一个数组的改变会影响另一个数组的值。</p>
+<p>对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj1=&#123;<span class="attr">count</span>:<span class="number">1</span>,<span class="attr">name</span>:<span class="string">'grace'</span>,<span class="attr">age</span>:<span class="number">1</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> obj2 = obj1;</span><br><span class="line">obj2        <span class="comment">//&#123;count:1,name:'grace',age:1&#125;</span></span><br><span class="line">obj2.count=<span class="number">2</span>;</span><br><span class="line">obj1        <span class="comment">//&#123;count:2,name:'grace',age:1&#125;</span></span><br><span class="line">obj2        <span class="comment">//&#123;count:2,name:'grace',age:1&#125;</span></span><br></pre></td></tr></table></figure>
+<p>综上所述，如果是基本数据类型，直接进行赋值操作，这样就相当于在栈内存中重新开辟了一个新的空间把值传递过去；如果是引用类型的值传递，进行的就是浅拷贝，浅拷贝赋值的只是对象的引用，如上述obj2=obj1，实际上传递的只是obj1的内存地址，所以obj2和obj1指向的是同一个内存地址，所以这个内存地址中值的改变对obj1和obj2都有影响。</p>
+<p><strong>基本数据类型的值传递，就是在栈内存中开辟新空间，将值传递过去。引用类型的值传递就是浅拷贝，赋值的是对象的引用（也就是赋值的是堆内存的地址）</strong></p>
+<p><img src="/images/10414430-f460d61a8f6bcbb7.webp" alt="img"></p>
+<h2 id="什么是深拷贝呢"><a href="#什么是深拷贝呢" class="headerlink" title="什么是深拷贝呢"></a>什么是深拷贝呢</h2><p>深拷贝不仅将原对象中的属性逐个赋值出去，而且还把属性中的对象利用深复制递归复制到新的对象。</p>
+<p>拓展：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">数组</span><br><span class="line"></span><br><span class="line">法一：<span class="keyword">for</span>循环</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> arr2 = copyArr(arr1);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">copyArr</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> res=[];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>,length=arr.length;i&lt;length;i++)&#123;</span><br><span class="line">        res.push(arr[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">法二： slice </span><br><span class="line">利用数组自身的方法，slice、concat方法在运行后会返回新的数组</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> arr2 = arr1.slice(<span class="number">0</span>);</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line">法三： concat</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> arr2 = arr1.concat();</span><br><span class="line"></span><br><span class="line">法四：扩展运算符</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> [...arr2] = arr1;</span><br><span class="line"></span><br><span class="line">法五：<span class="built_in">Array</span>.from </span><br><span class="line">如果参数是一个真正的数组，<span class="built_in">Array</span>.from会返回一个一模一样的新数组</span><br><span class="line">    <span class="keyword">let</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line">    <span class="keyword">let</span> arr2 = <span class="built_in">Array</span>.from(arr1);</span><br><span class="line"></span><br><span class="line">对象</span><br><span class="line"></span><br><span class="line">法一：<span class="keyword">for</span>循环</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj1=&#123;<span class="attr">count</span>:<span class="number">1</span>,<span class="attr">name</span>:<span class="string">'grace'</span>,<span class="attr">age</span>:<span class="number">1</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> obj2 = copyObj(obj)&#123;</span><br><span class="line"><span class="keyword">let</span> res = &#123;&#125;;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">in</span> obj)&#123;</span><br><span class="line">  res[key]=obj[key];</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">法二：利用<span class="built_in">JSON</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> obj1=&#123;<span class="attr">count</span>:<span class="number">1</span>,<span class="attr">name</span>:<span class="string">'grace'</span>,<span class="attr">age</span>:<span class="number">1</span>&#125;;</span><br><span class="line">    <span class="keyword">let</span> obj2 = <span class="built_in">JSON</span>.parse(<span class="built_in">JSON</span>.stringify(obj1));</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="comment">//使用JSON比较简单，但是JSON的深拷贝方式会忽略函数对象和原型对象(有待考证)</span></span><br><span class="line"></span><br><span class="line">法三：扩展运算符</span><br><span class="line">    <span class="keyword">let</span> obj1=&#123;<span class="attr">count</span>:<span class="number">1</span>,<span class="attr">name</span>:<span class="string">'grace'</span>,<span class="attr">age</span>:<span class="number">1</span>&#125;;</span><br><span class="line">    <span class="keyword">let</span> &#123;...obj2&#125; = obj1;</span><br><span class="line"></span><br><span class="line">合成版，可以实现数组和对象的深拷贝</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepCopy</span>(<span class="params">obj</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> result = <span class="built_in">Array</span>.isArray(obj)?[]:&#123;&#125;;  </span><br><span class="line">        <span class="keyword">if</span>(obj &amp;&amp; <span class="keyword">typeof</span> obj === <span class="string">'object'</span>)&#123; </span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">in</span> obj)&#123;</span><br><span class="line">                <span class="keyword">if</span>(obj.hasOwnProperty(key))&#123;</span><br><span class="line">                    <span class="keyword">if</span>(obj[key]&amp;&amp;<span class="keyword">typeof</span> obj[key]===<span class="string">'object'</span>)&#123;</span><br><span class="line">                        result[key]=deepCopy(obj[key]);</span><br><span class="line">                    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                        result[key]=obj[key];</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">---------------------</span><br></pre></td></tr></table></figure>
+<p><img src="/images/10414430-5335d0644d998a0b.webp" alt="img"></p>
+<h2 id="结论："><a href="#结论：" class="headerlink" title="结论："></a>结论：</h2><p>● 深拷贝，其实就是值传递<br>● 深拷贝，通过实例化一个新的对象，从而在堆中开辟一块新的内存空间，使得栈中的变量名指向堆中的新内容</p>
+<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><h3 id="递归拷贝"><a href="#递归拷贝" class="headerlink" title="递归拷贝"></a>递归拷贝</h3><h4 id="案例一-面试答题"><a href="#案例一-面试答题" class="headerlink" title="案例一(面试答题)"></a><strong>案例一</strong>(面试答题)</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">deepClone = <span class="function">(<span class="params">initalObj</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> obj = &#123;&#125;;<span class="comment">//设置空对象</span></span><br><span class="line">    <span class="comment">//如果传来的不是对象停止运行</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> initalObj !== <span class="string">'object'</span>)&#123;</span><br><span class="line">      <span class="keyword">return</span> initalObj</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//遍历对象</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> initalObj) &#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">typeof</span> initalObj[key] === <span class="string">'object'</span>) &#123;</span><br><span class="line">        <span class="comment">//对数组特殊处理</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(initalObj[key])) &#123;</span><br><span class="line">          <span class="comment">//用map方法返回新数组，将数组中的元素递归</span></span><br><span class="line">          obj[key] = initalObj[key].map(<span class="function"><span class="params">item</span> =&gt;</span> <span class="keyword">this</span>.deepClone(item))</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="comment">//递归返回新的对象</span></span><br><span class="line">          obj[key] = <span class="keyword">this</span>.deepClone(initalObj[key]);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> initalObj[key] === <span class="string">'function'</span>) &#123;</span><br><span class="line">        <span class="comment">//bind方法返回新函数</span></span><br><span class="line">        obj[key] = initalObj[key].bind(obj);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//基本类型直接返回</span></span><br><span class="line">        obj[key] = initalObj[key];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> obj;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  a: <span class="number">1</span>,</span><br><span class="line">  b: &#123;&#125;,</span><br><span class="line">  c: &#123; <span class="attr">d</span>: &#123;&#125;, <span class="attr">g</span>: <span class="function"><span class="params">()</span> =&gt;</span> &#123;&#125; &#125;,</span><br><span class="line">  e: <span class="function"><span class="params">()</span> =&gt;</span>&#123;&#125;,</span><br><span class="line">  f: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> newObj = deepClone(obj);</span><br><span class="line">newObj.a === obj.a  <span class="comment">//true</span></span><br><span class="line">newObj.b === obj.b  <span class="comment">//false</span></span><br><span class="line">newObj.c === obj .false  <span class="comment">//false</span></span><br><span class="line">newObj.c.d === obj.c.d  <span class="comment">//false</span></span><br><span class="line">newObj.c.g === obj.c.g  <span class="comment">//false</span></span><br><span class="line">newObj.e === obj.e  <span class="comment">//false</span></span><br><span class="line">newObj.f === obj.f  <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+<p>案例一的阐述：</p>
+<p><strong>现设置一个空对象，作为将要返回的值</strong></p>
+<p><strong>判断参数是否是对象，不是对象直接停止程序。</strong></p>
+<p><strong>是对象的话执行遍历</strong></p>
+<table>
+<thead>
+<tr>
+<th>遍历对象中</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>判断对象属性是否是object，是的话：判断是否是数组，是数组的话赋值然后map方法将数组元素进行递归传递，是对象的话将这个对象赋值然后进行递归传递</td>
+</tr>
+<tr>
+<td>如果类型是函数，赋值并用bind方法复制生成新函数。                              如果是基本数据类型的话，直接赋值</td>
+</tr>
+<tr>
+<td>返回这个对象。</td>
+</tr>
+</tbody>
+</table>
+<p>增添知识点：isArray 判断这个对象是否是数组。</p>
+<h4 id="案例二"><a href="#案例二" class="headerlink" title="案例二"></a><strong>案例二</strong></h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepClone</span>(<span class="params">initalObj, finalObj</span>) </span>&#123;    </span><br><span class="line">  <span class="keyword">var</span> obj = finalObj || &#123;&#125;;    </span><br><span class="line">  <span class="comment">//将空对象或新对象赋值给中间值对象</span></span><br><span class="line">    <span class="comment">//遍历要复制的对象</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> initalObj) &#123;       </span><br><span class="line">      <span class="comment">//将值存储</span></span><br><span class="line">    <span class="keyword">var</span> prop = initalObj[i];   </span><br><span class="line">     <span class="comment">//两次检测，检测是否互相引用，检测类型是否为对象</span></span><br><span class="line">   <span class="comment">// 避免相互引用对象导致死循环，如initalObj.a = initalObj的情况</span></span><br><span class="line">    <span class="keyword">if</span>(prop === obj) &#123;            </span><br><span class="line">      <span class="keyword">continue</span>;</span><br><span class="line">    &#125;        </span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> prop === <span class="string">'object'</span>) &#123;</span><br><span class="line">      obj[i] = (prop.constructor === <span class="built_in">Array</span>) ? [] : &#123;&#125;;            </span><br><span class="line">      <span class="built_in">arguments</span>.callee(prop, obj[i]);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      obj[i] = prop;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;    </span><br><span class="line">  <span class="keyword">return</span> obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="使用Object-create-方法"><a href="#使用Object-create-方法" class="headerlink" title="使用Object.create()方法"></a>使用Object.create()方法</h3><p>直接使用var newObj = Object.create(oldObj)，可以达到深拷贝的效果。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepClone</span>(<span class="params">initalObj, finalObj</span>) </span>&#123;    </span><br><span class="line">  <span class="keyword">var</span> obj = finalObj || &#123;&#125;;    </span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> initalObj) &#123;        </span><br><span class="line">    <span class="keyword">var</span> prop = initalObj[i];        <span class="comment">// 避免相互引用对象导致死循环，如initalObj.a = initalObj的情况</span></span><br><span class="line">    <span class="keyword">if</span>(prop === obj) &#123;            </span><br><span class="line">      <span class="keyword">continue</span>;</span><br><span class="line">    &#125;        </span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> prop === <span class="string">'object'</span>) &#123;</span><br><span class="line">      obj[i] = (prop.constructor === <span class="built_in">Array</span>) ? [] : <span class="built_in">Object</span>.create(prop);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      obj[i] = prop;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;    </span><br><span class="line">  <span class="keyword">return</span> obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>转成 JSON 再转回来</strong></p>
+<p>用<code>JSON.stringify</code>把对象转成字符串，再用<code>JSON.parse</code>把字符串转成新的对象。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj1 = &#123; <span class="attr">body</span>: &#123; <span class="attr">a</span>: <span class="number">10</span> &#125; &#125;;</span><br><span class="line"><span class="keyword">var</span> obj2 = <span class="built_in">JSON</span>.parse(<span class="built_in">JSON</span>.stringify(obj1));</span><br><span class="line">obj2.body.a = <span class="number">20</span>;</span><br><span class="line"><span class="built_in">console</span>.log(obj1);</span><br><span class="line"><span class="comment">// &#123; body: &#123; a: 10 &#125; &#125; &lt;-- 沒被改到</span></span><br><span class="line"><span class="built_in">console</span>.log(obj2);</span><br><span class="line"><span class="comment">// &#123; body: &#123; a: 20 &#125; &#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(obj1 === obj2);</span><br><span class="line"><span class="comment">// false</span></span><br><span class="line">details/<span class="number">81240658</span></span><br></pre></td></tr></table></figure>
+<p>这样做是真正的Deep Copy，这种方法简单易用。</p>
+<p>但是这种方法也有不少坏处，譬如它会抛弃对象的constructor。也就是深拷贝之后，不管这个对象原来的构造函数是什么，在深拷贝之后都会变成Object。</p>
+<p>这种方法能正确处理的对象只有 Number, String, Boolean, Array, 扁平对象，即那些能够被 json 直接表示的数据结构。RegExp对象是无法通过这种方式深拷贝。</p>
+<p>也就是说，只有可以转成JSON格式的对象才可以这样用，像function没办法转成JSON。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj1 = &#123; <span class="attr">fun</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="built_in">console</span>.log(<span class="number">123</span>) &#125; &#125;;</span><br><span class="line"><span class="keyword">var</span> obj2 = <span class="built_in">JSON</span>.parse(<span class="built_in">JSON</span>.stringify(obj1));</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> obj1.fun);</span><br><span class="line"><span class="comment">// 'function'</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> obj2.fun);</span><br></pre></td></tr></table></figure>
+<p>要复制的<code>function</code>会直接消失，所以这个方法只能用在单纯只有数据的对象。</p>
+<h3 id="Object-assign-函数"><a href="#Object-assign-函数" class="headerlink" title="Object.assign()函数"></a>Object.assign()函数</h3><p>对象只有一层的话可以使用上面的：Object.assign()函数</p>
+<p>Object.assign({}, obj1)的意思是先建立一个空对象{}，接着把obj1中所有的属性复制过去，所以obj2会长得跟obj1一样，这时候再修改obj2.b也不会影响obj1。</p>
+<p>因为Object.assign跟我们手动复制的效果相同，所以一样只能处理深度只有一层的对象，没办法做到真正的 Deep Copy。不过如果要复制的对象只有一层的话可以考虑使用它。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/26/js高级原型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="叶春锁">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="纵宇博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/26/js高级原型/" itemprop="url">js原型的深刻理解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-26T00:00:00+08:00">
+                2019-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js高级/" itemprop="url" rel="index">
+                    <span itemprop="name">js高级</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/26/js高级原型/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/26/js高级原型/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/03/26/js高级原型/" class="leancloud_visitors" data-flag-title="js原型的深刻理解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="原型"><a href="#原型" class="headerlink" title="原型"></a>原型</h1><p><img src="/images/327copy/u=13235477,959434929&amp;fm=173&amp;app=25&amp;f=JPEG" alt="img"></p>
+<p>每个函数都有一个prototype属性。构造函数中的prototype是一个对象，有construtor和<code>_proto_</code>两个属性。</p>
+<p>其中construtor是指向构造函数的，—proto—是指向原型对象</p>
+<p><img src="/images/1.png" alt></p>
+<p><img src="/images/u=1757326636,2277028272&amp;fm=173&amp;app=25&amp;f=JPEG" alt="img"></p>
+<p><img src="/images/u=269707452,3276600750&amp;fm=173&amp;app=25&amp;f=JPEG" alt="img"></p>
+<h4 id="3-1-什么是原型？"><a href="#3-1-什么是原型？" class="headerlink" title="3.1.什么是原型？"></a>3.1.什么是原型？</h4><p>简单来说，所有生成的函数都会一个prototype原型的属性，这个原型属性指向的是原型对象，这个原型对象的作用是共享对象的所有属性和方法，该原型对象有一个属性为constructor(构造函数)，这个属性指向的是创建它的构造函数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 以上面的Car例子为构造函数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 构造函数的prototype属性是一个对象，也就是原型对象</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> Car.prototype); <span class="comment">// object</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 构造函数的原型对象的constructor属性指向的是创建它的构造函数</span></span><br><span class="line"><span class="built_in">console</span>.log(Car.prototype.constructor === Car); <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 原型对象的作用是共享对象的所有属性和方法</span></span><br><span class="line">Car.prototype.seat = <span class="string">'cattlehide'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> car1 = <span class="keyword">new</span> Car(<span class="string">"Mercedes-Benz"</span>, <span class="string">'red'</span>);</span><br><span class="line"><span class="keyword">let</span> car2 = <span class="keyword">new</span> Car(<span class="string">"Mercedes-Benz"</span>, <span class="string">'black'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(car1.seat); <span class="comment">// cattlehide</span></span><br><span class="line"><span class="built_in">console</span>.log(car2.seat); <span class="comment">// cattlehide</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-2-原型规则和示例"><a href="#3-2-原型规则和示例" class="headerlink" title="3.2.原型规则和示例"></a>3.2.原型规则和示例</h4><p>5条原型规则：</p>
+<ul>
+<li>3.2.1.所有的引用类型（数组、对象、函数）都具有对象特性，即可自由扩展属性（null除外）</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;&#125;</span><br><span class="line">obj.a = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> arr = [];</span><br><span class="line">arr.a = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span> (<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">fn.a = <span class="number">100</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>3.2.2.所有的引用类型（数组、对象、函数）都有一个<strong>proto</strong>(隐式原型)属性，属性值是一个普通的对象</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(obj.__proto__);</span><br><span class="line"><span class="built_in">console</span>.log(arr.__proto__);</span><br><span class="line"><span class="built_in">console</span>.log(fn.__proto__);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>3.2.3.所有的函数，都有一个prototype(显式原型)属性，属性值也是一个普通的对象</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(fn.prototype);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>3.2.4.所有的引用类型（数组、对象、函数）<strong>proto</strong>属性值指向它的构造函数的prototype属性值</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(obj.__proto__ === <span class="built_in">Object</span>.prototype); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>3.2.5.当试图得到一个对象的某个属性时，如果这个对象本身没有这个属性，那么会去它的<strong>proto</strong>（即它的构造函数的prototype）中寻找。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Perosn</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Perosn.prototype.age = <span class="number">12</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> peroson = <span class="keyword">new</span> Perosn(<span class="string">'bob'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(peroson.age); <span class="comment">// 12</span></span><br></pre></td></tr></table></figure>
+<h2 id="四、原型链"><a href="#四、原型链" class="headerlink" title="四、原型链"></a>四、原型链</h2><h4 id="4-1-什么是原型链？"><a href="#4-1-什么是原型链？" class="headerlink" title="4.1.什么是原型链？"></a>4.1.什么是原型链？</h4><p>除了Object的prototype的原型是<code>null</code>以外，所有的对象和原型都有自己的原型，对象的原型指向原型对象；在层级多的关系中，多个原型层层相连则构成了原型链。</p>
+<p>在查找一个对象的属性时，倘若在当前对象找不到该属性，则会沿着原型链一直往上查找，知道找到为止，如果到了原型链顶端，还没找到，则返回undefined，这个查询的依据都是由原型链来进行的，这个属性在原型对象成为<code>[[Prototype]]</code>，需要通过<strong>proto</strong>属性来进行访问。这个<strong>proto</strong>是一个指针，指向的是构造它的对象的prototype。</p>
+<p>我们来了解一下原型链查询的顺序</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Perosn</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> person = <span class="keyword">new</span> Person(<span class="string">'bob'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(person.__proto__ === Person.prototype); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(Person.prototype.__proto__ === <span class="built_in">Object</span>.prototype); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.prototype.__proto__); <span class="comment">// null</span></span><br></pre></td></tr></table></figure>
+<p>图例：</p>
+<p><img src="/images/5C__proto__.png" alt></p>
+<h2 id="五、instanceof原理"><a href="#五、instanceof原理" class="headerlink" title="五、instanceof原理"></a>五、instanceof原理</h2><ul>
+<li>instanceof用于判断引用类型属于哪个构造函数的方法</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> person = <span class="keyword">new</span> Person(<span class="string">'bob'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(person <span class="keyword">instanceof</span> Person); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>原理：person.__<em>proto_</em>_(隐式原型)一层一层往上，能否对应到Person.prototype，按照前面原型链说理解，那么也能找到Object</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(person <span class="keyword">instanceof</span> Person); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(person <span class="keyword">instanceof</span> <span class="built_in">Object</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<h4 id="理解原型、构造函数、实例、原型-prototype-，原型链关系图例："><a href="#理解原型、构造函数、实例、原型-prototype-，原型链关系图例：" class="headerlink" title="理解原型、构造函数、实例、原型(prototype)，原型链关系图例："></a>理解原型、构造函数、实例、原型(prototype)，原型链关系图例：</h4><p><img src="/images/Cconstructor.png" alt></p>
+<h2 id="1-面试题集锦："><a href="#1-面试题集锦：" class="headerlink" title="1.面试题集锦："></a>1.面试题集锦：</h2><h4 id="1-原型的五条规则"><a href="#1-原型的五条规则" class="headerlink" title="1. 原型的五条规则"></a>1. 原型的五条规则</h4><ul>
+<li>所有的引用类型都可以自定义添加属性</li>
+<li>所有的引用类型都有自己的隐式原型（<strong>proto</strong>）</li>
+<li>函数都有自己的显式原型（prototype）</li>
+<li>所有的引用类型的隐式原型都指向对应构造函数的显示原型</li>
+<li>使用引用类型的某个自定义属性时，如果没有这个属性，会去该引用类型的<strong>proto</strong>（也就是对应构造函数的prototype）中去找。（找不到undefind）</li>
+</ul>
+<h2 id="2-自我叙述："><a href="#2-自我叙述：" class="headerlink" title="2.自我叙述："></a>2.自我叙述：</h2><h4 id="1-原型、构造函数、实例"><a href="#1-原型、构造函数、实例" class="headerlink" title="1.原型、构造函数、实例"></a>1.原型、构造函数、实例</h4><p>什么是原型，原型就是一个普通的对象，用于实现对象属性和方法的继承（共享对象的属性和方法）；</p>
+<p>什么是构造函数,我们可以通过new来新建一个对象的函数就成为构造函数。</p>
+<p>什么是实例：通过new和构造函数创建出来的对象就是实例。</p>
+<p><img src="/images/9b940c4c6f-1553337723527" alt="img"></p>
+<p>2.2.原型链：</p>
+<p><strong>原型链是由原型对象组成</strong>，每个对象都有 <code>__proto__</code> 属性，指向了创建该对象的构造函数的原型，<code>__proto__</code> 将对象连接起来组成了原型链。是一个用来<strong>实现继承和共享属性</strong>的有限的对象链。</p>
+<ul>
+<li><strong>属性查找机制</strong>: 当查找对象的属性时，如果实例对象自身不存在该属性，则沿着原型链往上一级查找，找到时则输出，不存在时，则继续沿着原型链往上一级查找，直至最顶级的原型对象<code>Object.prototype</code>，如还是没找到，则输出<code>undefined</code>；</li>
+<li><strong>属性修改机制</strong>: 只会修改实例对象本身的属性，如果不存在，则进行添加该属性，如果需要修改原型的属性时，则可以用: <code>b.prototype.x = 2</code>；但是这样会造成所有继承于该对象的实例的属性发生改变。</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/26/hello-world/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="叶春锁">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="纵宇博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/26/hello-world/" itemprop="url">博客书写规范</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-26T00:00:00+08:00">
+                2019-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/26/hello-world/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/26/hello-world/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/03/26/hello-world/" class="leancloud_visitors" data-flag-title="博客书写规范">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="md文件注意事项"><a href="#md文件注意事项" class="headerlink" title="md文件注意事项"></a>md文件注意事项</h3><h4 id="标签和分类设置"><a href="#标签和分类设置" class="headerlink" title="标签和分类设置"></a>标签和分类设置</h4><p>当要为某一篇文章添加标签，只需在<code>myBlog/source/_post</code>目录下的具体文章的tags中添加标签即可，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 基于Hexo和Github搭建博客</span><br><span class="line">date: 2019-03-26</span><br><span class="line">tags: [npm, hexo, github]</span><br><span class="line">categories: 搭建博客</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+<ul>
+<li>设置具体文章的categories</li>
+</ul>
+<p>当要为某一篇文章添加分类，只需在<code>myBlog/source/_post</code>目录下的具体文章的categories中添加分类即可，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 基于Hexo和Github搭建博客</span><br><span class="line">date: 2016-11-09</span><br><span class="line">tags: [npm, hexo, github]</span><br><span class="line">categories: 搭建博客</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+<h4 id="图片设置"><a href="#图片设置" class="headerlink" title="图片设置"></a>图片设置</h4><p>图片素材按官方教程说法，可统一放置在source/images目录中，并以 <code>![](/images/image.jpg)</code> 方式引用</p>
+<p>或者在 _config.yml 打开 post_asset_folder 功能，将当前文章所用的图片放置到source目录下的文章同名资源目录下，以 <code>![](image.jpg)</code> 方式引用</p>
+<p>另外一些文章中提到建议使用第三方的专业图床来存放这些静态图片素材 🧐</p>
+<h3 id="hexo-s-–debug"><a href="#hexo-s-–debug" class="headerlink" title="hexo s –debug"></a>hexo s –debug</h3><p>热更新</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/26/vue按钮动态读取/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="叶春锁">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="纵宇博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/26/vue按钮动态读取/" itemprop="url">按钮的动态获取(购物车启示)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-26T00:00:00+08:00">
+                2019-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/26/vue按钮动态读取/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/26/vue按钮动态读取/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/03/26/vue按钮动态读取/" class="leancloud_visitors" data-flag-title="按钮的动态获取(购物车启示)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="按钮的动态获取"><a href="#按钮的动态获取" class="headerlink" title="按钮的动态获取"></a>按钮的动态获取</h1><p>当多个相同按钮进行动态的渲染时，我们无法动态获取它。</p>
+<p>解决方案：</p>
+<p>按钮触发事件，打印event会获取当前按钮信息值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">altKey: <span class="literal">false</span></span><br><span class="line">bubbles: <span class="literal">true</span></span><br><span class="line">button: <span class="number">0</span></span><br><span class="line">buttons: <span class="number">0</span></span><br><span class="line">cancelBubble: <span class="literal">false</span></span><br><span class="line">cancelable: <span class="literal">true</span></span><br><span class="line">clientX: <span class="number">238</span></span><br><span class="line">clientY: <span class="number">637</span></span><br><span class="line">composed: <span class="literal">true</span></span><br><span class="line">ctrlKey: <span class="literal">false</span></span><br><span class="line">currentTarget: <span class="literal">null</span></span><br><span class="line">defaultPrevented: <span class="literal">false</span></span><br><span class="line">detail: <span class="number">1</span></span><br><span class="line">eventPhase: <span class="number">0</span></span><br><span class="line">fromElement: <span class="literal">null</span></span><br><span class="line">isTrusted: <span class="literal">true</span></span><br><span class="line">layerX: <span class="number">238</span></span><br><span class="line">layerY: <span class="number">16</span></span><br><span class="line">metaKey: <span class="literal">false</span></span><br><span class="line">movementX: <span class="number">0</span></span><br><span class="line">movementY: <span class="number">0</span></span><br><span class="line">offsetX: <span class="number">81</span></span><br><span class="line">offsetY: <span class="number">15</span></span><br><span class="line">pageX: <span class="number">238</span></span><br><span class="line">pageY: <span class="number">637</span></span><br><span class="line">path: (<span class="number">13</span>) [span.item-blue-btn, div.item-</span><br><span class="line">... ...</span><br></pre></td></tr></table></figure>
+<p>里面的path[0]就是我们当前的按钮元素</p>
+<p>在项目购物车中当我们点击按钮，会触发vuex中的事件，此时我们可以利用vuex存储我们的事件元素</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">state.ball.el=event.path[<span class="number">0</span>];</span><br></pre></td></tr></table></figure>
+<p>这样我们就可以在其他组件通过vuex拿到该按钮，动态的获取它的值。如例</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> carbtn=<span class="keyword">this</span>.$store.state.ball.el.getBoundingClientRect();</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/26/基础算法（1）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -682,7 +1447,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-count">56</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -704,7 +1469,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

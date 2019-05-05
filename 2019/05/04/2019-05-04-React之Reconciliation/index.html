@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="React,React进阶,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Reconciliation（摘官方文档）React提供了一组声明式API以让你不必担心每次更新精确地改变了什么。这使得应用的编写容易了很多，但这是在React中如何实现并不是很明显。这篇文章解释了在React中的“差分(diffing)”算法中我们所做出的选择，以让组件更新是可预测的，并且足够快以适应高性能应用。  译者注：diffing算法用来找出两棵树的所有不同点，类似于游戏“找别扭”。">
+<meta name="keywords" content="React,React进阶">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React之Reconciliation">
+<meta property="og:url" content="http://yoursite.com/2019/05/04/2019-05-04-React之Reconciliation/index.html">
+<meta property="og:site_name" content="纵宇博客">
+<meta property="og:description" content="Reconciliation（摘官方文档）React提供了一组声明式API以让你不必担心每次更新精确地改变了什么。这使得应用的编写容易了很多，但这是在React中如何实现并不是很明显。这篇文章解释了在React中的“差分(diffing)”算法中我们所做出的选择，以让组件更新是可预测的，并且足够快以适应高性能应用。  译者注：diffing算法用来找出两棵树的所有不同点，类似于游戏“找别扭”。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/1556968138315.png">
+<meta property="og:image" content="http://yoursite.com/images/1556968255894.png">
+<meta property="og:updated_time" content="2019-05-04T06:43:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React之Reconciliation">
+<meta name="twitter:description" content="Reconciliation（摘官方文档）React提供了一组声明式API以让你不必担心每次更新精确地改变了什么。这使得应用的编写容易了很多，但这是在React中如何实现并不是很明显。这篇文章解释了在React中的“差分(diffing)”算法中我们所做出的选择，以让组件更新是可预测的，并且足够快以适应高性能应用。  译者注：diffing算法用来找出两棵树的所有不同点，类似于游戏“找别扭”。">
+<meta name="twitter:image" content="http://yoursite.com/images/1556968138315.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/04/2019-05-04-React之Reconciliation/">
+
+
+
+
+
+  <title>React之Reconciliation | 纵宇博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8c742f80e0f8b863f36c13b20f15b1b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">纵宇博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录学习的技能和遇到的问题</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/04/2019-05-04-React之Reconciliation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="叶春锁">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="纵宇博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">React之Reconciliation</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-04T14:43:48+08:00">
+                2019-05-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/React/" itemprop="url" rel="index">
+                    <span itemprop="name">React</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/React/React进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">React进阶</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/05/04/2019-05-04-React之Reconciliation/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/05/04/2019-05-04-React之Reconciliation/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/05/04/2019-05-04-React之Reconciliation/" class="leancloud_visitors" data-flag-title="React之Reconciliation">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Reconciliation（摘官方文档）"><a href="#Reconciliation（摘官方文档）" class="headerlink" title="Reconciliation（摘官方文档）"></a>Reconciliation（摘官方文档）</h1><p>React提供了一组声明式API以让你不必担心每次更新精确地改变了什么。这使得应用的编写容易了很多，但这是在React中如何实现并不是很明显。这篇文章解释了在React中的“差分(diffing)”算法中我们所做出的选择，以让组件更新是可预测的，并且足够快以适应高性能应用。</p>
+<blockquote>
+<p>译者注：<strong>diffing</strong>算法用来找出两棵树的所有不同点，类似于游戏“找别扭”。</p>
+</blockquote>
+<h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>当你使用React，在某一个时间点，你可以认为<code>render()</code>函数是在创建React元素树。在下一状态或属性更新时，<code>render()</code>函数将返回一个不同的React元素树。React需要算出如何高效更新UI以匹配最新的树。</p>
+<p>有一些通用的解决方案，对于生成最小操作数的这个算法问题，以将一棵树转换为另一棵树。然而，在<a href="http://grfia.dlsi.ua.es/ml/algorithms/references/editsurvey_bille.pdf" target="_blank" rel="noopener">state of the art algorithms</a> 中有时间复杂度为O(n3)，在这里n代表树中元素个数。</p>
+<p>若我们在React中使用，展示1000个元素则需要进行10亿次的比较。这太过昂贵。与此不同，React基于两点假设，实现了一个启发的O(n)算法：</p>
+<ol>
+<li>两个不同类型的元素将产生不同的树。</li>
+<li>开发者可以使用<code>key</code>属性来提示哪些子元素贯穿不同渲染是稳定的。</li>
+</ol>
+<p>实践中，上述这些假设适用于大部分应用场景。</p>
+<h2 id="差分算法"><a href="#差分算法" class="headerlink" title="差分算法"></a>差分算法</h2><p>当差分两棵树时，React首先比较两个根元素。依赖于根元素的类型不同，其行为也不同。</p>
+<h3 id="不同类型的元素"><a href="#不同类型的元素" class="headerlink" title="不同类型的元素"></a>不同类型的元素</h3><p>每当根元素有不同类型，React将拆除旧树并且从零开始重新构建新树。从<code>&lt;a&gt;</code>到<code>&lt;img&gt;</code>或从<code>&lt;Article&gt;</code>到<code>&lt;Comment&gt;</code>，或从<code>&lt;Button&gt;</code> 到 <code>&lt;div&gt;</code>————这些都会导致充分地重新构建。</p>
+<p>当拆除一棵树时，旧的DOM节点被销毁。组件实例收到<code>componentWillUnmount()</code>。当构建一棵新树时，新的DOM节点被插入到DOM中。组件实例先收到<code>componentWillMount()</code>，然后收到<code>componentDidMount()</code>。任何与旧树有关的状态都被丢弃。</p>
+<p>这个根下任何组件也都将被卸载，他们的状态被销毁。例如，当定义：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">  &lt;Counter /&gt;</span><br><span class="line">&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">&lt;span&gt;</span></span><br><span class="line"><span class="regexp">  &lt;Counter /</span>&gt;</span><br><span class="line">&lt;<span class="regexp">/span&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这将销毁旧的<code>Counter</code>并重装载一个新的。</p>
+<h3 id="相同类型的DOM元素"><a href="#相同类型的DOM元素" class="headerlink" title="相同类型的DOM元素"></a>相同类型的DOM元素</h3><p>当比较两个相同类型的React DOM元素时，React则会观察二者的属性(attributes)，保持相同的底层DOM节点，并仅更新变化的属性。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div className=<span class="string">"before"</span> title=<span class="string">"stuff"</span> /&gt;</span><br><span class="line"></span><br><span class="line">&lt;div className=<span class="string">"after"</span> title=<span class="string">"stuff"</span> /&gt;</span><br></pre></td></tr></table></figure>
+<p>通过比较这两个元素，React知道仅更改底层DOM元素的<code>className</code>。</p>
+<p>当更新<code>style</code>时，React同样知道仅更新改变的属性(properties)。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div style=&#123;&#123;<span class="attr">color</span>: <span class="string">'red'</span>, <span class="attr">fontWeight</span>: <span class="string">'bold'</span>&#125;&#125; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;div style=&#123;&#123;<span class="attr">color</span>: <span class="string">'green'</span>, <span class="attr">fontWeight</span>: <span class="string">'bold'</span>&#125;&#125; /&gt;</span><br></pre></td></tr></table></figure>
+<p>当在两个元素之间转化时，React知道仅修改<code>color</code>样式，而<code>fontWeight</code>不用修改。</p>
+<p>在处理完DOM元素后，React递归其子代。</p>
+<h3 id="相同类型的组件元素"><a href="#相同类型的组件元素" class="headerlink" title="相同类型的组件元素"></a>相同类型的组件元素</h3><p>当组件更新时，实例保持相同，这样状态跨渲染被维护。React通过更新底层组件实例的属性(props)来匹配新元素，并在底层实例上调用<code>componentWillReceiveProps()</code> 和 <code>componentWillUpdate()</code>。</p>
+<p>下一步，<code>render()</code>方法被调用，差分算法递归处理前一次的结果和新的结果。</p>
+<h3 id="子代们上的递归"><a href="#子代们上的递归" class="headerlink" title="子代们上的递归"></a>子代们上的递归</h3><p>默认时，当递归DOM节点的子节点时，React就是迭代在同一时间点的两个子节点列表，并在不同时产生一个变更。</p>
+<p><img src="/images/1556968138315.png" alt="1556968138315"></p>
+<p>例如，当在子节点末尾增加一个元素，两棵树的转换效果很好：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">  &lt;li&gt;first&lt;<span class="regexp">/li&gt;</span></span><br><span class="line"><span class="regexp">  &lt;li&gt;second&lt;/</span>li&gt;</span><br><span class="line">&lt;<span class="regexp">/ul&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">&lt;ul&gt;</span></span><br><span class="line"><span class="regexp">  &lt;li&gt;first&lt;/</span>li&gt;</span><br><span class="line">  &lt;li&gt;second&lt;<span class="regexp">/li&gt;</span></span><br><span class="line"><span class="regexp">  &lt;li&gt;third&lt;/</span>li&gt;</span><br><span class="line">&lt;<span class="regexp">/ul&gt;</span></span><br></pre></td></tr></table></figure>
+<p>React将会匹配两棵树的<code>&lt;li&gt;first&lt;/li&gt;</code>，并匹配两棵树的<code>&lt;li&gt;second&lt;/li&gt;</code> 节点，并插入<code>&lt;li&gt;third&lt;/li&gt;</code>节点树。</p>
+<p>如果你的实现方法过于天真，插入元素到列表的开头会使得性能变坏。例如，转换这两棵树工作拙劣地：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">  &lt;li&gt;Duke&lt;<span class="regexp">/li&gt;</span></span><br><span class="line"><span class="regexp">  &lt;li&gt;Villanova&lt;/</span>li&gt;</span><br><span class="line">&lt;<span class="regexp">/ul&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">&lt;ul&gt;</span></span><br><span class="line"><span class="regexp">  &lt;li&gt;Connecticut&lt;/</span>li&gt;</span><br><span class="line">  &lt;li&gt;Duke&lt;<span class="regexp">/li&gt;</span></span><br><span class="line"><span class="regexp">  &lt;li&gt;Villanova&lt;/</span>li&gt;</span><br><span class="line">&lt;<span class="regexp">/ul&gt;</span></span><br></pre></td></tr></table></figure>
+<p>React将修改每个子节点，而非意识到可以完整保留<code>&lt;li&gt;Duke&lt;/li&gt;</code> 和 <code>&lt;li&gt;Villanova&lt;/li&gt;</code>子树。低效成了一个问题。</p>
+<h3 id="问题解决的：Keys"><a href="#问题解决的：Keys" class="headerlink" title="问题解决的：Keys"></a>问题解决的：Keys</h3><p><img src="/images/1556968255894.png" alt="1556968255894"></p>
+<p>为解决该问题，React支持了一个<code>key</code>属性。当子节点有key时，React使用key来匹配原始树的子节点和随后树的子节点。例如，增加一个<code>key</code>到上面低效的示例，能让树的转换变得高效：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">  &lt;li key=<span class="string">"2015"</span>&gt;Duke&lt;<span class="regexp">/li&gt;</span></span><br><span class="line"><span class="regexp">  &lt;li key="2016"&gt;Villanova&lt;/</span>li&gt;</span><br><span class="line">&lt;<span class="regexp">/ul&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">&lt;ul&gt;</span></span><br><span class="line"><span class="regexp">  &lt;li key="2014"&gt;Connecticut&lt;/</span>li&gt;</span><br><span class="line">  &lt;li key=<span class="string">"2015"</span>&gt;Duke&lt;<span class="regexp">/li&gt;</span></span><br><span class="line"><span class="regexp">  &lt;li key="2016"&gt;Villanova&lt;/</span>li&gt;</span><br><span class="line">&lt;<span class="regexp">/ul&gt;</span></span><br></pre></td></tr></table></figure>
+<p>现在React知道带有<code>&#39;2014&#39;</code>的key的元素是新的，带有<code>&#39;2015&#39;</code>和<code>&#39;2016&#39;</code>的key的元素仅需要移动。</p>
+<p>实践中，找到一个key通常不难。你将显示的元素可能已经带有一个唯一的ID，因此key可以来自于你的数据中：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;li key=&#123;item.id&#125;&gt;&#123;item.name&#125;&lt;<span class="regexp">/li&gt;</span></span><br></pre></td></tr></table></figure>
+<p>当不是这种情况时，你可以增加一个新的ID属性给模型，或根据内容的一些部分创建一个哈希值来作为key。key必须是唯一的，只在其兄弟中，不用全局唯一。</p>
+<p>作为最后的手段，你可以传递项目在数组中的索引作为key。若元素顺序永远不会改变，该方法效果不错，但重新排序就会很慢。</p>
+<p>当索引用作key时，重新排序时也会引起组件状态方面的问题。组件实例进行更新和重用都是基于他们的key。如果key是索引，则移动一个项目改变索引，结果，诸如非受控输入这类的组件状态可能会以意想不到的方式混淆和更新。</p>
+<p><a href="https://reactjs.org/redirect-to-codepen/reconciliation/index-used-as-key" target="_blank" rel="noopener">这里或则看下面</a>是在CodePen上使用索引作为键可能导致的问题的一个例子，<a href="https://reactjs.org/redirect-to-codepen/reconciliation/no-index-used-as-key" target="_blank" rel="noopener">这里或则看下面</a>是同一个例子的更新版本，展示了如何不使用索引作为键将解决这些reordering, sorting, 和 prepending的问题。</p>
+<h3 id="上面的案例解说"><a href="#上面的案例解说" class="headerlink" title="上面的案例解说"></a>上面的案例解说</h3><h4 id="bug版"><a href="#bug版" class="headerlink" title="bug版"></a>bug版</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="built_in">Date</span> &#125; <span class="keyword">from</span> <span class="string">'core-js'</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Table</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">  &#125;</span><br><span class="line">  render()&#123;</span><br><span class="line">    <span class="comment">// 父组件传递子组件，要有独立数据接收，然后渲染</span></span><br><span class="line">    <span class="keyword">const</span> obj=<span class="keyword">this</span>.props.item;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">tr</span>&gt;</span></span></span><br><span class="line">    &lt;td&gt;</span><br><span class="line">      &lt;label&gt;&#123; obj.id &#125;&lt;/label&gt;</span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">td</span>&gt;</span> </span></span><br><span class="line">    &lt;td&gt;</span><br><span class="line">      &lt;input /&gt;</span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span></span><br><span class="line">    &lt;td&gt;</span><br><span class="line">      &lt;label&gt;&#123; obj.time.toTimeString() &#125;&lt;/label&gt;</span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line">   </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Suo</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line"> <span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">   <span class="keyword">super</span>(props);</span><br><span class="line">   <span class="keyword">const</span> createdId=<span class="number">1</span>;</span><br><span class="line">   <span class="keyword">const</span> data=<span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">   <span class="keyword">this</span>.state=&#123;</span><br><span class="line">     createdId:createdId,</span><br><span class="line">     list:[</span><br><span class="line">       &#123;</span><br><span class="line">          id:createdId,</span><br><span class="line">          time:data</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">     ]</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">sortDrop=<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">const</span> newList=<span class="keyword">this</span>.state.list.sort(<span class="function">(<span class="params">a,b</span>)=&gt;</span>&#123;</span><br><span class="line">     <span class="keyword">return</span> a.time-b.time;</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">    list:newList</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line">sortDrop2=<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">const</span> newList=<span class="keyword">this</span>.state.list.sort(<span class="function">(<span class="params">a,b</span>)=&gt;</span>&#123;</span><br><span class="line">     <span class="keyword">return</span> b.time-a.time;</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">    list:newList</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line">handletailAdd=<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> newId=<span class="keyword">this</span>.state.createdId+<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">const</span> newTime=<span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">  <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">    createdId:newId,</span><br><span class="line">    list:[</span><br><span class="line">      ...this.state.list,</span><br><span class="line">      &#123;</span><br><span class="line">        id:newId,</span><br><span class="line">        time:newTime</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//  开头添加事件</span></span><br><span class="line">handleAdd=<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> newId=<span class="keyword">this</span>.state.createdId+<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">const</span> newTime=<span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">  <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">    createdId:newId,</span><br><span class="line">    list:[</span><br><span class="line">      &#123;</span><br><span class="line">        id:newId,</span><br><span class="line">        time:newTime</span><br><span class="line">      &#125;,</span><br><span class="line">      ...this.state.list</span><br><span class="line">    ]</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"> render() &#123;</span><br><span class="line">   <span class="keyword">const</span> &#123;list&#125;=<span class="keyword">this</span>.state;</span><br><span class="line">   <span class="keyword">return</span>(</span><br><span class="line">     &lt;div className=<span class="string">"container"</span>&gt;</span><br><span class="line">     &lt;div className=<span class="string">"btn"</span> style=&#123;&#123; <span class="attr">marginBottom</span>:<span class="string">"20px"</span> &#125;&#125;&gt;</span><br><span class="line">     &lt;button type=<span class="string">"button"</span> className=<span class="string">"btn btn-success"</span> style=&#123;&#123; <span class="attr">marginLeft</span>:<span class="string">"20px"</span> &#125;&#125;</span><br><span class="line">      onClick=&#123; <span class="keyword">this</span>.handleAdd &#125;</span><br><span class="line">     &gt;开始处添加&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">     &lt;button type="button" className="btn btn-success" style=&#123;&#123; marginLeft:"20px" &#125;&#125;</span></span><br><span class="line"><span class="regexp">      onClick=&#123; this.handletailAdd &#125;</span></span><br><span class="line"><span class="regexp">     &gt;结尾处添加&lt;/</span>button&gt;</span><br><span class="line">     &lt;button type=<span class="string">"button"</span> className=<span class="string">"btn btn-success"</span> style=&#123;&#123; <span class="attr">marginLeft</span>:<span class="string">"20px"</span> &#125;&#125;</span><br><span class="line">     onClick=&#123; <span class="keyword">this</span>.sortDrop &#125;</span><br><span class="line">     &gt;数组升序&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">     &lt;button type="button" className="btn btn-success" style=&#123;&#123; marginLeft:"20px" &#125;&#125;</span></span><br><span class="line"><span class="regexp">     onClick=&#123; this.sortDrop2 &#125;</span></span><br><span class="line"><span class="regexp">     &gt;数组降序&lt;/</span>button&gt;</span><br><span class="line">     &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">       &lt;table className="table table-striped"&gt;</span></span><br><span class="line"><span class="regexp">       &lt;tbody&gt;</span></span><br><span class="line"><span class="regexp">         &lt;tr&gt;</span></span><br><span class="line"><span class="regexp">           &lt;th&gt;ID&lt;/</span>th&gt;</span><br><span class="line">           &lt;th&gt;<span class="xml"><span class="tag">&lt;/<span class="name">th</span>&gt;</span></span></span><br><span class="line">           &lt;th&gt;时间&lt;<span class="regexp">/th&gt;</span></span><br><span class="line"><span class="regexp">         &lt;/</span>tr&gt;</span><br><span class="line">         &#123; </span><br><span class="line">            list.map(<span class="function">(<span class="params">item,i</span>)=&gt;</span>&#123;</span><br><span class="line">              <span class="comment">// 拓展运算符传来对象</span></span><br><span class="line">              <span class="comment">//将数组索引作为key</span></span><br><span class="line">              <span class="comment">//若排序可能会有bug，或则有损性能</span></span><br><span class="line">              <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Table</span> <span class="attr">key</span>=<span class="string">&#123;</span> <span class="attr">i</span> &#125; <span class="attr">item</span>=<span class="string">&#123;</span> <span class="attr">item</span> &#125;&gt;</span><span class="tag">&lt;/<span class="name">Table</span>&gt;</span></span></span><br><span class="line">            &#125;)</span><br><span class="line"></span><br><span class="line">          &#125; </span><br><span class="line">     &lt;<span class="regexp">/tbody&gt;</span></span><br><span class="line"><span class="regexp">       &lt;/</span>table&gt;</span><br><span class="line">      </span><br><span class="line">     &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">   )</span></span><br><span class="line"><span class="regexp"> &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">export default Suo;</span></span><br></pre></td></tr></table></figure>
+<h4 id="改良版"><a href="#改良版" class="headerlink" title="改良版"></a>改良版</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="built_in">Date</span> &#125; <span class="keyword">from</span> <span class="string">'core-js'</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Table</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">  &#125;</span><br><span class="line">  render()&#123;</span><br><span class="line">    <span class="comment">// 父组件传递子组件，要有独立数据接收，然后渲染</span></span><br><span class="line">    <span class="keyword">const</span> obj=<span class="keyword">this</span>.props.item;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">tr</span>&gt;</span></span></span><br><span class="line">    &lt;td&gt;</span><br><span class="line">      &lt;label&gt;&#123; obj.id &#125;&lt;/label&gt;</span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">td</span>&gt;</span> </span></span><br><span class="line">    &lt;td&gt;</span><br><span class="line">      &lt;input /&gt;</span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span></span><br><span class="line">    &lt;td&gt;</span><br><span class="line">      &lt;label&gt;&#123; obj.time.toTimeString() &#125;&lt;/label&gt;</span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line">   </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Suo</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line"> <span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">   <span class="keyword">super</span>(props);</span><br><span class="line">   <span class="keyword">const</span> createdId=<span class="number">1</span>;</span><br><span class="line">   <span class="keyword">const</span> data=<span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">   <span class="keyword">this</span>.state=&#123;</span><br><span class="line">     createdId:createdId,</span><br><span class="line">     list:[</span><br><span class="line">       &#123;</span><br><span class="line">          id:createdId,</span><br><span class="line">          time:data</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">     ]</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br><span class="line"><span class="comment">//升序方法</span></span><br><span class="line">sortDrop=<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">const</span> newList=<span class="keyword">this</span>.state.list.sort(<span class="function">(<span class="params">a,b</span>)=&gt;</span>&#123;</span><br><span class="line">     <span class="keyword">return</span> a.time-b.time;</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">    list:newList</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//降序方法</span></span><br><span class="line">sortDrop2=<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">const</span> newList=<span class="keyword">this</span>.state.list.sort(<span class="function">(<span class="params">a,b</span>)=&gt;</span>&#123;</span><br><span class="line">     <span class="keyword">return</span> b.time-a.time;</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">    list:newList</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//结尾添加事件</span></span><br><span class="line">handletailAdd=<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> newId=<span class="keyword">this</span>.state.createdId+<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">const</span> newTime=<span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">  <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">    createdId:newId,</span><br><span class="line">    list:[</span><br><span class="line">      ...this.state.list,</span><br><span class="line">      &#123;</span><br><span class="line">        id:newId,</span><br><span class="line">        time:newTime</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//  开头添加事件</span></span><br><span class="line">handleAdd=<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> newId=<span class="keyword">this</span>.state.createdId+<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">const</span> newTime=<span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">  <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">    createdId:newId,</span><br><span class="line">    list:[</span><br><span class="line">      &#123;</span><br><span class="line">        id:newId,</span><br><span class="line">        time:newTime</span><br><span class="line">      &#125;,</span><br><span class="line">      ...this.state.list</span><br><span class="line">    ]</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"> render() &#123;</span><br><span class="line">   <span class="keyword">const</span> &#123;list&#125;=<span class="keyword">this</span>.state;</span><br><span class="line">   <span class="keyword">return</span>(</span><br><span class="line">     &lt;div className=<span class="string">"container"</span>&gt;</span><br><span class="line">     &lt;div className=<span class="string">"btn"</span> style=&#123;&#123; <span class="attr">marginBottom</span>:<span class="string">"20px"</span> &#125;&#125;&gt;</span><br><span class="line">     &lt;button type=<span class="string">"button"</span> className=<span class="string">"btn btn-success"</span> style=&#123;&#123; <span class="attr">marginLeft</span>:<span class="string">"20px"</span> &#125;&#125;</span><br><span class="line">      onClick=&#123; <span class="keyword">this</span>.handleAdd &#125;</span><br><span class="line">     &gt;开始处添加&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">     &lt;button type="button" className="btn btn-success" style=&#123;&#123; marginLeft:"20px" &#125;&#125;</span></span><br><span class="line"><span class="regexp">      onClick=&#123; this.handletailAdd &#125;</span></span><br><span class="line"><span class="regexp">     &gt;结尾处添加&lt;/</span>button&gt;</span><br><span class="line">     &lt;button type=<span class="string">"button"</span> className=<span class="string">"btn btn-success"</span> style=&#123;&#123; <span class="attr">marginLeft</span>:<span class="string">"20px"</span> &#125;&#125;</span><br><span class="line">     onClick=&#123; <span class="keyword">this</span>.sortDrop &#125;</span><br><span class="line">     &gt;数组升序&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">     &lt;button type="button" className="btn btn-success" style=&#123;&#123; marginLeft:"20px" &#125;&#125;</span></span><br><span class="line"><span class="regexp">     onClick=&#123; this.sortDrop2 &#125;</span></span><br><span class="line"><span class="regexp">     &gt;数组降序&lt;/</span>button&gt;</span><br><span class="line">     &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">       &lt;table className="table table-striped"&gt;</span></span><br><span class="line"><span class="regexp">       &lt;tbody&gt;</span></span><br><span class="line"><span class="regexp">         &lt;tr&gt;</span></span><br><span class="line"><span class="regexp">           &lt;th&gt;ID&lt;/</span>th&gt;</span><br><span class="line">           &lt;th&gt;<span class="xml"><span class="tag">&lt;/<span class="name">th</span>&gt;</span></span></span><br><span class="line">           &lt;th&gt;时间&lt;<span class="regexp">/th&gt;</span></span><br><span class="line"><span class="regexp">         &lt;/</span>tr&gt;</span><br><span class="line">         &#123; </span><br><span class="line">            list.map(<span class="function">(<span class="params">item,i</span>)=&gt;</span>&#123;</span><br><span class="line">              <span class="comment">// 拓展运算符传来对象</span></span><br><span class="line">              <span class="comment">//注意这里的key接收数据的id</span></span><br><span class="line">              <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Table</span> <span class="attr">key</span>=<span class="string">&#123;item.id&#125;</span> <span class="attr">item</span>=<span class="string">&#123;</span> <span class="attr">item</span> &#125;&gt;</span><span class="tag">&lt;/<span class="name">Table</span>&gt;</span></span></span><br><span class="line">            &#125;)</span><br><span class="line"></span><br><span class="line">          &#125; </span><br><span class="line">     &lt;<span class="regexp">/tbody&gt;</span></span><br><span class="line"><span class="regexp">       &lt;/</span>table&gt;</span><br><span class="line">      </span><br><span class="line">     &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">   )</span></span><br><span class="line"><span class="regexp"> &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">export default Suo;</span></span><br></pre></td></tr></table></figure>
+<h2 id="权衡"><a href="#权衡" class="headerlink" title="权衡"></a>权衡</h2><p>重点要记住协调算法是一个实现细节。React可以在每次操作时重新渲染整个应用；最终结果仍是相同的。清晰起见，在此上下文中的重新渲染意味着对于所有组件调用<code>render</code>。不意味着React将卸载并重新装载他们。将只是应用不同的部分，按照前几节的规则得出的不同。</p>
+<p>我们依照规律提炼启发式的算法，为了使大多数场景能更快。在目前实现中，可以表达事实是，一个子树在其兄弟节点中间已经被移动，但你不能告知其已经移动到别的某处。该算法会重新渲染整个子树。</p>
+<p>由于React依赖于该启发式算法，若其背后的假设没得到满足，性能将遭殃：</p>
+<ol>
+<li>算法无法尝试匹配不同组件类型的子树。如果看见两个输出非常相似的组件类型交替出现，你可能希望使其成为相同类型。实践中，我们没有发现这成为问题。</li>
+<li>Keys应该是稳定的，可预测的，且唯一的。不稳定的key（类似由<code>Math.random()</code>生成的）将引起许多组件实例和DOM节点不必要的重建，这可能引起性能下降并丢失子组件的状态。</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/weixin.jpg" alt="叶春锁 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/zhifubao.jpg" alt="叶春锁 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/React/" rel="tag"># React</a>
+          
+            <a href="/tags/React进阶/" rel="tag"># React进阶</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/04/2019-05-04-React之创建组件别法/" rel="next" title="React之创建组件别法">
+                <i class="fa fa-chevron-left"></i> React之创建组件别法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/05/2019-05-05-React之context/" rel="prev" title="React之context">
+                React之context <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/0.jpg" alt="叶春锁">
+            
+              <p class="site-author-name" itemprop="name">叶春锁</p>
+              <p class="site-description motion-element" itemprop="description">做自己爱做的事，爱自己在做的事！</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yechunsuo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="yechunsuo@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://plus.google.com/yourname" target="_blank" title="Google">
+                      
+                        <i class="fa fa-fw fa-google"></i>Google</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Reconciliation（摘官方文档）"><span class="nav-number">1.</span> <span class="nav-text">Reconciliation（摘官方文档）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#目的"><span class="nav-number">1.1.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#差分算法"><span class="nav-number">1.2.</span> <span class="nav-text">差分算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#不同类型的元素"><span class="nav-number">1.2.1.</span> <span class="nav-text">不同类型的元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相同类型的DOM元素"><span class="nav-number">1.2.2.</span> <span class="nav-text">相同类型的DOM元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相同类型的组件元素"><span class="nav-number">1.2.3.</span> <span class="nav-text">相同类型的组件元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子代们上的递归"><span class="nav-number">1.2.4.</span> <span class="nav-text">子代们上的递归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题解决的：Keys"><span class="nav-number">1.2.5.</span> <span class="nav-text">问题解决的：Keys</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#上面的案例解说"><span class="nav-number">1.2.6.</span> <span class="nav-text">上面的案例解说</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#bug版"><span class="nav-number">1.2.6.1.</span> <span class="nav-text">bug版</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#改良版"><span class="nav-number">1.2.6.2.</span> <span class="nav-text">改良版</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#权衡"><span class="nav-number">1.3.</span> <span class="nav-text">权衡</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">叶春锁</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'IzJLUfS5PQYanKpb3IHuKN1a-gzGzoHsz',
+        appKey: 'ACLVh1AR3D9Mq4Mh6x9LGU0b',
+        placeholder: '请在此输入您的留言',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("IzJLUfS5PQYanKpb3IHuKN1a-gzGzoHsz", "ACLVh1AR3D9Mq4Mh6x9LGU0b");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
