@@ -6,7 +6,7 @@
 
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -441,7 +441,7 @@
 <p>你可以将BFC看作是页面中的一个迷你布局。一旦元素创建了一个BFC，它其中的所有元素都会被它包裹。</p>
 <p>表现就是：内部子元素再怎么翻江倒海都不会影响外部的元素。</p>
 <p><strong>口诀：BFC包裹，子元素们再怎么弄，也不会影响父元素。阻止它内部的元素逃离</strong></p>
-<h2 id="应用两栏自适应"><a href="#应用两栏自适应" class="headerlink" title="应用两栏自适应"></a>应用两栏自适应</h2><h2 id="阻止外边距叠加"><a href="#阻止外边距叠加" class="headerlink" title="阻止外边距叠加"></a>阻止外边距叠加</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.outer</span> &#123; <span class="attribute">background-color</span>: <span class="number">#ccc</span>; <span class="attribute">margin</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">40px</span> <span class="number">0</span>; &#125; </span><br><span class="line"><span class="selector-tag">p</span> &#123; <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">20px</span> <span class="number">0</span> <span class="number">20px</span> <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="built_in">rgb</span>(233,78,119);</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#fff</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="应用两栏自适应"><a href="#应用两栏自适应" class="headerlink" title="应用两栏自适应"></a>应用两栏自适应</h2><h2 id="阻止外边距叠加"><a href="#阻止外边距叠加" class="headerlink" title="阻止外边距叠加"></a>阻止外边距叠加</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.outer</span> &#123; <span class="attribute">background-color</span>: <span class="number">#ccc</span>; <span class="attribute">margin</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">40px</span> <span class="number">0</span>; &#125; </span><br><span class="line"><span class="selector-tag">p</span> &#123; <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">20px</span> <span class="number">0</span> <span class="number">20px</span> <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="built_in">rgb</span>(<span class="number">233</span>,<span class="number">78</span>,<span class="number">119</span>);</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#fff</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>由于<code>p</code>元素的边缘与<code>.outer</code>元素的边缘之间没有任何东西，所以<code>.outer</code>元素与<code>p</code>元素的<code>margin</code>会叠加，<code>p</code>会与<code>.outer</code>的顶部与底部齐平，<code>p</code>对外的<code>margin</code>似乎与<code>.outer</code>的<code>margin</code>合并了，使我们无法在段落的上下看到<code>.outer</code>的灰色背景。</p>
 <blockquote>
 <p> <strong>简单来说就是外边距重叠</strong></p>
@@ -648,7 +648,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-count">67</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -659,7 +659,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -670,7 +670,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -745,7 +745,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; 2019 &mdash; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
