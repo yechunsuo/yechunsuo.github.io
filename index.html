@@ -304,6 +304,193 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/02/小程序（自定义组件）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="叶春锁">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="纵宇博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/03/02/小程序（自定义组件）/" itemprop="url">小程序自定义组件</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-02T00:00:00+08:00">
+                2021-03-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/微信小程序/" itemprop="url" rel="index">
+                    <span itemprop="name">微信小程序</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/03/02/小程序（自定义组件）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2021/03/02/小程序（自定义组件）/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2021/03/02/小程序（自定义组件）/" class="leancloud_visitors" data-flag-title="小程序自定义组件">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="组件模板"><a href="#组件模板" class="headerlink" title="组件模板"></a>组件模板</h3><p>组件代码：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">view</span>&gt;</span>这里是组件的内部节点<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">slot</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>引用组件的页面代码</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">view</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">my-component</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 这部分内容将被放置在组件 &lt;slot&gt; 的位置上 --&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">view</span>&gt;</span>这里是插入到组件slot中的内容<span class="tag">&lt;/<span class="name">view</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;/<span class="name">my-component</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>之所以能够用my-component引用是因为引用页的json进行了声明</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"usingComponents"</span>: &#123;</span><br><span class="line">    <span class="attr">"my-component"</span>: <span class="string">"/components/component-tag-name"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="模板数据绑定"><a href="#模板数据绑定" class="headerlink" title="模板数据绑定"></a>模板数据绑定</h3><p>组件代码</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 引用组件的页面模板 --&gt;</span><br><span class="line">&lt;view&gt;</span><br><span class="line">  &lt;component-tag-name prop-a=<span class="string">"&#123;&#123;dataFieldA&#125;&#125;"</span> prop-b=<span class="string">"&#123;&#123;dataFieldB&#125;&#125;"</span>&gt;</span><br><span class="line">    &lt;!-- 这部分内容将被放置在组件 &lt;slot&gt; 的位置上 --&gt;</span><br><span class="line">    &lt;view&gt;这里是插入到组件slot中的内容&lt;<span class="regexp">/view&gt;</span></span><br><span class="line"><span class="regexp">  &lt;/</span>component-tag-name&gt;</span><br><span class="line">&lt;<span class="regexp">/view&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ 组件的js文件</span></span><br><span class="line"><span class="regexp">Component(&#123;</span></span><br><span class="line"><span class="regexp">  /</span>**</span><br><span class="line">   * 组件的属性列表</span><br><span class="line">   * 传递属性</span><br><span class="line">   *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">  properties: &#123;</span></span><br><span class="line"><span class="regexp">    propA: String,</span></span><br><span class="line"><span class="regexp">    propB: String</span></span><br><span class="line"><span class="regexp">  &#125;&#125;)</span></span><br></pre></td></tr></table></figure>
+<p>引用组件<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 引用组件的页面模版 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">view</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">my-component</span> <span class="attr">prop-a</span>=<span class="string">"&#123;&#123;dataFieldA&#125;&#125;"</span> <span class="attr">prop-b</span>=<span class="string">"&#123;&#123;dataFieldB&#125;&#125;"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 这部分内容将被放置在组件 &lt;slot&gt; 的位置上 --&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">view</span>&gt;</span>这里是插入到组件slot中的内容<span class="tag">&lt;/<span class="name">view</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;/<span class="name">my-component</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="组件-wxml-的-slot"><a href="#组件-wxml-的-slot" class="headerlink" title="组件 wxml 的 slot"></a>组件 wxml 的 slot</h3><p>默认情况下只有一个slot,修改js,如下配置多slot</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Component(&#123;</span><br><span class="line">  options: &#123;</span><br><span class="line">    multipleSlots: <span class="literal">true</span> <span class="comment">// 在组件定义时的选项中启用多slot支持</span></span><br><span class="line">  &#125;,</span><br><span class="line">  properties: &#123; <span class="comment">/* ... */</span> &#125;,</span><br><span class="line">  methods: &#123; <span class="comment">/* ... */</span> &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>组件代码slot标签添加name属性</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 组件模板 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">view</span>&gt;</span>这里是组件的内部节点<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">slot</span> <span class="attr">name</span>=<span class="string">"yechunsuo"</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">text</span>&gt;</span>propA: &#123;&#123;propA&#125;&#125;<span class="tag">&lt;/<span class="name">text</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">text</span>&gt;</span>propB: &#123;&#123;propB&#125;&#125;<span class="tag">&lt;/<span class="name">text</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">slot</span> <span class="attr">name</span>=<span class="string">"baojing"</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>页面引用</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 引用组件的页面模版 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">view</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">my-component</span> <span class="attr">prop-a</span>=<span class="string">"&#123;&#123;dataFieldA&#125;&#125;"</span> <span class="attr">prop-b</span>=<span class="string">"&#123;&#123;dataFieldB&#125;&#125;"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 这部分内容将被放置在组件 &lt;slot&gt; 的位置上 --&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">view</span> <span class="attr">slot</span>=<span class="string">"yechunsuo"</span>&gt;</span>叶春锁<span class="tag">&lt;/<span class="name">view</span>&gt;</span> </span><br><span class="line">     <span class="tag">&lt;<span class="name">view</span> <span class="attr">slot</span>=<span class="string">"baojing"</span>&gt;</span>包静<span class="tag">&lt;/<span class="name">view</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;/<span class="name">my-component</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="组件样式"><a href="#组件样式" class="headerlink" title="组件样式"></a>组件样式</h3><p>注意点：子组件通过<code>:host</code> 选择器可以改变它所在节点默认样式</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 组件 custom-component.wxss */</span></span><br><span class="line"><span class="selector-pseudo">:host</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: yellow;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 页面的 WXML --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">custom-component</span>&gt;</span>这段文本是黄色的<span class="tag">&lt;/<span class="name">custom-component</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="样式组件隔离"><a href="#样式组件隔离" class="headerlink" title="样式组件隔离"></a>样式组件隔离</h3><p><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/wxml-wxss.html" target="_blank" rel="noopener">https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/wxml-wxss.html</a></p>
+<h3 id="外部样式类"><a href="#外部样式类" class="headerlink" title="外部样式类"></a>外部样式类</h3><p>首先在组件js中声明外部样式类</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Component(&#123;</span><br><span class="line">  externalClasses: [<span class="string">'my-class'</span>]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>组件模板接收外部类</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 组件模板 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">"my-class"</span>&gt;</span>这里是组件的内部节点<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">slot</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>引用页面传递通过属性<code>&lt;my-component my-class=&quot;redt&quot;&gt; &lt;/my-component&gt;</code>进行传递。</p>
+<h3 id="引用页面或父组件的样式"><a href="#引用页面或父组件的样式" class="headerlink" title="引用页面或父组件的样式"></a>引用页面或父组件的样式</h3><p>暂不理解</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/01/js闭包/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -419,7 +606,7 @@
         
           
             <h2 id="JS-中的闭包"><a href="#JS-中的闭包" class="headerlink" title="JS 中的闭包"></a>JS 中的闭包</h2><p>下面定义了一个工厂函数 <code>createIncrement(i)</code>，它返回一个<code>increment</code>函数。之后，每次调用<code>increment</code>函数时，内部计数器的值都会增加<code>i</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function createIncrement(i) &#123;</span><br><span class="line">  let value = 0;</span><br><span class="line">  function increment() &#123;</span><br><span class="line">    value += i;</span><br><span class="line">    console.log(value);</span><br><span class="line">  &#125;</span><br><span class="line">  return increment;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const inc = createIncrement(1);</span><br><span class="line">inc(); // 1</span><br><span class="line">inc(); // 2</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createIncrement</span>(<span class="params">i</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> value = <span class="number">0</span>;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">increment</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    value += i;</span><br><span class="line">    <span class="built_in">console</span>.log(value);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> increment;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> inc = createIncrement(<span class="number">1</span>);</span><br><span class="line">inc(); <span class="comment">// 1</span></span><br><span class="line">inc(); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
 <p><code>createIncrement(1)</code> 返回一个增量函数，该函数赋值给<code>inc</code>变量。当调用<code>inc()</code>时，<code>value</code> 变量加<code>1</code>。</p>
 <p>第一次调用<code>inc()</code>返回<code>1</code>，第二次调用返回<code>2</code>，依此类推。</p>
 <p>这挺趣的，只要调用<code>inc()</code>还不带参数，JS 仍然知道当前 <code>value</code> 和 <code>i</code> 的增量，来看看这玩意是如何工作的。</p>
@@ -659,7 +846,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -670,7 +857,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -681,7 +868,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
