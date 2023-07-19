@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="困扰多年的flex:1, 夯鸟">
-    <meta name="description" content="转载">
+    <meta name="keywords" content="umi项目关于请求的封装, 夯鸟">
+    <meta name="description" content="Umi">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>困扰多年的flex:1 | 夯鸟</title>
+    <title>umi项目关于请求的封装 | 夯鸟</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -337,12 +337,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://img.peapix.com/1995197081526869313_480.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://img.peapix.com/b89b9438623f476892c2a59ed39c027d_480.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">困扰多年的flex:1</h1>
+                    <h1 class="description center-align post-title">umi项目关于请求的封装</h1>
                 </div>
             </div>
         </div>
@@ -366,8 +366,20 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/CSS/">
-                                <span class="chip bg-color">CSS</span>
+                            <a href="/tags/javascript/">
+                                <span class="chip bg-color">javascript</span>
+                            </a>
+                        
+                            <a href="/tags/React/">
+                                <span class="chip bg-color">React</span>
+                            </a>
+                        
+                            <a href="/tags/Umi/">
+                                <span class="chip bg-color">Umi</span>
+                            </a>
+                        
+                            <a href="/tags/Ant-Design%E8%AE%B0%E5%BD%95/">
+                                <span class="chip bg-color">Ant Design记录</span>
                             </a>
                         
                     </div>
@@ -378,8 +390,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%89%8D%E7%AB%AFCSS/" class="post-category">
-                                前端CSS
+                            <a href="/categories/React/" class="post-category">
+                                React
                             </a>
                         
                     </div>
@@ -391,7 +403,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-10-01
+                    2023-01-08
                 </div>
                 
 
@@ -405,7 +417,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    946
+                    216
                 </div>
                 
 
@@ -430,147 +442,67 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><blockquote>
-<p><code>flex</code>属性是<code>flex-grow</code>, <code>flex-shrink</code> 和 <code>flex-basis</code>的简写，默认值为<code>0 1 auto</code>（后两个属性可选）。</p>
-</blockquote>
-<pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">.item</span> <span class="token punctuation">{</span>
-	<span class="token property">flex</span><span class="token punctuation">:</span> none | [ &lt; <span class="token string">"flex-grow"</span> &gt; &lt; <span class="token string">"flex-shrink"</span> &gt;? || &lt; <span class="token string">"flex-basis"</span> &gt; ]<span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+                <h2 id="基于request进行请求的二次封装"><a href="#基于request进行请求的二次封装" class="headerlink" title="基于request进行请求的二次封装"></a>基于request进行请求的二次封装</h2><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript"><span class="token comment">// get请求</span>
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token generic-function"><span class="token function">getCreater</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token constant">T</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span>url<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> params<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token generic-function"><span class="token function">request</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token constant">T</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>url<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    method<span class="token operator">:</span> <span class="token string">'GET'</span><span class="token punctuation">,</span>
+    params<span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-<blockquote>
-<p>该属性有两个快捷值：<code>auto</code> (1 1 auto) 和 <code>none</code> (0 0 auto)。<br> <em>建议优先使用这个属性，而不是单独写三个分离的属性，因为浏览器会推算相关值。</em></p>
-</blockquote>
-<h3 id="flex-grow："><a href="#flex-grow：" class="headerlink" title="flex-grow："></a>flex-grow：</h3><p>定义项目的的放大比例</p>
-<blockquote>
-<p>默认为 0，即 即使存在剩余空间，也不会放大；<br> 所有项目的 <code>flex-grow</code> 为 1：等分剩余空间（自动放大占位）；<br> <code>flex-grow</code> 为 n 的项目，占据的空间（放大的比例）是 <code>flex-grow</code> 为 1 的 n 倍。</p>
-</blockquote>
-<h3 id="flex-shrink："><a href="#flex-shrink：" class="headerlink" title="flex-shrink："></a>flex-shrink：</h3><p>定义项目的缩小比例</p>
-<blockquote>
-<p>默认为 1，即 如果空间不足，该项目将缩小； 所有项目的 <code>flex-shrink</code> 为 1：当空间不足时，缩小的比例相同； <code>flex-shrink</code> 为 0：空间不足时，该项目不会缩小； <code>flex-shrink</code> 为 n 的项目，空间不足时缩小的比例是 flex-shrink 为 1 的 n 倍。</p>
-</blockquote>
-<h3 id="flex-basis"><a href="#flex-basis" class="headerlink" title="flex-basis:"></a>flex-basis:</h3><p>定义在分配多余空间之前，项目占据的主轴空间（main size），浏览器根据此属性计算主轴是否有多余空间</p>
-<blockquote>
-<p>默认值为 <code>auto</code>，即 项目原本大小；<br> 设置后项目将占据固定空间。</p>
-</blockquote>
-<h3 id="大白话"><a href="#大白话" class="headerlink" title="大白话"></a>大白话</h3><blockquote>
-<p>当一个容器设置<code>display:flex</code>变成一个<code>flex</code>容器后，如果容器没有被占满，换言之有剩余空间，则<code>flex-grow</code>起作用。<br> 相反，若空间不足，则<code>flex-shrink</code>起作用。<br> 在计算放大或缩小比例时，要根据<code>flex-basis</code>的值来计算比例。</p>
-</blockquote>
-<hr>
-<p>举个例子：</p>
-<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>parent<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
-	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>item-1<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
-	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>item-2<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
-	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>item-3<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token comment">// post请求</span>
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token generic-function"><span class="token function">postCreater</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token constant">T</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span>url<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> params<span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token generic-function"><span class="token function">request</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token constant">T</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>url<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    method<span class="token operator">:</span> <span class="token string">'POST'</span><span class="token punctuation">,</span>
+    data<span class="token operator">:</span> <span class="token function">stringify</span><span class="token punctuation">(</span>params<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    headers<span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token string-property property">'Content-Type'</span><span class="token operator">:</span> <span class="token string">'application/x-www-form-urlencoded; charset=UTF-8'</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text/css<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token style"><span class="token language-css">
-	<span class="token selector">.parent</span> <span class="token punctuation">{</span>
-		<span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span>
-		<span class="token property">width</span><span class="token punctuation">:</span> 600px<span class="token punctuation">;</span>
-	<span class="token punctuation">}</span>
-	<span class="token selector">.parent &gt; div</span> <span class="token punctuation">{</span>
-		<span class="token property">height</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span>
-	<span class="token punctuation">}</span>
-	<span class="token selector">.item-1</span> <span class="token punctuation">{</span>
-		<span class="token property">width</span><span class="token punctuation">:</span> 140px<span class="token punctuation">;</span>
-		<span class="token property">flex</span><span class="token punctuation">:</span> 2 1 0%<span class="token punctuation">;</span>
-		<span class="token property">background</span><span class="token punctuation">:</span> blue<span class="token punctuation">;</span>
-	<span class="token punctuation">}</span>
-	<span class="token selector">.item-2</span> <span class="token punctuation">{</span>
-		<span class="token property">width</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span>
-		<span class="token property">flex</span><span class="token punctuation">:</span> 2 1 auto<span class="token punctuation">;</span>
-		<span class="token property">background</span><span class="token punctuation">:</span> darkblue<span class="token punctuation">;</span>
-	<span class="token punctuation">}</span>
-	<span class="token selector">.item-3</span> <span class="token punctuation">{</span>
-		<span class="token property">flex</span><span class="token punctuation">:</span> 1 1 200px<span class="token punctuation">;</span>
-		<span class="token property">background</span><span class="token punctuation">:</span> lightblue<span class="token punctuation">;</span>
-	<span class="token punctuation">}</span>
-</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">&gt;</span></span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token comment">// post JSON请求</span>
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token generic-function"><span class="token function">postJSONCreater</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token constant">T</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span>url<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> params<span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token generic-function"><span class="token function">request</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token constant">T</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>url<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    method<span class="token operator">:</span> <span class="token string">'POST'</span><span class="token punctuation">,</span>
+    headers<span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token string-property property">'Content-Type'</span><span class="token operator">:</span> <span class="token string">'application/json'</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    data<span class="token operator">:</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>params<span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<p>主轴上父容器总尺寸为 600px。</p>
-<p>子元素的总基准值是：0% + auto + 200px = 300px，其中</p>
-<ul>
-<li><code>0%</code> 即 0 宽度</li>
-<li><code>auto</code> 对应取原尺寸即 <code>100px</code></li>
-</ul>
-<p>故剩余空间为</p>
-<blockquote>
-<p>600px - 300px = 300px</p>
-</blockquote>
-<p>伸缩放大系数之和为</p>
-<blockquote>
-<p>2 + 2 + 1 = 5</p>
-</blockquote>
-<p>剩余空间分配如下</p>
-<blockquote>
-<p><code>item-1</code> 和 <code>item-2</code> 各分配 2/5，各得 120px<br> <code>item-3</code> 分配 1/5，得 60px</p>
-</blockquote>
-<p>各项目最终宽度为：</p>
-<blockquote>
-<p>item-1 = 0% + 120px = 120px<br> item-2 = auto + 120px = 220px<br> item-3 = 200px + 60px = 260px</p>
-</blockquote>
-<p><em>当 <code>item-1</code> 基准值取 <code>0%</code> 的时候，是把该项目视为零尺寸的，故即便声明其尺寸为 <code>140px</code>，也并没有什么用，形同虚设。</em></p>
-<p><em>而 <code>item-2</code> 基准值取 <code>auto</code> 的时候，根据规则基准值使用值是主尺寸值即 <code>100px</code>，故这 <code>100px</code> 不会纳入剩余空间。</em></p>
-<hr>
-<h2 id="怎么用？"><a href="#怎么用？" class="headerlink" title="怎么用？"></a>怎么用？</h2><blockquote>
-<p><code>flex</code> 为一个非负数字 n：<br> 该数字为 <code>flex-grow</code> 的值</p>
-</blockquote>
-<pre class="line-numbers language-css" data-language="css"><code class="language-css">flex ：n；
-<span class="token comment">/* 等同于: */</span>
-flex-grow ：n；
-flex-shrink ：1；
-flex-basis ：0%；
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="使用案例"><a href="#使用案例" class="headerlink" title="使用案例"></a>使用案例</h2><h3 id="get"><a href="#get" class="headerlink" title="get"></a>get</h3><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript"><span class="token keyword">export</span> <span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">getCardBankList</span><span class="token punctuation">(</span>params<span class="token operator">?</span><span class="token operator">:</span> Record<span class="token operator">&lt;</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">any</span><span class="token operator">&gt;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token generic-function"><span class="token function">getCreater</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token constant">API</span><span class="token punctuation">.</span>SuccessResponse<span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span><span class="token string">'/admin/card-secret/library/list'</span><span class="token punctuation">,</span> params<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// 这是调用代码</span>
+<span class="token keyword">const</span> <span class="token function-variable function">invoke</span><span class="token operator">=</span><span class="token keyword">async</span> <span class="token punctuation">(</span>params <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+          <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">getCardBankList</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+            <span class="token operator">...</span>params<span class="token punctuation">,</span>
+          <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<blockquote>
-<p><code>flex</code> 为两个非负数字 n1，n2:<br> 分别为 <code>flex-grow</code> 和 <code>flex-shrink</code> 的值</p>
-</blockquote>
-<pre class="line-numbers language-css" data-language="css"><code class="language-css">flex ：n1 n2<span class="token punctuation">;</span>
-<span class="token comment">/* 等同于: */</span>
-flex-grow ：n1；
-flex-shrink ：n2；
-flex-basis ：0%；
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="post"><a href="#post" class="headerlink" title="post"></a>post</h3><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript"><span class="token keyword">export</span> <span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">postSavePostage</span><span class="token punctuation">(</span>params<span class="token operator">?</span><span class="token operator">:</span> <span class="token constant">API</span><span class="token punctuation">.</span>ParamsType<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token generic-function"><span class="token function">postCreater</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token constant">API</span><span class="token punctuation">.</span>SuccessResponse<span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span><span class="token string">'/admin/delivery/save-postage'</span><span class="token punctuation">,</span> params<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// 这是调用代码</span>
+<span class="token keyword">const</span> <span class="token function-variable function">invoke</span><span class="token operator">=</span><span class="token keyword">async</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=&gt;</span><span class="token punctuation">{</span>
+    <span class="token keyword">const</span> getData <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">postSavePostage</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+            <span class="token operator">...</span>newValues<span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<blockquote>
-<p><code>flex</code> 为一个长度或百分比 L：<br> 视为 <code>flex-basis</code> 的值</p>
-</blockquote>
-<pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token property">flex</span> <span class="token punctuation">:</span> L<span class="token punctuation">;</span>
-<span class="token comment">/* 等同于: */</span>
-flex-grow ：1；
-flex-shrink ：1；
-flex-basis ：L；
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<blockquote>
-<p><code>flex</code> 为一个非负数字 n 和一个长度或百分比 L：<br> 分别为 <code>flex-grow</code> 和 <code>flex-basis</code> 的值</p>
-</blockquote>
-<pre class="line-numbers language-css" data-language="css"><code class="language-css">flex ：n L；
-<span class="token comment">/* 等同于: */</span>
-flex-grow：n；
-flex-shrink：1；
-flex-basis：L<span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<p><em>可以发现，<code>flex-grow</code> 和 <code>flex-shrink</code> 在 <code>flex</code> 属性中不规定值则为 1，<code>flex-basis</code> 为 0%。</em></p>
-<h2 id="flex-1"><a href="#flex-1" class="headerlink" title="flex:1"></a>flex:1</h2><blockquote>
-<p>所以，<code>flex ：1</code> 即为 <code>flex-grow ：1</code>。<br> 经常用作自适应布局，将父容器的 <code>display：flex</code>，侧边栏大小固定后，将内容区 flex：1，内容区则会自动放大占满剩余空间。</p>
-</blockquote>
-<h3 id="flex-1和flex-auto的区别"><a href="#flex-1和flex-auto的区别" class="headerlink" title="flex:1和flex:auto的区别"></a>flex:1和flex:auto的区别</h3><blockquote>
-<p>flex:1</p>
-</blockquote>
-<pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token property">flex-grow</span> <span class="token punctuation">:</span> 1<span class="token punctuation">;</span>
-<span class="token property">flex-shrink</span> <span class="token punctuation">:</span> 1<span class="token punctuation">;</span>
-<span class="token property">flex-basis</span> <span class="token punctuation">:</span> 0%<span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<blockquote>
-<p>flex:auto</p>
-</blockquote>
-<pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token property">flex-grow</span> <span class="token punctuation">:</span> 1<span class="token punctuation">;</span>
-<span class="token property">flex-shrink</span> <span class="token punctuation">:</span> 1<span class="token punctuation">;</span>
-<span class="token property">flex-basis</span> <span class="token punctuation">:</span> auto<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="post-json"><a href="#post-json" class="headerlink" title="post json"></a>post json</h3><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript"><span class="token keyword">export</span> <span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">editCardBankInfo</span><span class="token punctuation">(</span>params<span class="token operator">?</span><span class="token operator">:</span> Record<span class="token operator">&lt;</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">any</span><span class="token operator">&gt;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token generic-function"><span class="token function">postJSONCreater</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token constant">API</span><span class="token punctuation">.</span>SuccessResponse<span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span><span class="token string">'/admin/card-secret/library/edit'</span><span class="token punctuation">,</span> params<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token operator">...</span>
+<span class="token comment">// 这是调用代码</span>
+<span class="token keyword">const</span> <span class="token function-variable function">invoke</span><span class="token operator">=</span><span class="token keyword">async</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=&gt;</span><span class="token punctuation">{</span>
+     <span class="token keyword">const</span> getRes <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">editCardBankInfo</span><span class="token punctuation">(</span>getValues<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 
                 
@@ -598,7 +530,7 @@ flex-basis：L<span class="token punctuation">;</span>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://yechunsuo.github.io/2021/10/01/%E5%9B%B0%E6%89%B0%E5%A4%9A%E5%B9%B4%E7%9A%84flex%EF%BC%9A1/">https://yechunsuo.github.io/2021/10/01/%E5%9B%B0%E6%89%B0%E5%A4%9A%E5%B9%B4%E7%9A%84flex%EF%BC%9A1/</a>
+                    <a href="https://yechunsuo.github.io/2023/01/08/umi%E9%A1%B9%E7%9B%AE%E5%85%B3%E4%BA%8E%E8%AF%B7%E6%B1%82%E7%9A%84%E5%B0%81%E8%A3%85/">https://yechunsuo.github.io/2023/01/08/umi%E9%A1%B9%E7%9B%AE%E5%85%B3%E4%BA%8E%E8%AF%B7%E6%B1%82%E7%9A%84%E5%B0%81%E8%A3%85/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -636,8 +568,20 @@ flex-basis：L<span class="token punctuation">;</span>
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/CSS/">
-                                    <span class="chip bg-color">CSS</span>
+                                <a href="/tags/javascript/">
+                                    <span class="chip bg-color">javascript</span>
+                                </a>
+                            
+                                <a href="/tags/React/">
+                                    <span class="chip bg-color">React</span>
+                                </a>
+                            
+                                <a href="/tags/Umi/">
+                                    <span class="chip bg-color">Umi</span>
+                                </a>
+                            
+                                <a href="/tags/Ant-Design%E8%AE%B0%E5%BD%95/">
+                                    <span class="chip bg-color">Ant Design记录</span>
                                 </a>
                             
                         </div>
@@ -742,30 +686,30 @@ flex-basis：L<span class="token punctuation">;</span>
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/01/04/vue%E5%AE%9E%E4%BE%8B%E5%AD%97%E5%85%B8/">
+                <a href="/2023/01/18/React%20Hooks/">
                     <div class="card-image">
                         
-                        <img src="https://img.peapix.com/6ac3670d39924b3e84ee9ae085688397_720.jpg" class="responsive-img" alt="vue实例方法">
+                        <img src="https://cn.bing.com/th?id=OHR.MidAutumn2022_ZH-CN9825550508_1920x1200.jpg&rf=LaDigue_1920x1200.jpg" class="responsive-img" alt="React Hooks基础教程">
                         
-                        <span class="card-title">vue实例方法</span>
+                        <span class="card-title">React Hooks基础教程</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            有勇气承担命运这才是英雄好汉。
+                            基础复习
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-01-04
+                            <i class="far fa-clock fa-fw icon-date"></i>2023-01-18
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/vue/" class="post-category">
-                                    vue
+                            <a href="/categories/React/" class="post-category">
+                                    React
                                 </a>
                             
                             
@@ -775,8 +719,12 @@ flex-basis：L<span class="token punctuation">;</span>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/vue%E6%96%87%E6%A1%A3%E9%98%85%E8%AF%BB%E9%9A%8F%E8%AE%B0/">
-                        <span class="chip bg-color">vue文档阅读随记</span>
+                    <a href="/tags/javascript/">
+                        <span class="chip bg-color">javascript</span>
+                    </a>
+                    
+                    <a href="/tags/React/">
+                        <span class="chip bg-color">React</span>
                     </a>
                     
                 </div>
@@ -790,12 +738,12 @@ flex-basis：L<span class="token punctuation">;</span>
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/11/02/TypeScript%E6%89%8B%E5%86%8C/">
+                <a href="/2022/12/18/%E4%BA%AC%E7%A7%91%E5%85%AB%E8%82%A1%E6%96%87/">
                     <div class="card-image">
                         
-                        <img src="https://img.peapix.com/7555192253574172277.jpg?attachment&modal" class="responsive-img" alt="TypeScript手册">
+                        <img src="http://browser9.qhimg.com/bdm/960_593_0/t010824ab8b5cdfa138.jpg" class="responsive-img" alt="京科八股文">
                         
-                        <span class="card-title">TypeScript手册</span>
+                        <span class="card-title">京科八股文</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -806,14 +754,14 @@ flex-basis：L<span class="token punctuation">;</span>
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-02
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-12-18
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/TypeScript/" class="post-category">
-                                    TypeScript
+                            <a href="/categories/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80%E9%A2%98/" class="post-category">
+                                    前端基础题
                                 </a>
                             
                             
@@ -823,8 +771,8 @@ flex-basis：L<span class="token punctuation">;</span>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/TypeScript/">
-                        <span class="chip bg-color">TypeScript</span>
+                    <a href="/tags/javascript/">
+                        <span class="chip bg-color">javascript</span>
                     </a>
                     
                 </div>
