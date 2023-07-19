@@ -398,14 +398,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2023-04-10
+                    2023-07-19
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    879
+                    928
                 </div>
                 
 
@@ -600,6 +600,13 @@ app<span class="token punctuation">.</span><span class="token function">directiv
 <h2 id="指令应用"><a href="#指令应用" class="headerlink" title="指令应用"></a>指令应用</h2><pre class="line-numbers language-vue" data-language="vue"><code class="language-vue">&lt;div class="recommend" v-loading:叫地主="loading"&gt;
    // 当触发指令这里会显示 "...叫地主" 加载动画
 &lt;/div&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="❤️可能出现的问题"><a href="#❤️可能出现的问题" class="headerlink" title="❤️可能出现的问题"></a>❤️可能出现的问题</h2><p>我们在指令生成函数中可能出现访问不了组件的方法，所以这里我们在组件中抛出方法</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token function">defineExpose</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  setTitle
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">instance<span class="token punctuation">.</span><span class="token function">setTitle</span><span class="token punctuation">(</span>title<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 
                 
@@ -996,7 +1003,7 @@ app<span class="token punctuation">.</span><span class="token function">directiv
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">48.4k</span>
+                        class="white-color">48.5k</span>
             
             
             
